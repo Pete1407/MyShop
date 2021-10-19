@@ -27,4 +27,6 @@
     <dimen name="icon_xxl">64dp</dimen>
 
     <dimen name="button_size">@dimen/height_small</dimen>
+
+    <dimen name="corner_button">10dp</dimen>
 </resources>
