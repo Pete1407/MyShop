@@ -1,29 +1,31 @@
 package com.example.myshop.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.example.myshop.R
-import com.example.myshop.databinding.ActivityLoginBinding
+import com.example.myshop.databinding.ActivityRegisterBinding
 
-class LoginActivity : AppCompatActivity() {
-    private val binding : ActivityLoginBinding by lazy {
-        ActivityLoginBinding.inflate(layoutInflater)
+class RegisterActivity : BaseActivity() {
+
+    private val binding : ActivityRegisterBinding by lazy {
+        ActivityRegisterBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setUI()
     }
 
-    private fun setUI(){
-        binding.register.setOnClickListener {
-            RegisterActivity.create(this)
+    companion object{
+        fun create(context:Context){
+            val intent = Intent(context,RegisterActivity::class.java)
+            context.startActivity(intent)
         }
+
     }
 }

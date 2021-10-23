@@ -8,4 +8,11 @@
     <string name="register">Register</string>
     <string name="text_bold">bold</string>
     <string name="text_normal">normal</string>
+    <string name="create_account">Create an account</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="term_and_condition">I agree to the terms &amp; condition</string>
+    <string name="have_account">Already an account?</string>
+
 </resources>
