@@ -19,4 +19,9 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
+
+    <style name="InputTextStyle">
+        <item name="android:padding">@dimen/spacing_medium</item>
+        <item name="android:background">@drawable/bg_border_edittext</item>
+    </style>
 </resources>

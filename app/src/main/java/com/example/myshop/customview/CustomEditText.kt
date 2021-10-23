@@ -12,7 +12,7 @@ class CustomEditText(context: Context, attr : AttributeSet? = null):AppCompatEdi
     }
 
     private fun setFontStyle(){
-        val fontStyle = Typeface.createFromAsset(context.assets,"montserrat_bold.ttf")
+        val fontStyle = Typeface.createFromAsset(context.assets,"montserrat_regular.ttf")
         typeface = fontStyle
     }
 }
