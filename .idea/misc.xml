@@ -9,9 +9,12 @@
         <entry key="app/src/main/res/drawable/bg_border_edittext.xml" value="0.2515625" />
         <entry key="app/src/main/res/drawable/bg_button.xml" value="0.2515625" />
         <entry key="app/src/main/res/drawable/bg_cursor_color.xml" value="0.13385416666666666" />
+        <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.25" />
       </map>
     </option>
   </component>

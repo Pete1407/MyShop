@@ -86,6 +86,7 @@
             android:text="@string/logIn"
             android:textSize="16sp"
             android:textColor="@color/white"
+            android:background="?attr/selectableItemBackground"
             />
 
         <androidx.appcompat.widget.LinearLayoutCompat

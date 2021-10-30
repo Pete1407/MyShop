@@ -15,4 +15,25 @@
     <string name="term_and_condition">I agree to the terms &amp; condition</string>
     <string name="have_account">Already an account?</string>
 
+    <string name="error_msg_enter_first_name">Please Enter First Name</string>
+    <string name="error_msg_enter_last_name">Please Enter Last Name</string>
+    <string name="error_msg_enter_email">Please Enter Email</string>
+    <string name="error_msg_enter_password">Please Enter password</string>
+    <string name="error_msg_enter_confirm_password">Please Enter Confirm Password</string>
+    <string name="error_msg_password_and_confirmPass">Password And Confirm Password don\'t match</string>
+    <string name="error_msg_terms_and_condition">Please Agree Terms And Condition</string>
+
+    <string name="login_successfully">You are logged in successfully</string>
+    <string name="user_id">User ID</string>
+    <string name="email_id">Email ID</string>
+    <string name="log_out">Log Out</string>
+
+    <string name="register_successfully">Thanks for registering</string>
+    <string name="please_wait">Please Wait</string>
+
+    <string name="forgot_password_screen">Forgot Password</string>
+    <string name="describe_forgot_password">Enter your username or email address. we will send you a email to reset password</string>
+    <string name="submit">Submit</string>
+    <string name="email_not_match">Your Email Id is Invalid.</string>
+    <string name="register_success">Register is success</string>
 </resources>
