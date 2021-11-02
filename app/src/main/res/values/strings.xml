@@ -15,13 +15,13 @@
     <string name="term_and_condition">I agree to the terms &amp; condition</string>
     <string name="have_account">Already an account?</string>
 
-    <string name="error_msg_enter_first_name">Please Enter First Name</string>
-    <string name="error_msg_enter_last_name">Please Enter Last Name</string>
-    <string name="error_msg_enter_email">Please Enter Email</string>
-    <string name="error_msg_enter_password">Please Enter password</string>
-    <string name="error_msg_enter_confirm_password">Please Enter Confirm Password</string>
-    <string name="error_msg_password_and_confirmPass">Password And Confirm Password don\'t match</string>
-    <string name="error_msg_terms_and_condition">Please Agree Terms And Condition</string>
+    <string name="error_msg_enter_first_name">Please enter first name</string>
+    <string name="error_msg_enter_last_name">Please enter last name</string>
+    <string name="error_msg_enter_email">Please enter email</string>
+    <string name="error_msg_enter_password">Please enter password</string>
+    <string name="error_msg_enter_confirm_password">Please enter confirm password</string>
+    <string name="error_msg_password_and_confirmPass">Password and confirm password don\'t match</string>
+    <string name="error_msg_terms_and_condition">Please agree terms and condition</string>
 
     <string name="login_successfully">You are logged in successfully</string>
     <string name="user_id">User ID</string>
@@ -36,4 +36,18 @@
     <string name="submit">Submit</string>
     <string name="email_not_match">Your Email Id is Invalid.</string>
     <string name="register_success">Register is success</string>
+
+    <string name="profile">Profile</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="save">Save</string>
+
+    <string name="approve_permission">You already have the permission storage</string>
+    <string name="approve_permission2">The storage permission is granted</string>
+    <string name="notify_user_permission">You just denied the permission for camera, you can also allow it from setting</string>
+
+    <string name="error_msg_enter_mobile_number">Please enter mobile number</string>
+    <string name="error_msg_enter_gender">Please choose a gender</string>
+
 </resources>

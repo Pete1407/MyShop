@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.UserProfileActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title=" ">
+        <com.example.myshop.customview.NormalTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/profile"
+            style="@style/ToolbarTitleStyle" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageProfile"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="@dimen/spacing_large"
+                    android:src="@drawable/icon_default_profile" />
+
+                <com.example.myshop.customview.CustomImageView
+                    android:id="@+id/changeImage"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignRight="@+id/imageProfile"
+                    android:layout_alignBottom="@id/imageProfile"
+                    app:srcCompat="@drawable/add" />
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:orientation="vertical">
+                <com.example.myshop.customview.CustomEditText
+                    android:id="@+id/firstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:hint="@string/first_name"
+                    android:inputType="text"
+                    android:textCursorDrawable="@drawable/bg_cursor_color"
+                    style="@style/InputTextStyle"/>
+
+                <com.example.myshop.customview.CustomEditText
+                    android:id="@+id/lastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:hint="@string/last_name"
+                    android:inputType="text"
+                    android:textCursorDrawable="@drawable/bg_cursor_color"
+                    style="@style/InputTextStyle"/>
+
+                <com.example.myshop.customview.CustomEditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:hint="@string/emailID"
+                    android:inputType="textEmailAddress"
+                    android:textCursorDrawable="@drawable/bg_cursor_color"
+                    style="@style/InputTextStyle"/>
+
+                <com.example.myshop.customview.CustomEditText
+                    android:id="@+id/mobileNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:hint="@string/mobile_number"
+                    android:inputType="phone"
+                    android:textCursorDrawable="@drawable/bg_cursor_color"
+                    style="@style/InputTextStyle"/>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium">
+                        <androidx.appcompat.widget.AppCompatCheckedTextView
+                            android:id="@+id/male"
+                            android:text="@string/male"
+                            android:paddingHorizontal="@dimen/spacing_small"
+                            android:paddingVertical="@dimen/spacing_small"
+                            android:layout_marginEnd="@dimen/spacing_small"
+                            style="@style/ChoiceGender"/>
+                        <androidx.appcompat.widget.AppCompatCheckedTextView
+                            android:id="@+id/female"
+                            android:text="@string/female"
+                            android:paddingHorizontal="@dimen/spacing_small"
+                            android:paddingVertical="@dimen/spacing_small"
+                            style="@style/ChoiceGender"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.example.myshop.customview.CustomButton
+                    android:id="@+id/save"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:textAllCaps="false"
+                    android:text="@string/save"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
