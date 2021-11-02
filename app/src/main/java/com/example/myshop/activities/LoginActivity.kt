@@ -16,6 +16,7 @@ import com.example.myshop.R
 import com.example.myshop.databinding.ActivityLoginBinding
 import com.example.myshop.firebase.FireStoreClass
 import com.example.myshop.model.User
+import com.example.myshop.util.MyShopKey
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
@@ -83,13 +84,17 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun getCurrentUser(user : User){
-        val email = user.email
-        val firstname = user.firstname
-        Log.i("result","Email: $email")
-        Log.i("result","Firstname: $firstname")
-        MainActivity.create(this@LoginActivity)
-        finish()
-
+        val sharePreference = getSharedPreferences(MyShopKey.MYSHOPPREF, MODE_PRIVATE)
+        val edit = sharePreference.edit()
+        edit.putString(MyShopKey.USERNAME_LOGIN, "${user.firstname} ${user.lastname}")
+        edit.apply()
+        if(user.profileCompleted == 0){
+            UserProfileActivity.create(this@LoginActivity,user)
+            finish()
+        }else{
+            MainActivity.create(this@LoginActivity)
+            finish()
+        }
     }
 
     override fun onClick(v: View?) {

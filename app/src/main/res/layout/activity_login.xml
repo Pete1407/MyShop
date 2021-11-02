@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:textCursorDrawable="@drawable/bg_cursor_color"
             android:textSize="@dimen/spacing_medium"
             style="@style/InputTextStyle"/>

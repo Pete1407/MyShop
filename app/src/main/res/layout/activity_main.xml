@@ -16,22 +16,13 @@
         app:typeText="@string/text_bold" />
 
     <com.example.myshop.customview.NormalTextView
-        android:id="@+id/userId"
+        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
         android:textSize="16sp"
         app:typeText="@string/text_normal"
         tools:text="@string/user_id"/>
-
-    <com.example.myshop.customview.NormalTextView
-        android:id="@+id/emailId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:textSize="16sp"
-        app:typeText="@string/text_normal"
-        tools:text="@string/email_id"/>
 
     <com.example.myshop.customview.CustomButton
         android:id="@+id/logout"
