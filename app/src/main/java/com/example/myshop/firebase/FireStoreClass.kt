@@ -1,23 +1,23 @@
 package com.example.myshop.firebase
 
 import android.app.Activity
-import android.content.Context.MODE_PRIVATE
 import android.util.Log
-import com.example.myshop.activities.LoginActivity
-import com.example.myshop.activities.RegisterActivity
-import com.example.myshop.activities.UserProfileActivity
+import com.example.myshop.activities.activity.LoginActivity
+import com.example.myshop.activities.activity.RegisterActivity
+import com.example.myshop.activities.activity.SettingActivity
+import com.example.myshop.activities.activity.UserProfileActivity
 import com.example.myshop.model.User
 import com.example.myshop.util.MyShopKey
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.google.firebase.ktx.Firebase
 
 class FireStoreClass {
 
     private val fireStore =  FirebaseFirestore.getInstance()
 
-    fun registerUser(activity : RegisterActivity,user : User){
+    // register user into Firebase authentication
+    fun registerUser(activity : RegisterActivity, user : User){
         // กำหนด collection
         fireStore.collection(MyShopKey.USERS)
                 // กำหนด unique id
@@ -42,10 +42,12 @@ class FireStoreClass {
         return currentUserId
     }
 
+    // get data from userID
     fun getCurrentUserByID(activity : Activity) {
         var output: User? = null
         fireStore.collection(MyShopKey.USERS)
             .document(getUserID())
+            // สำหรับการดึงข้อมูลตาม id ของ user
             .get()
             .addOnSuccessListener { result ->
                 output = result.toObject(User::class.java)
@@ -53,6 +55,9 @@ class FireStoreClass {
                     when (activity) {
                         is LoginActivity -> {
                             activity.getCurrentUser(output!!)
+                        }
+                        is SettingActivity -> {
+                            activity.getDataUser(it)
                         }
                     }
                 } ?: kotlin.run {
@@ -62,9 +67,12 @@ class FireStoreClass {
             }
     }
 
+    // update data for some field
+    // by use hashmap
     fun updateMobileAndGender(activity:Activity,map : HashMap<String,Any>){
         fireStore.collection(MyShopKey.USERS)
             .document(getUserID())
+            // สำหรับเปลี่ยนแปลงข้อมูลบาง field
             .update(map)
             .addOnSuccessListener {
                 when(activity){

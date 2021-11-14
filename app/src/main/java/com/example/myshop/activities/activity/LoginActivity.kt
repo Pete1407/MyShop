@@ -1,16 +1,10 @@
-package com.example.myshop.activities
+package com.example.myshop.activities.activity
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
 import android.widget.Toast
 import com.example.myshop.R
 import com.example.myshop.databinding.ActivityLoginBinding
@@ -89,10 +83,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         edit.putString(MyShopKey.USERNAME_LOGIN, "${user.firstname} ${user.lastname}")
         edit.apply()
         if(user.profileCompleted == 0){
-            UserProfileActivity.create(this@LoginActivity,user)
+            UserProfileActivity.create(this@LoginActivity, user)
             finish()
         }else{
-            MainActivity.create(this@LoginActivity)
+            DashboardActivity.create(this@LoginActivity)
             finish()
         }
     }
@@ -116,7 +110,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     companion object{
         fun create(context:Context){
-            val intent = Intent(context,LoginActivity::class.java)
+            val intent = Intent(context, LoginActivity::class.java)
             context.startActivity(intent)
         }
     }

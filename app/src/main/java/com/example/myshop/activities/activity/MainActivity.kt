@@ -1,13 +1,9 @@
-package com.example.myshop.activities
+package com.example.myshop.activities.activity
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import com.example.myshop.R
 import com.example.myshop.databinding.ActivityMainBinding
-import com.example.myshop.firebase.FireStoreClass
 import com.example.myshop.util.MyShopKey
 import com.google.firebase.auth.FirebaseAuth
 
@@ -32,7 +28,7 @@ class MainActivity : BaseActivity() {
 
     private fun signOut(){
         FirebaseAuth.getInstance().signOut()
-        val intent = Intent(this,LoginActivity::class.java)
+        val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
     }
@@ -45,7 +41,7 @@ class MainActivity : BaseActivity() {
 
     companion object{
         fun create(context:Context){
-            val intent = Intent(context,MainActivity::class.java)
+            val intent = Intent(context, MainActivity::class.java)
             context.startActivity(intent)
         }
     }

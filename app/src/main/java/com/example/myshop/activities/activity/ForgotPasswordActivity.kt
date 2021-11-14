@@ -1,9 +1,8 @@
-package com.example.myshop.activities
+package com.example.myshop.activities.activity
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.example.myshop.R
 import com.example.myshop.databinding.ActivityForgotPasswordBinding
