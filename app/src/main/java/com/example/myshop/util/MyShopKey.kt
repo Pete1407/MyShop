@@ -9,11 +9,17 @@ object MyShopKey {
     const val USERS = "users"
     const val MYSHOPPREF = "myShopPref"
     const val USERNAME_LOGIN = "username"
-    const val GENDER_FIELD = "gender"
-    const val MOBILE_FIELD = "mobile"
     const val MALE = "male"
     const val FEMALE = "female"
+
+    const val GENDER_FIELD = "gender"
+    const val MOBILE_FIELD = "mobile"
+    const val IMAGE_FIELD = "image"
+    const val PROFILE_COMPLETE_FIELD = "profileCompleted"
+
     const val PICK_IMAGE_REQUEST_CODE = 20
+    const val ACTION_EDIT_PROFILE = "action-edit-profile"
+    const val ACTION_ADD_INFO = "action-add-info"
 
     fun showGallery(activity: Activity){
         val intent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)

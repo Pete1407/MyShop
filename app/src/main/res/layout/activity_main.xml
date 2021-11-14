@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".activities.MainActivity">
+    tools:context=".activities.activity.MainActivity">
 
     <com.example.myshop.customview.NormalTextView
         android:layout_width="wrap_content"

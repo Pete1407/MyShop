@@ -7,7 +7,7 @@ import com.example.myshop.R
 
 class GlideLoader(val context: Context) {
 
-    fun loadImage(url : String,imageView : ImageView){
+    fun loadImage(url : String?,imageView : ImageView){
         Glide.with(context)
             .load(url)
             .placeholder(R.drawable.icon_default_profile)

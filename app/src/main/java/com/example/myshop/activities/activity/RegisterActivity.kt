@@ -1,10 +1,9 @@
-package com.example.myshop.activities
+package com.example.myshop.activities.activity
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.widget.Toast
 import com.example.myshop.R
 import com.example.myshop.databinding.ActivityRegisterBinding
@@ -140,7 +139,7 @@ class RegisterActivity : BaseActivity(){
 
     companion object{
         fun create(context:Context){
-            val intent = Intent(context,RegisterActivity::class.java)
+            val intent = Intent(context, RegisterActivity::class.java)
             context.startActivity(intent)
         }
 

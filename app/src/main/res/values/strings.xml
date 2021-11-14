@@ -49,5 +49,14 @@
 
     <string name="error_msg_enter_mobile_number">Please enter mobile number</string>
     <string name="error_msg_enter_gender">Please choose a gender</string>
+    <string name="error_msg_enter_image_profile">Please choose your picture</string>
 
+    <string name="dashboard_title">Dashboard</string>
+    <string name="products_title">Products</string>
+    <string name="orders_title">Orders</string>
+
+    <string name="msg_for_exit_app">Please click again to exit app</string>
+
+    <string name="setting">Setting</string>
+    <string name="edit_setting">Edit</string>
 </resources>
