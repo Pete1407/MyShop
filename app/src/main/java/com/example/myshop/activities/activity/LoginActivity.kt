@@ -1,6 +1,7 @@
 package com.example.myshop.activities.activity
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -8,6 +9,8 @@ import android.view.View
 import android.widget.Toast
 import com.example.myshop.R
 import com.example.myshop.databinding.ActivityLoginBinding
+import com.example.myshop.activities.activity.UserProfileActivity.Companion.ACTION_EDIT_INFO
+import com.example.myshop.activities.activity.UserProfileActivity.Companion.ACTION_START_FROM_LOGIN
 import com.example.myshop.firebase.FireStoreClass
 import com.example.myshop.model.User
 import com.example.myshop.util.MyShopKey
@@ -83,7 +86,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         edit.putString(MyShopKey.USERNAME_LOGIN, "${user.firstname} ${user.lastname}")
         edit.apply()
         if(user.profileCompleted == 0){
-            UserProfileActivity.create(this@LoginActivity, user)
+            UserProfileActivity.create(this@LoginActivity, user, ACTION_START_FROM_LOGIN)
             finish()
         }else{
             DashboardActivity.create(this@LoginActivity)

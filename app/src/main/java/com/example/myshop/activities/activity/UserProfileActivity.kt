@@ -196,6 +196,7 @@ class UserProfileActivity : BaseActivity(),BaseCommon {
     companion object{
         const val EXTRA_KEY_USER = "key-user"
         const val ACTION_EDIT_INFO = "action-edit-info"
+        const val ACTION_START_FROM_LOGIN = "action-start-from-login-page"
         const val PICK_GALLERY = 10
 
         fun create(context: Context,user: User,action : String){

@@ -10,6 +10,7 @@ import com.example.myshop.firebase.FireStoreClass
 import com.example.myshop.model.User
 import com.example.myshop.util.BaseCommon
 import com.google.firebase.auth.FirebaseAuth
+import com.example.myshop.activities.activity.UserProfileActivity.Companion.ACTION_EDIT_INFO
 
 class SettingActivity : BaseActivity(),BaseCommon {
     private var currentUser : User? = null
@@ -39,7 +40,7 @@ class SettingActivity : BaseActivity(),BaseCommon {
             onBackPressed()
         }
         binding.edit.setOnClickListener {
-            UserProfileActivity.create(this,currentUser!!)
+            UserProfileActivity.create(this,currentUser!!, ACTION_EDIT_INFO)
         }
         binding.logOut.setOnClickListener {
             logOut()
@@ -48,6 +49,8 @@ class SettingActivity : BaseActivity(),BaseCommon {
 
     private fun logOut(){
         FirebaseAuth.getInstance().signOut()
+        LoginActivity.create(this@SettingActivity)
+        finish()
     }
 
     fun getDataUser(result : User?){
