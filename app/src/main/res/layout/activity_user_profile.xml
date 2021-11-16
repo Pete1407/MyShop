@@ -10,6 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title=" ">
+
+        <com.example.myshop.customview.CustomImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_arrow_back_black"/>
+
         <com.example.myshop.customview.NormalTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

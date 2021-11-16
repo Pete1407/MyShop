@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -15,9 +16,7 @@ import com.example.myshop.R
 import com.example.myshop.databinding.ActivityUserProfileBinding
 import com.example.myshop.firebase.FireStoreClass
 import com.example.myshop.model.User
-import com.example.myshop.util.BaseCommon
-import com.example.myshop.util.GlideLoader
-import com.example.myshop.util.MyShopKey
+import com.example.myshop.util.*
 import com.google.firebase.storage.FirebaseStorage
 
 class UserProfileActivity : BaseActivity(),BaseCommon {
@@ -35,15 +34,20 @@ class UserProfileActivity : BaseActivity(),BaseCommon {
         setContentView(binding.root)
         user = intent.getParcelableExtra(EXTRA_KEY_USER)
         actionFromUser = intent.getStringExtra(ACTION_EDIT_INFO).toString()
-
+        Log.i("result","action --> $actionFromUser")
         setToolbar()
         setListener()
         setUI()
     }
 
     override fun setToolbar() {
-        if(actionFromUser == MyShopKey.ACTION_ADD_INFO){
-
+        when(actionFromUser){
+            MyShopKey.ACTION_EDIT_PROFILE ->{
+                binding.backButton.visible()
+            }
+            else ->{
+                binding.backButton.gone()
+            }
         }
     }
 
@@ -80,6 +84,9 @@ class UserProfileActivity : BaseActivity(),BaseCommon {
     }
 
     override fun setListener() {
+        binding.backButton.setOnClickListener {
+            onBackPressed()
+        }
         binding.changeImage.setOnClickListener {
             requestPermissionFromUser()
         }
@@ -195,7 +202,7 @@ class UserProfileActivity : BaseActivity(),BaseCommon {
 
     companion object{
         const val EXTRA_KEY_USER = "key-user"
-        const val ACTION_EDIT_INFO = "action-edit-info"
+        const val ACTION_EDIT_INFO = "action-edit-profile"
         const val ACTION_START_FROM_LOGIN = "action-start-from-login-page"
         const val PICK_GALLERY = 10
 
