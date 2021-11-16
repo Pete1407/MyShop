@@ -57,13 +57,26 @@ class FireStoreClass {
                             activity.getCurrentUser(output!!)
                         }
                         is SettingActivity -> {
-                            activity.getDataUser(it)
+                            activity.apply {
+                               hideProgressDialog()
+                                getDataUser(it)
+                            }
                         }
+                        else ->{}
                     }
                 } ?: kotlin.run {
                     Log.d("tag_fireStore", "<--  output is null  -->")
                 }
-
+            }
+            .addOnFailureListener {
+                when(activity){
+                    is LoginActivity -> {
+                        activity.showProgressDialog()
+                    }
+                    is SettingActivity -> {
+                        activity.showProgressDialog()
+                    }
+                }
             }
     }
 
