@@ -43,4 +43,20 @@
         <item name="android:fontFamily">@font/montserrat_regular</item>
         <item name="android:background">@drawable/selector_bg_check_gender</item>
     </style>
+
+    <style name="NormalText" parent="Theme.AppCompat">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="NormalText.Green">
+        <item name="android:textColor">@android:color/holo_green_dark</item>
+    </style>
+
+    <style name="NormalText.Pink">
+        <item name="android:textColor">@color/colorThemePink</item>
+    </style>
+
+
+
 </resources>
