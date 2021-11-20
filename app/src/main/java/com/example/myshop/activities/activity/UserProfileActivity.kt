@@ -34,7 +34,6 @@ class UserProfileActivity : BaseActivity(),BaseCommon {
         setContentView(binding.root)
         user = intent.getParcelableExtra(EXTRA_KEY_USER)
         actionFromUser = intent.getStringExtra(ACTION_EDIT_INFO).toString()
-        Log.i("result","action --> $actionFromUser")
         setToolbar()
         setListener()
         setUI()
