@@ -23,6 +23,7 @@ class FireStoreClass {
                 // กำหนด unique id
             .document(user.id)
                 // set คือการเพิ่มลง database ถ้าเป็น get จะใช้ get เลย
+                // SetOptions.merge ถ้ามี item นี้อยู่แล้วจะเข้าไปแทนที่ค่า ตาม id ถ้าไม่มีก็เพิ่มเข้าไป
             .set(user, SetOptions.merge())
             .addOnSuccessListener {
                 activity.registerNewUserSuccessfully()

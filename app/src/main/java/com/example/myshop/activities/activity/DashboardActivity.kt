@@ -37,6 +37,7 @@ class DashboardActivity : BaseActivity() {
     companion object{
         fun create(context: Context){
             val intent = Intent(context, DashboardActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
         }
     }
