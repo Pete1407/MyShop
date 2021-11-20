@@ -26,7 +26,7 @@ class ForgotPasswordActivity : BaseActivity() {
         val actionBar = supportActionBar
         actionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
-            it.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_new_24)
+            it.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white)
         }
     }
 

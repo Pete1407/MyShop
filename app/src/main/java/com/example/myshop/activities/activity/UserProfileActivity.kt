@@ -7,6 +7,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -15,14 +18,13 @@ import com.example.myshop.R
 import com.example.myshop.databinding.ActivityUserProfileBinding
 import com.example.myshop.firebase.FireStoreClass
 import com.example.myshop.model.User
-import com.example.myshop.util.BaseCommon
-import com.example.myshop.util.GlideLoader
-import com.example.myshop.util.MyShopKey
+import com.example.myshop.util.*
 import com.google.firebase.storage.FirebaseStorage
 
 class UserProfileActivity : BaseActivity(),BaseCommon {
     private var gender = ""
     private var imageUri : Uri? = null
+    private var imagePath : String? = null
     private var user : User? = null
     private var actionFromUser = ""
 
@@ -35,15 +37,19 @@ class UserProfileActivity : BaseActivity(),BaseCommon {
         setContentView(binding.root)
         user = intent.getParcelableExtra(EXTRA_KEY_USER)
         actionFromUser = intent.getStringExtra(ACTION_EDIT_INFO).toString()
-
         setToolbar()
         setListener()
         setUI()
     }
 
     override fun setToolbar() {
-        if(actionFromUser == MyShopKey.ACTION_ADD_INFO){
-
+        when(actionFromUser){
+            MyShopKey.ACTION_EDIT_PROFILE ->{
+                binding.backButton.visible()
+            }
+            else ->{
+                binding.backButton.gone()
+            }
         }
     }
 
@@ -51,11 +57,11 @@ class UserProfileActivity : BaseActivity(),BaseCommon {
         user?.let {
             if(it.firstname.isNotEmpty()){
                 binding.firstName.setText(it.firstname)
-                binding.firstName.isEnabled = false
+                //binding.firstName.isEnabled = false
             }
             if(it.lastname.isNotEmpty()){
                 binding.lastName.setText(it.lastname)
-                binding.lastName.isEnabled = false
+                //binding.lastName.isEnabled = false
             }
             if(it.email.isNotEmpty()){
                 binding.email.setText(it.email)
@@ -63,10 +69,11 @@ class UserProfileActivity : BaseActivity(),BaseCommon {
             }
             if(it.mobile.toString().isNotEmpty()){
                 binding.mobileNumber.setText(it.mobile.toString())
-                binding.mobileNumber.isEnabled = false
+                //binding.mobileNumber.isEnabled = false
             }
 
             if(it.gender.isNotEmpty()){
+                gender = it.gender
                 setGenderButton(it.gender)
             }
 
@@ -74,12 +81,16 @@ class UserProfileActivity : BaseActivity(),BaseCommon {
             if(it.image.isBlank()){
                 GlideLoader(this).loadImage(null,binding.imageProfile)
             }else{
+                imagePath = it.image
                 GlideLoader(this).loadImage(it.image,binding.imageProfile)
             }
         }
     }
 
     override fun setListener() {
+        binding.backButton.setOnClickListener {
+            onBackPressed()
+        }
         binding.changeImage.setOnClickListener {
             requestPermissionFromUser()
         }
@@ -96,18 +107,26 @@ class UserProfileActivity : BaseActivity(),BaseCommon {
         binding.save.setOnClickListener {
             if(validateInputs()){
                 showProgressDialog()
-                // get unit such as jpeg,jpg,png
-                val imageExtension = MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(imageUri!!))
-                val refer = FirebaseStorage.getInstance().reference.child("images_${System.currentTimeMillis()}.$imageExtension")
-                refer.putFile(imageUri!!)
-                    .addOnSuccessListener { taskSnapshot ->
-                        taskSnapshot.metadata!!.reference!!.downloadUrl
-                            .addOnSuccessListener { url ->
-                                saveData(url)
-                            }.addOnFailureListener {
-                                Toast.makeText(this,it.message.toString(),Toast.LENGTH_SHORT).show()
-                            }
-                    }
+                // ถ้ามีรูปแล้วแต่ไม่ได้เลือกรูปภาพเพิ่ม
+                if(imagePath!= null && imageUri == null){
+                    saveData(null)
+                }
+                // ถ้ายังไม่มีรูปภาพเลย
+                else{
+                    // get unit such as jpeg,jpg,png
+                    val imageExtension = MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(imageUri!!))
+                    val refer = FirebaseStorage.getInstance().reference.child("images_${System.currentTimeMillis()}.$imageExtension")
+                    refer.putFile(imageUri!!)
+                        .addOnSuccessListener { taskSnapshot ->
+                            taskSnapshot.metadata!!.reference!!.downloadUrl
+                                .addOnSuccessListener { url ->
+                                    saveData(url)
+                                }.addOnFailureListener {
+                                    Toast.makeText(this,it.message.toString(),Toast.LENGTH_SHORT).show()
+                                }
+                        }
+                }
+
             }
         }
     }
@@ -153,6 +172,15 @@ class UserProfileActivity : BaseActivity(),BaseCommon {
     }
 
     private fun validateInputs():Boolean{
+
+        if(binding.firstName.text.toString().isEmpty()){
+            showSnackBar(resources.getString(R.string.error_msg_enter_first_name),true)
+            return  false
+        }
+        if(binding.lastName.text.toString().isEmpty()){
+            showSnackBar(resources.getString(R.string.error_msg_enter_last_name),true)
+            return  false
+        }
         if(binding.mobileNumber.text.toString().isEmpty()){
             showSnackBar(resources.getString(R.string.error_msg_enter_mobile_number),true)
             return false
@@ -161,26 +189,49 @@ class UserProfileActivity : BaseActivity(),BaseCommon {
             showSnackBar(resources.getString(R.string.error_msg_enter_gender),true)
             return false
         }
-        if(imageUri == null){
+        if(imageUri == null && imagePath == null){
             showSnackBar(resources.getString(R.string.error_msg_enter_image_profile),true)
             return false
+        }
+        if(imageUri == null && imagePath!=null){
+            return true
         }
         return true
     }
 
-    private fun saveData(url : Uri){
+    private fun saveData(url : Uri?){
         var map = HashMap<String,Any>()
-        map[MyShopKey.MOBILE_FIELD] = binding.mobileNumber.text.toString().toLong()
-        map[MyShopKey.GENDER_FIELD] = gender
-        map[MyShopKey.IMAGE_FIELD] = url.toString()
-        map[MyShopKey.PROFILE_COMPLETE_FIELD] = 1
-        FireStoreClass().updateMobileAndGender(this,map)
+        // ถ้ามีรูปภาพ upload มาด้วย
+        url?.let {
+            map[MyShopKey.FIRSTNAME_FIELD] = binding.firstName.text.toString()
+            map[MyShopKey.LASTNAME_FIELD] = binding.lastName.text.toString()
+            map[MyShopKey.MOBILE_FIELD] = binding.mobileNumber.text.toString().toLong()
+            map[MyShopKey.GENDER_FIELD] = gender
+            map[MyShopKey.IMAGE_FIELD] = it.toString()
+            map[MyShopKey.PROFILE_COMPLETE_FIELD] = 1
+            FireStoreClass().updateMobileAndGender(this,map)
+        // ถ้าไม่มีรูปภาพ upload มา
+        }?:kotlin.run {
+            map[MyShopKey.FIRSTNAME_FIELD] = binding.firstName.text.toString()
+            map[MyShopKey.LASTNAME_FIELD] = binding.lastName.text.toString()
+            map[MyShopKey.MOBILE_FIELD] = binding.mobileNumber.text.toString().toLong()
+            map[MyShopKey.GENDER_FIELD] = gender
+            map[MyShopKey.PROFILE_COMPLETE_FIELD] = 1
+            FireStoreClass().updateMobileAndGender(this,map)
+        }
+
     }
 
     fun updateDataSuccess(){
-        hideProgressDialog()
-        MainActivity.create(this)
-        finish()
+        Handler(Looper.getMainLooper()).postDelayed(object : Runnable{
+            override fun run() {
+                hideProgressDialog()
+                DashboardActivity.create(this@UserProfileActivity)
+                finish()
+            }
+
+        },MyShopKey.DELAY_EDIT_DATA)
+
     }
 
     private fun setGenderButton(gender : String){
@@ -195,7 +246,7 @@ class UserProfileActivity : BaseActivity(),BaseCommon {
 
     companion object{
         const val EXTRA_KEY_USER = "key-user"
-        const val ACTION_EDIT_INFO = "action-edit-info"
+        const val ACTION_EDIT_INFO = "action-edit-profile"
         const val ACTION_START_FROM_LOGIN = "action-start-from-login-page"
         const val PICK_GALLERY = 10
 

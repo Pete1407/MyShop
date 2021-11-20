@@ -12,33 +12,27 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyShop">
+        android:theme="@style/Theme.AppCompat.Light">
         <activity
             android:name=".activities.activity.SettingActivity"
-            android:exported="false"
             android:theme="@style/Theme.MyShop.NoActionBar"/>
         <activity
             android:name=".activities.activity.DashboardActivity"
-            android:exported="false"
             android:theme="@style/Theme.MyShop.NoActionBar" />
         <activity
             android:name=".activities.activity.UserProfileActivity"
-            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyShop.NoActionBar" />
         <activity
             android:name=".activities.activity.ForgotPasswordActivity"
-            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyShop.NoActionBar" />
         <activity
             android:name=".activities.activity.RegisterActivity"
-            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyShop.NoActionBar" />
         <activity
             android:name=".activities.activity.LoginActivity"
-            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyShop.NoActionBar" />
         <activity

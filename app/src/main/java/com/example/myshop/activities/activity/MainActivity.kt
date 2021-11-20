@@ -39,10 +39,11 @@ class MainActivity : BaseActivity() {
         binding.username.text = username
     }
 
-    companion object{
-        fun create(context:Context){
-            val intent = Intent(context, MainActivity::class.java)
-            context.startActivity(intent)
-        }
-    }
+//    companion object{
+//        fun create(context:Context){
+//            val intent = Intent(context, MainActivity::class.java)
+//            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+//            context.startActivity(intent)
+//        }
+//    }
 }
