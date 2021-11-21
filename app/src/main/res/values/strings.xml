@@ -59,4 +59,14 @@
 
     <string name="setting">Setting</string>
     <string name="edit_setting">Edit</string>
+    <string name="add_product">Add Product</string>
+    
+    <string name="product_title">Product Title</string>
+    <string name="product_price">Product Price($)</string>
+    <string name="product_description">Product Description</string>
+    <string name="product_quantity">Product Quantity</string>
+
+    <string name="error_msg_enter_name_product">Please enter name product</string>
+    <string name="error_msg_enter_price_product">Please enter last name</string>
+    <string name="error_msg_enter_quantity">Please enter quantity</string>
 </resources>

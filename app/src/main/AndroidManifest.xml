@@ -14,8 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
         <activity
+            android:name=".activities.activity.AddProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.activity.SettingActivity"
-            android:theme="@style/Theme.MyShop.NoActionBar"/>
+            android:theme="@style/Theme.MyShop.NoActionBar" />
         <activity
             android:name=".activities.activity.DashboardActivity"
             android:theme="@style/Theme.MyShop.NoActionBar" />
