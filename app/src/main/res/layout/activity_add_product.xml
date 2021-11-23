@@ -28,7 +28,7 @@
             style="@style/ToolbarTitleStyle"/>
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -36,22 +36,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_default_image_product">
+                    android:layout_height="200dp"
+                    android:background="@drawable/bg_default_image_product"
+                    android:orientation="vertical">
 
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
+                        <com.example.myshop.customview.CustomImageView
+                            android:id="@+id/imageProduct"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/bg_default_image_product" />
+
 
                         <com.example.myshop.customview.CustomImageView
                             android:id="@+id/addImageProduct"
@@ -66,7 +70,7 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_medium"
                     android:layout_marginVertical="@dimen/spacing_medium"
                     android:layout_weight="2"
@@ -86,15 +90,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_medium"
-                        android:hint="@string/product_price" />
+                        android:hint="@string/product_price"
+                        android:inputType="number" />
 
                     <com.example.myshop.customview.CustomEditText
                         android:id="@+id/descriptionProduct"
                         style="@style/InputTextStyle"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
+                        android:layout_height="100dp"
                         android:layout_marginBottom="@dimen/spacing_medium"
                         android:gravity="start"
+                        android:scrollbars="vertical"
                         android:hint="@string/product_description" />
 
                     <com.example.myshop.customview.CustomEditText
@@ -102,21 +108,21 @@
                         style="@style/InputTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/spacing_medium"
-                        android:hint="@string/product_quantity" />
+                        android:hint="@string/product_quantity"
+                        android:inputType="number" />
 
-                    <com.example.myshop.customview.CustomButton
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/submit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
+                        android:background="@drawable/main_background_app"
                         android:text="@string/submit"
                         android:textAllCaps="false"
+                        android:layout_marginTop="@dimen/spacing_large"
                         android:textColor="@color/white" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

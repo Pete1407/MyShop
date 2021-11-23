@@ -24,7 +24,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/main_background_app.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/selector_bg_check_gender.xml" value="0.10833333333333334" />
-        <entry key="app/src/main/res/layout/activity_add_product.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_add_product.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.165" />
@@ -34,6 +34,7 @@
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_base.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_notification.xml" value="0.16032608695652173" />

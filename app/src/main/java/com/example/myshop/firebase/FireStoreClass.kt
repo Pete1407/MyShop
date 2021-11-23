@@ -2,10 +2,8 @@ package com.example.myshop.firebase
 
 import android.app.Activity
 import android.util.Log
-import com.example.myshop.activities.activity.LoginActivity
-import com.example.myshop.activities.activity.RegisterActivity
-import com.example.myshop.activities.activity.SettingActivity
-import com.example.myshop.activities.activity.UserProfileActivity
+import com.example.myshop.activities.activity.*
+import com.example.myshop.model.Product
 import com.example.myshop.model.User
 import com.example.myshop.util.MyShopKey
 import com.google.firebase.auth.FirebaseAuth
@@ -34,7 +32,7 @@ class FireStoreClass {
 
     }
 
-    private fun getUserID():String{
+    fun getUserID():String{
         val currentUser = FirebaseAuth.getInstance().currentUser
         var currentUserId = ""
         if(currentUser!=null){
@@ -102,6 +100,22 @@ class FireStoreClass {
                         Log.e("error","error while update data")
                     }
                 }
+            }
+    }
+
+    fun addProductToDatabase(activity : Activity,newProduct : Product){
+        fireStore.collection(MyShopKey.PRODUCTS)
+            .document()
+            .set(newProduct, SetOptions.merge())
+            .addOnSuccessListener {
+                when(activity){
+                    is AddProductActivity ->{
+                        activity.addProductSuccess()
+                    }
+                }
+            }
+            .addOnFailureListener {
+
             }
     }
 }

@@ -6,18 +6,29 @@ import android.provider.MediaStore
 
 object MyShopKey {
 
+    // collections
     const val USERS = "users"
+    const val PRODUCTS = "products"
+
     const val MYSHOPPREF = "myShopPref"
     const val USERNAME_LOGIN = "username"
     const val MALE = "male"
     const val FEMALE = "female"
 
+    // field in users collection
     const val FIRSTNAME_FIELD = "firstname"
     const val LASTNAME_FIELD = "lastname"
     const val MOBILE_FIELD = "mobile"
     const val GENDER_FIELD = "gender"
     const val IMAGE_FIELD = "image"
     const val PROFILE_COMPLETE_FIELD = "profileCompleted"
+
+    // field in products collection
+    const val NAME_PRODUCT = "name"
+    const val PRICE_PRODUCT = "price"
+    const val DESCRIPTION_PRODUCT = "description"
+    const val QUANTITY_PRODUCT = "quantity"
+    const val IMAGE_PRODUCT = "image"
 
     const val PICK_IMAGE_REQUEST_CODE = 20
     const val ACTION_EDIT_PROFILE = "action-edit-profile"

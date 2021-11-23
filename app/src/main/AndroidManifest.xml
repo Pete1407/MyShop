@@ -15,7 +15,8 @@
         android:theme="@style/Theme.AppCompat.Light">
         <activity
             android:name=".activities.activity.AddProductActivity"
-            android:exported="false" />
+            android:theme="@style/Theme.MyShop.NoActionBar"
+            android:exported="true"/>
         <activity
             android:name=".activities.activity.SettingActivity"
             android:theme="@style/Theme.MyShop.NoActionBar" />

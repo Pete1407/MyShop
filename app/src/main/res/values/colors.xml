@@ -20,4 +20,5 @@
 
     <color name="snackbar_success">#8BC34A</color>
     <color name="snackbar_unsuccess">#F72400</color>
+    <color name="default_no_image">#CBC6C6</color>
 </resources>
