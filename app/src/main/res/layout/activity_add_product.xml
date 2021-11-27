@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.activity.AddProductActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/main_background_app">
+
+        <com.example.myshop.customview.CustomImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_arrow_back_white"/>
+
+        <com.example.myshop.customview.NormalTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_product"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            style="@style/ToolbarTitleStyle"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@drawable/bg_default_image_product"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.example.myshop.customview.CustomImageView
+                            android:id="@+id/imageProduct"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/bg_default_image_product" />
+
+
+                        <com.example.myshop.customview.CustomImageView
+                            android:id="@+id/addImageProduct"
+                            android:layout_width="33dp"
+                            android:layout_height="33dp"
+                            android:layout_gravity="end|bottom"
+                            android:layout_marginHorizontal="@dimen/spacing_small"
+                            android:layout_marginVertical="@dimen/spacing_small"
+                            app:srcCompat="@drawable/ic_baseline_add_a_photo_24" />
+                    </FrameLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_medium"
+                    android:layout_marginVertical="@dimen/spacing_medium"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <com.example.myshop.customview.CustomEditText
+                        android:id="@+id/titleProduct"
+                        style="@style/InputTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:hint="@string/product_title" />
+
+                    <com.example.myshop.customview.CustomEditText
+                        android:id="@+id/priceProduct"
+                        style="@style/InputTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:hint="@string/product_price"
+                        android:inputType="number" />
+
+                    <com.example.myshop.customview.CustomEditText
+                        android:id="@+id/descriptionProduct"
+                        style="@style/InputTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginBottom="@dimen/spacing_medium"
+                        android:gravity="start"
+                        android:scrollbars="vertical"
+                        android:hint="@string/product_description" />
+
+                    <com.example.myshop.customview.CustomEditText
+                        android:id="@+id/quantityProduct"
+                        style="@style/InputTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/product_quantity"
+                        android:inputType="number" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/submit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/main_background_app"
+                        android:text="@string/submit"
+                        android:textAllCaps="false"
+                        android:layout_marginTop="@dimen/spacing_large"
+                        android:textColor="@color/white" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
