@@ -1,16 +1,22 @@
 package com.example.myshop.activities.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.myshop.activities.activity.AddProductActivity
+import com.example.myshop.activities.adapter.ProductAdapter
 import com.example.myshop.databinding.FragmentProductsBinding
+import com.example.myshop.firebase.FireStoreClass
+import com.example.myshop.model.ObjectType
+import com.example.myshop.model.Product
 import com.example.myshop.util.BaseCommon
 
 class ProductFragment : BaseFragment(),BaseCommon {
     private lateinit var binding : FragmentProductsBinding
+    private var adapter : ProductAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,11 +36,43 @@ class ProductFragment : BaseFragment(),BaseCommon {
 
     override fun setToolbar() {}
 
-    override fun setUI() {}
+    override fun setUI() {
+        adapter = ProductAdapter(arrayListOf())
+    }
 
     override fun setListener() {
         binding.addProduct.setOnClickListener {
             AddProductActivity.create(requireContext())
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getAllProducts()
+    }
+
+    private fun getAllProducts(){
+        showProgressDialog()
+        FireStoreClass().getProductsFromDatabase(this)
+    }
+
+    fun getResultProductSuccess(list : ArrayList<Product>){
+        hideProgressDialog()
+        setFormatAdapter(list)
+    }
+
+    private fun setFormatAdapter(list : ArrayList<Product>){
+        var dataList = ArrayList<ObjectType>()
+        dataList.add(ObjectType(PART_TITLE,null))
+        list.forEach {
+            dataList.add(ObjectType(PART_ITEM,it))
+        }
+        adapter = ProductAdapter(dataList)
+        binding.recyclerView.adapter = adapter
+    }
+
+    companion object{
+        const val PART_TITLE = 10
+        const val PART_ITEM = 20
     }
 }

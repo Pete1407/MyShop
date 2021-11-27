@@ -10,6 +10,7 @@ import com.example.myshop.R
 
 open class BaseFragment : Fragment() {
     private lateinit var progressDialog : Dialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

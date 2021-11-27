@@ -2,7 +2,9 @@ package com.example.myshop.firebase
 
 import android.app.Activity
 import android.util.Log
+import androidx.fragment.app.Fragment
 import com.example.myshop.activities.activity.*
+import com.example.myshop.activities.fragment.ProductFragment
 import com.example.myshop.model.Product
 import com.example.myshop.model.User
 import com.example.myshop.util.MyShopKey
@@ -117,5 +119,27 @@ class FireStoreClass {
             .addOnFailureListener {
 
             }
+    }
+
+    fun getProductsFromDatabase(fragment : Fragment){
+        fireStore.collection(MyShopKey.PRODUCTS)
+                .whereEqualTo(MyShopKey.USER_ID,getUserID())
+                .get()
+                .addOnSuccessListener { result ->
+                    when(fragment){
+                        is ProductFragment ->{
+                            var list = ArrayList<Product>()
+                                for(i in result.documents){
+                                    val aProduct = i.toObject(Product::class.java)
+                                    list.add(aProduct!!)
+                                }
+                                fragment.getResultProductSuccess(list)
+                        }
+                    }
+
+                }
+                .addOnFailureListener {
+
+                }
     }
 }

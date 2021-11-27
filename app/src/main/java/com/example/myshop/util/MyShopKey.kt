@@ -29,6 +29,7 @@ object MyShopKey {
     const val DESCRIPTION_PRODUCT = "description"
     const val QUANTITY_PRODUCT = "quantity"
     const val IMAGE_PRODUCT = "image"
+    const val USER_ID = "user_id"
 
     const val PICK_IMAGE_REQUEST_CODE = 20
     const val ACTION_EDIT_PROFILE = "action-edit-profile"
