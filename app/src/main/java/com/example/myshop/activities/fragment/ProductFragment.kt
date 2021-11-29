@@ -13,6 +13,8 @@ import com.example.myshop.firebase.FireStoreClass
 import com.example.myshop.model.ObjectType
 import com.example.myshop.model.Product
 import com.example.myshop.util.BaseCommon
+import com.example.myshop.util.gone
+import com.example.myshop.util.visible
 
 class ProductFragment : BaseFragment(),BaseCommon {
     private lateinit var binding : FragmentProductsBinding
@@ -62,17 +64,26 @@ class ProductFragment : BaseFragment(),BaseCommon {
     }
 
     private fun setFormatAdapter(list : ArrayList<Product>){
-        var dataList = ArrayList<ObjectType>()
-        dataList.add(ObjectType(PART_TITLE,null))
-        list.forEach {
-            dataList.add(ObjectType(PART_ITEM,it))
+        if(list.isNotEmpty()){
+            binding.labelNoItem.gone()
+            binding.recyclerView.visible()
+            var dataList = ArrayList<ObjectType>()
+            dataList.add(ObjectType(PART_TITLE,null))
+            list.forEach {
+                dataList.add(ObjectType(PART_ITEM,it))
+            }
+            adapter = ProductAdapter(dataList)
+            binding.recyclerView.adapter = adapter
+        }else{
+            binding.recyclerView.gone()
+            binding.labelNoItem.visible()
         }
-        adapter = ProductAdapter(dataList)
-        binding.recyclerView.adapter = adapter
+
     }
 
     companion object{
         const val PART_TITLE = 10
         const val PART_ITEM = 20
+        const val PART_DASHBOARD_ITEM = 30
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.myshop.activities.activity.*
+import com.example.myshop.activities.fragment.DashboardFragment
 import com.example.myshop.activities.fragment.ProductFragment
 import com.example.myshop.model.Product
 import com.example.myshop.model.User
@@ -141,5 +142,27 @@ class FireStoreClass {
                 .addOnFailureListener {
 
                 }
+    }
+
+    fun getProductInDashBoard(fragment : Fragment){
+        fireStore.collection(MyShopKey.PRODUCTS)
+            .whereEqualTo(MyShopKey.USER_ID,getUserID())
+            .get()
+            .addOnSuccessListener { result ->
+                when(fragment){
+                    is DashboardFragment ->{
+                        var list = ArrayList<Product>()
+                        val output = result.documents
+                        for(i in output){
+                            val obj = i.toObject(Product::class.java)
+                            list.add(obj!!)
+                        }
+                        fragment.getDataSuccess(list)
+                    }
+                }
+            }
+            .addOnFailureListener {
+
+            }
     }
 }

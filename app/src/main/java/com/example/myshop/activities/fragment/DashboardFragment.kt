@@ -7,13 +7,26 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.myshop.activities.activity.SettingActivity
+import com.example.myshop.activities.adapter.ProductAdapter
 import com.example.myshop.databinding.FragmentDashboardBinding
+import com.example.myshop.firebase.FireStoreClass
+import com.example.myshop.model.ObjectType
+import com.example.myshop.model.Product
 import com.example.myshop.util.BaseCommon
+import com.example.myshop.util.gone
+import com.example.myshop.util.visible
+import com.example.myshop.activities.fragment.ProductFragment.Companion.PART_TITLE
+import com.example.myshop.activities.fragment.ProductFragment.Companion.PART_DASHBOARD_ITEM
 
-class DashboardFragment : Fragment(),BaseCommon {
+
+
+class DashboardFragment : BaseFragment(),BaseCommon {
     private lateinit var binding : FragmentDashboardBinding
-
+    private var adapter : ProductAdapter? = null
 //    private val viewModel : DashboardViewModel by lazy {
 //        ViewModelProvider(this).get(DashboardViewModel::class.java)
 //    }
@@ -40,12 +53,36 @@ class DashboardFragment : Fragment(),BaseCommon {
     }
 
     override fun setUI() {
-
+        setAdapter(arrayListOf())
+        showProgressDialog()
+        FireStoreClass().getProductInDashBoard(this)
     }
 
     override fun setListener() {
         binding.setting.setOnClickListener {
             SettingActivity.create(requireContext())
+        }
+    }
+
+    fun getDataSuccess(list : ArrayList<Product>){
+        hideProgressDialog()
+        setAdapter(list)
+    }
+
+    private fun setAdapter(list : ArrayList<Product>){
+        var dataList = ArrayList<ObjectType>()
+        if(list.isNotEmpty()){
+            binding.recyclerView.visible()
+            binding.labelNoItem.gone()
+            list.forEach {
+                dataList.add(ObjectType(PART_DASHBOARD_ITEM,it))
+            }
+            adapter = ProductAdapter(dataList)
+            binding.recyclerView.adapter = adapter
+
+        }else{
+            binding.recyclerView.gone()
+            binding.labelNoItem.visible()
         }
     }
 }
