@@ -75,4 +75,6 @@
     <string name="title_product">Product</string>
     <string name="Quantity">Quantity</string>
     <string name="item">Items</string>
+
+    <string name="label_no_item">No items found</string>
 </resources>

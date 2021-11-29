@@ -23,4 +23,5 @@
     <color name="default_no_image">#CBC6C6</color>
 
     <color name="white_nature">#FFFFFF</color>
+    <color name="bg_gray">#E9E7E5</color>
 </resources>
