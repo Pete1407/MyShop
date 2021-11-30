@@ -107,9 +107,11 @@ class FireStoreClass {
     }
 
     fun addProductToDatabase(activity : Activity,newProduct : Product){
-        fireStore.collection(MyShopKey.PRODUCTS)
+       val addProcess = fireStore.collection(MyShopKey.PRODUCTS)
             .document()
-            .set(newProduct, SetOptions.merge())
+       val id = addProcess.id
+       newProduct.id = id
+       addProcess.set(newProduct, SetOptions.merge())
             .addOnSuccessListener {
                 when(activity){
                     is AddProductActivity ->{
@@ -164,5 +166,9 @@ class FireStoreClass {
             .addOnFailureListener {
 
             }
+    }
+
+    fun deleteProductByUser(fragment : Fragment){
+
     }
 }
