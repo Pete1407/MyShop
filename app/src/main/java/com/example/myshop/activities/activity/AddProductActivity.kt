@@ -138,7 +138,7 @@ class AddProductActivity : BaseActivity(),BaseCommon {
             quantity = binding.quantityProduct.text.toString().toInt(),
             image = imageUrl.toString(),
             user_name = pref.getString(MyShopKey.USERNAME_LOGIN,""),
-            user_id = FireStoreClass().getUserID()
+            user_id = FireStoreClass().getUserID(),
         )
 
         FireStoreClass().addProductToDatabase(this,product)

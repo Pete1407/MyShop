@@ -9,7 +9,7 @@
     android:layout_marginVertical="@dimen/spacing_small"
     app:cardBackgroundColor="@color/white_nature"
     app:cardCornerRadius="@dimen/spacing_small">
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <RelativeLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,43 +22,62 @@
             android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:layout_marginStart="@dimen/spacing_medium"
-            android:src="@drawable/icon_default_profile" />
+            android:src="@drawable/icon_default_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginHorizontal="5dp"
-            android:layout_gravity="center_vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imageProduct"
-            app:layout_constraintBottom_toBottomOf="@id/imageProduct">
+            android:layout_toEndOf="@+id/imageProduct">
+
             <com.example.myshop.customview.NormalTextView
                 android:id="@+id/titleProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/spacing_small"
-                android:paddingBottom="@dimen/spacing_small"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:textColor="@color/black"
                 app:typeText="@string/text_bold"
-                tools:text="Converse Chuck Taylor All Star 70 Grey"/>
+                tools:text="royal and imperial palace in Paris which stood on the right bank of the River Seine, directly in front of the Louvre" />
 
-            <com.example.myshop.customview.NormalTextView
-                android:id="@+id/quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/spacing_small"
-                android:textSize="@dimen/font_small"
-                tools:text="Quantity: 34 items"/>
-
-            <com.example.myshop.customview.NormalTextView
-                android:id="@+id/priceProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/spacing_small"
-                android:textSize="@dimen/font_small"
-                tools:text="$200"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        <com.example.myshop.customview.NormalTextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear"
+            android:layout_toEndOf="@id/imageProduct"
+            android:padding="@dimen/spacing_small"
+            android:textSize="@dimen/font_small"
+            tools:text="Quantity: 34 items" />
+
+        <com.example.myshop.customview.NormalTextView
+            android:id="@+id/priceProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/spacing_small"
+            android:textSize="@dimen/font_small"
+            app:layout_constraintStart_toEndOf="@+id/imageProduct"
+            app:layout_constraintTop_toBottomOf="@+id/quantity"
+            android:layout_below="@id/quantity"
+            android:layout_toEndOf="@id/imageProduct"
+            tools:text="$200" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/deleteProduct"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:background="?attr/selectableItemBackground"
+            android:layout_below="@id/priceProduct"
+            android:layout_alignParentEnd="true"
+            app:srcCompat="@drawable/ic_baseline_delete_24" />
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>
+

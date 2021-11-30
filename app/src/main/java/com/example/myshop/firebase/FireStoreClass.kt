@@ -107,9 +107,11 @@ class FireStoreClass {
     }
 
     fun addProductToDatabase(activity : Activity,newProduct : Product){
-        fireStore.collection(MyShopKey.PRODUCTS)
+       val addProcess = fireStore.collection(MyShopKey.PRODUCTS)
             .document()
-            .set(newProduct, SetOptions.merge())
+       val id = addProcess.id
+       newProduct.id = id
+       addProcess.set(newProduct, SetOptions.merge())
             .addOnSuccessListener {
                 when(activity){
                     is AddProductActivity ->{
@@ -163,6 +165,23 @@ class FireStoreClass {
             }
             .addOnFailureListener {
 
+            }
+    }
+
+    fun deleteProductByUser(fragment : Fragment,productId : String){
+        //Log.i("result", "deleteProduct id --> $productId")
+        fireStore.collection(MyShopKey.PRODUCTS)
+            .document(productId)
+            .delete()
+            .addOnSuccessListener {
+                when(fragment){
+                    is ProductFragment ->{
+                        fragment.deleteProductSuccess()
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Log.e("error", "deleteProductByUser: ${it.stackTrace}", )
             }
     }
 }
