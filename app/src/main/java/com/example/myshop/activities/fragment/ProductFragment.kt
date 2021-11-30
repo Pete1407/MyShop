@@ -39,7 +39,7 @@ class ProductFragment : BaseFragment(),BaseCommon {
     override fun setToolbar() {}
 
     override fun setUI() {
-        adapter = ProductAdapter(arrayListOf())
+        setFormatAdapter(arrayListOf())
     }
 
     override fun setListener() {
@@ -72,13 +72,31 @@ class ProductFragment : BaseFragment(),BaseCommon {
             list.forEach {
                 dataList.add(ObjectType(PART_ITEM,it))
             }
-            adapter = ProductAdapter(dataList)
+            if(adapter == null){
+                adapter = ProductAdapter(dataList)
+                adapter!!.setEventDeleteListener {
+                    showProgressDialog()
+                    FireStoreClass().deleteProductByUser(this,it)
+                }
+            }else{
+                adapter!!.refreshData(list)
+            }
+
             binding.recyclerView.adapter = adapter
         }else{
             binding.recyclerView.gone()
             binding.labelNoItem.visible()
         }
 
+    }
+
+    fun deleteProductSuccess(){
+        hideProgressDialog()
+        defaultData()
+    }
+
+    private fun defaultData(){
+        FireStoreClass().getProductsFromDatabase(this)
     }
 
     companion object{

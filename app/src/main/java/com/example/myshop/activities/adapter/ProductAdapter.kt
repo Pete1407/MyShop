@@ -1,5 +1,6 @@
 package com.example.myshop.activities.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -16,7 +17,24 @@ import com.example.myshop.activities.fragment.ProductFragment.Companion.PART_ITE
 import com.example.myshop.databinding.AdapterDashboardItemBinding
 
 
-class ProductAdapter(private val list: List<ObjectType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var eventDeleteProductListener : ((id : String) -> Unit)? = null
+
+    fun setEventDeleteListener(event : ((id : String)->Unit)){
+        eventDeleteProductListener = event
+    }
+
+    fun refreshData(data : ArrayList<Product>){
+        list.clear()
+        var dataList = ArrayList<ObjectType>()
+        dataList.add(ObjectType(PART_TITLE,null))
+        data.forEach {
+            dataList.add(ObjectType(PART_ITEM,it))
+        }
+        list = dataList
+        notifyDataSetChanged()
+    }
 
     override fun getItemViewType(position: Int): Int {
         return list[position].type
@@ -61,34 +79,37 @@ class ProductAdapter(private val list: List<ObjectType>) : RecyclerView.Adapter<
         return list.size
     }
 
-}
+    inner class TitleViewHolder(val binding: AdapterItemTitleBinding) : RecyclerView.ViewHolder(binding.root) {
 
-class TitleViewHolder(val binding: AdapterItemTitleBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun createView() {
 
-    fun createView() {
-
+        }
     }
-}
 
-class ProductViewHolder(val binding: AdapterItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ProductViewHolder(val binding: AdapterItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun setItem(product: Product) {
-        val context = binding.root.context
-        GlideLoader(context).loadImage(product.image,binding.imageProduct)
-        binding.titleProduct.text = product.title
-        val unit = context.resources.getString(R.string.item)
-        binding.quantity.setTextColor(ContextCompat.getColor(context,android.R.color.holo_red_dark))
-        binding.quantity.text = context.resources.getString(R.string.Quantity)+": ${product.quantity} $unit"
-        binding.priceProduct.text = "$${product.price}"
+        fun setItem(product: Product) {
+            val context = binding.root.context
+            GlideLoader(context).loadImage(product.image,binding.imageProduct)
+            binding.titleProduct.text = product.title
+            val unit = context.resources.getString(R.string.item)
+            binding.quantity.setTextColor(ContextCompat.getColor(context,android.R.color.holo_red_dark))
+            binding.quantity.text = context.resources.getString(R.string.Quantity)+": ${product.quantity} $unit"
+            binding.priceProduct.text = "$${product.price}"
+            binding.deleteProduct.setOnClickListener {
+                eventDeleteProductListener!!.invoke(product.id.toString())
+            }
+        }
     }
-}
 
-class ItemDashBoardViewHolder(val binding : AdapterDashboardItemBinding):RecyclerView.ViewHolder(binding.root){
+    inner class ItemDashBoardViewHolder(val binding : AdapterDashboardItemBinding):RecyclerView.ViewHolder(binding.root){
 
-    fun setItem(product: Product){
-        val context = binding.root.context
-        GlideLoader(context).loadImage(product.image,binding.imageProduct)
-        binding.title.text = product.title
-        binding.price.text = "$${product.price}"
+        fun setItem(product: Product){
+            val context = binding.root.context
+            GlideLoader(context).loadImage(product.image,binding.imageProduct)
+            binding.title.text = product.title
+            binding.price.text = "$${product.price}"
+        }
     }
+
 }

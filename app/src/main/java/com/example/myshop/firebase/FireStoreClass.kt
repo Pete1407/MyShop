@@ -168,7 +168,20 @@ class FireStoreClass {
             }
     }
 
-    fun deleteProductByUser(fragment : Fragment){
-
+    fun deleteProductByUser(fragment : Fragment,productId : String){
+        //Log.i("result", "deleteProduct id --> $productId")
+        fireStore.collection(MyShopKey.PRODUCTS)
+            .document(productId)
+            .delete()
+            .addOnSuccessListener {
+                when(fragment){
+                    is ProductFragment ->{
+                        fragment.deleteProductSuccess()
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Log.e("error", "deleteProductByUser: ${it.stackTrace}", )
+            }
     }
 }
