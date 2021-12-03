@@ -3,6 +3,7 @@ package com.example.myshop.activities.activity
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -84,7 +85,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         val sharePreference = getSharedPreferences(MyShopKey.MYSHOPPREF, MODE_PRIVATE)
         val edit = sharePreference.edit()
         edit.putString(MyShopKey.USERNAME_LOGIN, "${user.firstname} ${user.lastname}")
-        edit.apply()
+        edit.commit()
         if(user.profileCompleted == 0){
             UserProfileActivity.create(this@LoginActivity, user, ACTION_START_FROM_LOGIN)
             finish()

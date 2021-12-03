@@ -13,6 +13,7 @@ import com.example.myshop.util.BaseCommon
 import com.google.firebase.auth.FirebaseAuth
 import com.example.myshop.activities.activity.UserProfileActivity.Companion.ACTION_EDIT_INFO
 import com.example.myshop.util.GlideLoader
+import com.example.myshop.util.MyShopKey
 
 class SettingActivity : BaseActivity(),BaseCommon {
     private var currentUser : User? = null
@@ -52,6 +53,10 @@ class SettingActivity : BaseActivity(),BaseCommon {
 
     private fun logOut(){
         FirebaseAuth.getInstance().signOut()
+        val sharedPreferences = getSharedPreferences(MyShopKey.MYSHOPPREF, MODE_PRIVATE)
+        val edit = sharedPreferences.edit()
+        edit.putString(MyShopKey.USERNAME_LOGIN,"")
+        edit.commit()
         val intent = Intent(this,LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
