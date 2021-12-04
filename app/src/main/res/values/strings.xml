@@ -77,4 +77,7 @@
     <string name="item">Items</string>
 
     <string name="label_no_item">No items found</string>
+    <string name="message_to_delete_product">Are you sure you want \n to delete this product ?</string>
+    <string name="text_delete_button">Submit</string>
+    <string name="text_cancel_delete">Cancel</string>
 </resources>
