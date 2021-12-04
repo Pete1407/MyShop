@@ -16,12 +16,14 @@
         <entry key="app/src/main/res/drawable/bg_cursor_color.xml" value="0.13385416666666666" />
         <entry key="app/src/main/res/drawable/bg_default_image_product.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/bg_menu.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/bg_submit_button.xml" value="0.1296875" />
         <entry key="app/src/main/res/drawable/ic_add_circle_outline_24.xml" value="0.10833333333333334" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_ios_new_24.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_baseline_dashboard_24.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.1296875" />
         <entry key="app/src/main/res/drawable/main_background_app.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/selector_bg_check_gender.xml" value="0.10833333333333334" />
         <entry key="app/src/main/res/layout/activity_add_product.xml" value="0.165" />
@@ -39,6 +41,7 @@
         <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_base.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_delete_dialog.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_notification.xml" value="0.16032608695652173" />
         <entry key="app/src/main/res/layout/fragment_orders.xml" value="0.22146739130434784" />

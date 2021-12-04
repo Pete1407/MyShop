@@ -75,8 +75,14 @@ class ProductFragment : BaseFragment(),BaseCommon {
             if(adapter == null){
                 adapter = ProductAdapter(dataList)
                 adapter!!.setEventDeleteListener {
-                    showProgressDialog()
-                    FireStoreClass().deleteProductByUser(this,it)
+                    val dialog =  DeleteDialogFragment.newInstance()
+                    dialog.isCancelable = false
+                    dialog.setEventDeleteProductListener {
+                        showProgressDialog()
+                        FireStoreClass().deleteProductByUser(this,it)
+                    }
+                    dialog.show(requireActivity().supportFragmentManager,"tag_delete")
+
                 }
             }else{
                 adapter!!.refreshData(list)

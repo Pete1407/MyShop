@@ -24,4 +24,5 @@
 
     <color name="white_nature">#FFFFFF</color>
     <color name="bg_gray">#E9E7E5</color>
+    <color name="bg_dialog">#DF5B67</color>
 </resources>

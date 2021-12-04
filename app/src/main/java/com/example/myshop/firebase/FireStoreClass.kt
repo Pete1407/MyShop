@@ -169,7 +169,6 @@ class FireStoreClass {
     }
 
     fun deleteProductByUser(fragment : Fragment,productId : String){
-        //Log.i("result", "deleteProduct id --> $productId")
         fireStore.collection(MyShopKey.PRODUCTS)
             .document(productId)
             .delete()
