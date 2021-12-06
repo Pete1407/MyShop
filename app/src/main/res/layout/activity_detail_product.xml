@@ -109,6 +109,19 @@
             android:textColor="@color/white"
             android:text="@string/add_to_cart"/>
 
+            <com.example.myshop.customview.CustomButton
+                android:id="@+id/goToCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginVertical="@dimen/spacing_large"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                android:background="?attr/selectableItemBackground"
+                android:textColor="@color/white"
+                android:text="@string/go_to_cart"/>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -5,16 +5,23 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import com.example.myshop.R
 import com.example.myshop.databinding.ActivityDetailProductBinding
 import com.example.myshop.firebase.FireStoreClass
+import com.example.myshop.model.Cart
 import com.example.myshop.model.Product
 import com.example.myshop.util.BaseCommon
 import com.example.myshop.util.GlideLoader
+import com.example.myshop.util.gone
+import com.example.myshop.util.visible
+import com.google.firebase.auth.FirebaseAuth
 
 class DetailProductActivity : BaseActivity(),BaseCommon {
 
     private var idProduct : String? = null
     private var item : Product? = null
+    private var isExist : Boolean = false
     private val binding : ActivityDetailProductBinding by lazy{
         ActivityDetailProductBinding.inflate(layoutInflater)
     }
@@ -51,14 +58,52 @@ class DetailProductActivity : BaseActivity(),BaseCommon {
             finish()
         }
         binding.addToCart.setOnClickListener {
+            binding.addToCart.gone()
+            binding.goToCart.visible()
+            item?.let {
+                var cart = Cart(
+                    FirebaseAuth.getInstance().uid.toString(),
+                    it.id.toString(),
+                    it.title.toString(),
+                    it.price.toString(),
+                    it.image.toString(),
+                    "1"
+                )
+                FireStoreClass().addProductToCart(cart,this)
+            }
 
+        }
+        binding.goToCart.setOnClickListener {
+            CartListActivity.create(this)
         }
     }
 
     fun getDetailProduct(product:Product){
         item = product
         hideProgressDialog()
+        FireStoreClass().checkExistProduct(product.id.toString(),this)
         setUI()
+    }
+
+    fun addToCartSuccess(){
+        val text = resources.getString(R.string.add_to_cart)
+        Toast.makeText(this,text,Toast.LENGTH_SHORT).show()
+    }
+
+    fun addToCartFail(errorText:String){
+        Toast.makeText(this,errorText,Toast.LENGTH_SHORT).show()
+    }
+
+    fun checkExistInCart(isHave : Boolean){
+        isExist = isHave
+        Log.i("result","isExist --> $isExist")
+        if(isExist){
+            binding.addToCart.gone()
+            binding.goToCart.visible()
+        }else{
+            binding.addToCart.visible()
+            binding.goToCart.gone()
+        }
     }
 
     companion object{

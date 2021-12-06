@@ -2,10 +2,12 @@ package com.example.myshop.firebase
 
 import android.app.Activity
 import android.util.Log
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.myshop.activities.activity.*
 import com.example.myshop.activities.fragment.DashboardFragment
 import com.example.myshop.activities.fragment.ProductFragment
+import com.example.myshop.model.Cart
 import com.example.myshop.model.Product
 import com.example.myshop.model.User
 import com.example.myshop.util.MyShopKey
@@ -201,7 +203,41 @@ class FireStoreClass {
             }
     }
 
-    fun addProductToCart(){
+    fun addProductToCart(cart : Cart?,activity: Activity){
+        cart?.let {
+            val item = fireStore.collection(MyShopKey.CARTS).document()
+            val cartID = item.id
+            it.id = cartID
+            item.set(it, SetOptions.merge())
+                .addOnSuccessListener {
+                    if(activity is DetailProductActivity){
+                        activity.addToCartSuccess()
+                    }
+                }
+                .addOnFailureListener { error ->
+                    if(activity is DetailProductActivity){
+                        activity.addToCartFail(error.stackTrace.toString())
+                    }
+                }
+        }
+    }
 
+    fun checkExistProduct(idProduct: String,activity: Activity){
+        fireStore.collection(MyShopKey.CARTS)
+            .whereEqualTo(MyShopKey.PRODUCT_ID,idProduct)
+            .whereEqualTo(MyShopKey.USER_ID,getUserID())
+            .get()
+            .addOnSuccessListener { result ->
+                if(activity is DetailProductActivity){
+                    if(result.documents.isNotEmpty()){
+                        activity.checkExistInCart(true)
+                    }else{
+                        activity.checkExistInCart(false)
+                    }
+                }
+            }
+            .addOnFailureListener { error ->
+
+            }
     }
 }

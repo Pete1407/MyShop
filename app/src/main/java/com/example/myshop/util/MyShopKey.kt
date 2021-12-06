@@ -9,6 +9,7 @@ object MyShopKey {
     // collections
     const val USERS = "users"
     const val PRODUCTS = "products"
+    const val CARTS = "carts"
 
     const val MYSHOPPREF = "myShopPref"
     const val USERNAME_LOGIN = "username"
@@ -30,7 +31,7 @@ object MyShopKey {
     const val QUANTITY_PRODUCT = "quantity"
     const val IMAGE_PRODUCT = "image"
     const val USER_ID = "user_id"
-
+    const val PRODUCT_ID = "product_id"
     const val PICK_IMAGE_REQUEST_CODE = 20
     const val ACTION_EDIT_PROFILE = "action-edit-profile"
     const val ACTION_ADD_INFO = "action-add-info"
