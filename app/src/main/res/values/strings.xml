@@ -80,4 +80,12 @@
     <string name="message_to_delete_product">Are you sure you want \n to delete this product ?</string>
     <string name="text_delete_button">Submit</string>
     <string name="text_cancel_delete">Cancel</string>
+    
+    <string name="name_product">Product Name</string>
+    <string name="description_product">Description</string>
+    <string name="quantity_product">Quantity</string>
+
+    <string name="message_add_product_to_cart">Product was added to your cart.</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="go_to_cart">Go to cart</string>
 </resources>

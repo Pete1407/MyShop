@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.myshop.activities.activity.DetailProductActivity
 import com.example.myshop.activities.activity.SettingActivity
 import com.example.myshop.activities.adapter.ProductAdapter
 import com.example.myshop.databinding.FragmentDashboardBinding
@@ -78,6 +79,9 @@ class DashboardFragment : BaseFragment(),BaseCommon {
                 dataList.add(ObjectType(PART_DASHBOARD_ITEM,it))
             }
             adapter = ProductAdapter(dataList)
+            adapter!!.setEventChooseItemProductListener {
+                DetailProductActivity.start(requireContext(),it.toString())
+            }
             binding.recyclerView.adapter = adapter
 
         }else{

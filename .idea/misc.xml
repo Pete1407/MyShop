@@ -16,6 +16,7 @@
         <entry key="app/src/main/res/drawable/bg_cursor_color.xml" value="0.13385416666666666" />
         <entry key="app/src/main/res/drawable/bg_default_image_product.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/bg_menu.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/bg_quantity.xml" value="0.12291666666666666" />
         <entry key="app/src/main/res/drawable/bg_submit_button.xml" value="0.1296875" />
         <entry key="app/src/main/res/drawable/ic_add_circle_outline_24.xml" value="0.10833333333333334" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle.xml" value="0.25" />
@@ -28,6 +29,7 @@
         <entry key="app/src/main/res/drawable/selector_bg_check_gender.xml" value="0.10833333333333334" />
         <entry key="app/src/main/res/layout/activity_add_product.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/activity_detail_product.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />

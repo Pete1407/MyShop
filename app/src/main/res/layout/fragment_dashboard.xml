@@ -27,37 +27,36 @@
             app:srcCompat="@drawable/settings" />
     </androidx.appcompat.widget.Toolbar>
 
-    <com.example.myshop.customview.NormalTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:layout_marginStart="@dimen/spacing_small"
-        android:layout_marginBottom="@dimen/spacing_small"
-        app:typeText="@string/text_bold"
-        android:textColor="@color/black"
-        android:text="@string/products_title"/>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/adapter_dashboard_item"
-            app:spanCount="2"/>
+            <com.example.myshop.customview.NormalTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_small"
+                app:typeText="@string/text_bold"
+                android:textColor="@color/black"
+                android:text="@string/products_title"/>
 
-        <com.example.myshop.customview.NormalTextView
-            android:id="@+id/labelNoItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/gray"
-            android:visibility="gone"
-            android:text="@string/label_no_item"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    tools:listitem="@layout/adapter_dashboard_item"
+                    app:spanCount="2"/>
 
-    </FrameLayout>
-
+                <com.example.myshop.customview.NormalTextView
+                    android:id="@+id/labelNoItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/gray"
+                    android:visibility="gone"
+                    android:text="@string/label_no_item"/>
+            </FrameLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

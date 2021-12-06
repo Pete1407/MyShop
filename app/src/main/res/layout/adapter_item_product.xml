@@ -22,7 +22,6 @@
             android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:layout_marginStart="@dimen/spacing_medium"
-            android:src="@drawable/icon_default_profile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 

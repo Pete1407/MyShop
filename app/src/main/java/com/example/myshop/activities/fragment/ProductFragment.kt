@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.myshop.activities.activity.AddProductActivity
+import com.example.myshop.activities.activity.DetailProductActivity
 import com.example.myshop.activities.adapter.ProductAdapter
 import com.example.myshop.databinding.FragmentProductsBinding
 import com.example.myshop.firebase.FireStoreClass
@@ -83,6 +84,9 @@ class ProductFragment : BaseFragment(),BaseCommon {
                     }
                     dialog.show(requireActivity().supportFragmentManager,"tag_delete")
 
+                }
+                adapter!!.setEventChooseItemProductListener {
+                    DetailProductActivity.start(requireContext(),it)
                 }
             }else{
                 adapter!!.refreshData(list)

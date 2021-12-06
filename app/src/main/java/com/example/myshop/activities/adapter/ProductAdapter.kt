@@ -20,10 +20,18 @@ import com.example.myshop.databinding.AdapterDashboardItemBinding
 class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var eventDeleteProductListener : ((id : String) -> Unit)? = null
-
     fun setEventDeleteListener(event : ((id : String)->Unit)){
         eventDeleteProductListener = event
     }
+
+    var eventChooseItemListener : ((id:String)->Unit)? = null
+    fun setEventChooseItemProductListener(event:((id : String)->Unit)){
+        eventChooseItemListener = event
+    }
+
+//    fun setEventClickProductItemListener(listener : ((id : String)-> Unit)){
+//
+//    }
 
     fun refreshData(data : ArrayList<Product>){
         list.clear()
@@ -99,6 +107,9 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
             binding.deleteProduct.setOnClickListener {
                 eventDeleteProductListener!!.invoke(product.id.toString())
             }
+            binding.root.setOnClickListener {
+                eventChooseItemListener!!.invoke(product.id.toString())
+            }
         }
     }
 
@@ -109,6 +120,9 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
             GlideLoader(context).loadImage(product.image,binding.imageProduct)
             binding.title.text = product.title
             binding.price.text = "$${product.price}"
+            binding.root.setOnClickListener {
+                eventChooseItemListener?.invoke(product.id.toString())
+            }
         }
     }
 

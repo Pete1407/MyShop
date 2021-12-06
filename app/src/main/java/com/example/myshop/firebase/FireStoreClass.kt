@@ -148,7 +148,6 @@ class FireStoreClass {
 
     fun getProductInDashBoard(fragment : Fragment){
         fireStore.collection(MyShopKey.PRODUCTS)
-            .whereEqualTo(MyShopKey.USER_ID,getUserID())
             .get()
             .addOnSuccessListener { result ->
                 when(fragment){
@@ -182,5 +181,27 @@ class FireStoreClass {
             .addOnFailureListener {
                 Log.e("error", "deleteProductByUser: ${it.stackTrace}", )
             }
+    }
+
+    fun getDetailProduct(idProduct : String,activity: Activity){
+        fireStore.collection(MyShopKey.PRODUCTS)
+            .document(idProduct)
+            .get()
+            .addOnSuccessListener { output ->
+                if(activity is DetailProductActivity){
+                    val result = output.toObject(Product::class.java)
+                    result?.let {
+                        activity.getDetailProduct(it)
+                    }
+
+                }
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    fun addProductToCart(){
+
     }
 }

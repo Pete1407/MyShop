@@ -24,8 +24,7 @@
                 android:id="@+id/imageProduct"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginVertical="@dimen/spacing_small"
-                android:src="@drawable/icon_default_profile" />
+                android:layout_marginVertical="@dimen/spacing_small" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
