@@ -14,7 +14,10 @@ import com.example.myshop.model.Product
 import com.example.myshop.util.GlideLoader
 import com.example.myshop.activities.fragment.ProductFragment.Companion.PART_TITLE
 import com.example.myshop.activities.fragment.ProductFragment.Companion.PART_ITEM
+import com.example.myshop.activities.fragment.ProductFragment.Companion.PART_CART_ITEM
 import com.example.myshop.databinding.AdapterDashboardItemBinding
+import com.example.myshop.databinding.AdapterItemCartBinding
+import com.example.myshop.model.Cart
 
 
 class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -28,6 +31,8 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
     fun setEventChooseItemProductListener(event:((id : String)->Unit)){
         eventChooseItemListener = event
     }
+
+    //var eventDecreaseItemListener : ((number : Int,item:Cart))
 
 //    fun setEventClickProductItemListener(listener : ((id : String)-> Unit)){
 //
@@ -62,6 +67,10 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
                 val holder = AdapterDashboardItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
                 ItemDashBoardViewHolder(holder)
             }
+            PART_CART_ITEM ->{
+                val holder = AdapterItemCartBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+                CartItemViewHolder(holder)
+            }
             else -> {
                 val holder = AdapterItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ProductViewHolder(holder)
@@ -74,6 +83,10 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
             is TitleViewHolder -> { holder.createView() }
             is ProductViewHolder -> {
                 val item = list[position].objectHolder as Product
+                holder.setItem(item)
+            }
+            is CartItemViewHolder ->{
+                val item = list[position].objectHolder as Cart
                 holder.setItem(item)
             }
             is ItemDashBoardViewHolder ->{
@@ -123,6 +136,15 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
             binding.root.setOnClickListener {
                 eventChooseItemListener?.invoke(product.id.toString())
             }
+        }
+    }
+
+    inner class CartItemViewHolder(val binding : AdapterItemCartBinding):RecyclerView.ViewHolder(binding.root){
+
+        fun setItem(cart : Cart){
+            binding.productName.text = cart.title
+            binding.priceProduct.text = "$${cart.price}"
+            binding.addProduct.setUI(1,cart)
         }
     }
 

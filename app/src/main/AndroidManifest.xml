@@ -15,7 +15,7 @@
         android:theme="@style/Theme.AppCompat.Light">
         <activity
             android:name=".activities.activity.CartListActivity"
-            android:exported="false" />
+            android:theme="@style/Theme.MyShop.NoActionBar" />
         <activity
             android:name=".activities.activity.DetailProductActivity"
             android:screenOrientation="portrait"

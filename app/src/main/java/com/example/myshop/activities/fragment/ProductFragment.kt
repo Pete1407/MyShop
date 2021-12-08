@@ -113,5 +113,6 @@ class ProductFragment : BaseFragment(),BaseCommon {
         const val PART_TITLE = 10
         const val PART_ITEM = 20
         const val PART_DASHBOARD_ITEM = 30
+        const val PART_CART_ITEM = 40
     }
 }

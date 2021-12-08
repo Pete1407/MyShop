@@ -240,4 +240,25 @@ class FireStoreClass {
 
             }
     }
+
+    fun getProductInCart(activty : Activity){
+        FirebaseFirestore.getInstance().collection(MyShopKey.CARTS)
+            .whereEqualTo(MyShopKey.USER_ID,getUserID())
+            .get()
+            .addOnSuccessListener { result ->
+                var count = 0
+                var list = ArrayList<Cart>()
+                for(item in result){
+                    val obj = item.toObject(Cart::class.java)
+                    list.add(obj)
+                    Log.i("item","item $count ${obj.title}")
+                    count++
+                }
+                if(activty is CartListActivity){
+                    activty.getCarts(list)
+                }
+            }.addOnFailureListener {
+
+            }
+    }
 }
