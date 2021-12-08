@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="start|center"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/decrease"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="3dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_baseline_horizontal_rule_24"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/numberOfProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:background="@drawable/bg_quantity"
+        tools:text="32"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/increase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="3dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_baseline_add_24"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
