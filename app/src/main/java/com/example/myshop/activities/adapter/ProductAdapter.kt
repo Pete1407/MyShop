@@ -32,11 +32,15 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
         eventChooseItemListener = event
     }
 
-    //var eventDecreaseItemListener : ((number : Int,item:Cart))
+    var eventDecreaseItemListener : ((number : Int,item:Cart)->Unit)? = null
+    fun setEventDecreaseQuantityListener(event : ((number :Int,item:Cart)->Unit)){
+        eventDecreaseItemListener = event
+    }
 
-//    fun setEventClickProductItemListener(listener : ((id : String)-> Unit)){
-//
-//    }
+    var eventIncreaseItemListener : ((number:Int,item:Cart)->Unit)? = null
+    fun setEventIncreaseQuantityListener(event : ((number:Int,item:Cart)-> Unit)){
+        eventIncreaseItemListener = event
+    }
 
     fun refreshData(data : ArrayList<Product>){
         list.clear()
@@ -87,7 +91,7 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
             }
             is CartItemViewHolder ->{
                 val item = list[position].objectHolder as Cart
-                holder.setItem(item)
+                holder.setItem(item,eventDecreaseItemListener!!,eventIncreaseItemListener!!)
             }
             is ItemDashBoardViewHolder ->{
                 val item = list[position].objectHolder as Product
@@ -141,10 +145,11 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
 
     inner class CartItemViewHolder(val binding : AdapterItemCartBinding):RecyclerView.ViewHolder(binding.root){
 
-        fun setItem(cart : Cart){
+        fun setItem(cart : Cart,decreaseEvent: (number: Int, item: Cart) -> Unit?,increaseEvent: (number: Int, item: Cart) -> Unit?){
             binding.productName.text = cart.title
             binding.priceProduct.text = "$${cart.price}"
-            binding.addProduct.setUI(1,cart)
+            GlideLoader(binding.root.context).loadImage(cart.image,binding.image)
+            binding.addProduct.setUI(1,cart,decreaseEvent!!,increaseEvent!!)
         }
     }
 

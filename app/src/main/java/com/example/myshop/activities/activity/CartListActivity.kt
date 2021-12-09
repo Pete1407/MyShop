@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.myshop.R
 import com.example.myshop.activities.adapter.ProductAdapter
 import com.example.myshop.databinding.ActivityCartListBinding
@@ -52,17 +53,40 @@ class CartListActivity : BaseActivity(),BaseCommon {
             binding.notFound.gone()
             binding.recyclerview.visible()
             setAdapter(result)
+            computeTotalPrice(result)
 
         }
     }
 
-    fun setAdapter(result : ArrayList<Cart>){
+    private fun computeTotalPrice(items : ArrayList<Cart>){
+        var totalPrice = 0
+        val shippingPrice = 10
+        items.forEach {
+            totalPrice += it.price.toInt()
+        }
+        Log.i("result","total price --> $totalPrice")
+        binding.subTotalValue.text = "$$totalPrice"
+        binding.shippingChargeValue.text = "$$shippingPrice"
+        binding.totalAmountValue.text = "$${totalPrice+shippingPrice}"
+
+    }
+
+    private fun setAdapter(result : ArrayList<Cart>){
         var data = ArrayList<ObjectType>()
         result.forEach {
             val obj = ObjectType(PART_CART_ITEM,it)
             data.add(obj)
         }
         adapter = ProductAdapter(data)
+        adapter!!.setEventDecreaseQuantityListener { number, item ->
+            Log.i("result","decrease:: name --> ${item.title}  number --> $number")
+        }
+        adapter!!.setEventIncreaseQuantityListener { number, item ->
+            Log.i("result","increase:: name --> ${item.title}  number --> $number")
+        }
+        adapter!!.setEventDeleteListener {
+
+        }
         binding.recyclerview.adapter = adapter
     }
 
