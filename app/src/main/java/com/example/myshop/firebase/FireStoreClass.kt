@@ -204,6 +204,7 @@ class FireStoreClass {
             }
     }
 
+    // Main function
     fun addProductToCart(cart: Cart?, activity: Activity) {
         cart?.let { cartItem ->
             val item = fireStore.collection(MyShopKey.CARTS).document()
@@ -217,8 +218,8 @@ class FireStoreClass {
         }
     }
 
+    // Second function
     private fun deductStockInProduct(id:String,numberOfOrder: Int,activity: Activity){
-
         fireStore.collection(MyShopKey.PRODUCTS)
             .document(id)
             .get()
@@ -242,8 +243,13 @@ class FireStoreClass {
             .document(idProd)
             .update(MyShopKey.QUANTITY_PRODUCT,avaliableStock)
             .addOnSuccessListener {
-                if(activity is DetailProductActivity){
-                    activity.addToCartSuccess()
+                when(activity){
+                    is DetailProductActivity ->{
+                        activity.addToCartSuccess()
+                    }
+                    is CartListActivity ->{
+                        activity.increaseStock(avaliableStock)
+                    }
                 }
             }
             .addOnFailureListener {
@@ -317,16 +323,12 @@ class FireStoreClass {
                 val item = result.toObject(Product::class.java)
                 var stock = item!!.quantity!!.toInt()
                 if(action == CartListActivity.ACTION_INCREASE){
-                    if (stock != 0 && stock > numberOfOrder) {
+                    if (stock > numberOfOrder) {
                         var diff = stock - numberOfOrder
-                        //Log.i("result", "old stock: $stock   now: $diff")
-                        if (activity is CartListActivity) {
-                            activity.increaseStock(diff)
-                        }
+                        updateStock(activity,diff,item.id.toString())
                     }else{
                         Log.i("error","STOCK == 0 AND STOCK < NUMBER OF ORDER")
                     }
-                 // CONDITION OF ACTION_DECREASE
                 }else{
                     var leftStock = stock + numberOfOrder
                     Log.i("result","leftstock --> $leftStock")

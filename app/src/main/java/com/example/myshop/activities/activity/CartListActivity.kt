@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.example.myshop.R
 import com.example.myshop.activities.adapter.ProductAdapter
 import com.example.myshop.databinding.ActivityCartListBinding
@@ -92,10 +93,11 @@ class CartListActivity : BaseActivity(),BaseCommon {
         if(adapter == null){
             adapter = ProductAdapter(data)
             adapter!!.setEventDecreaseQuantityListener { number, item ->
-                Log.i("result","decrease:: name --> ${item.title}  number --> $number")
+                showProgressDialog()
                 FireStoreClass().checkStock(item,this,number, ACTION_DECREASE)
             }
             adapter!!.setEventIncreaseQuantityListener { number, item ->
+                showProgressDialog()
                 FireStoreClass().checkStock(item,this,number, ACTION_INCREASE)
             }
             adapter!!.setEventDeleteListener {
@@ -115,11 +117,12 @@ class CartListActivity : BaseActivity(),BaseCommon {
     }
 
     fun increaseStock(leftStock : Int){
-        Log.i("result","increase stock now --> $leftStock")
+        hideProgressDialog()
+        Toast.makeText(this,"avaliable product --> $leftStock",Toast.LENGTH_LONG).show()
     }
 
     fun decreaseStock(leftStock : Int){
-        Log.i("result","decrease stock now --> $leftStock")
+        //Toast.makeText(this,"avaliable product --> $leftStock",Toast.LENGTH_LONG).show()
     }
 
     companion object{
