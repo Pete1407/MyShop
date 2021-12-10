@@ -238,7 +238,7 @@ class FireStoreClass {
             }
     }
 
-    private fun updateStock(activity: Activity,avaliableStock:Int,idProd:String){
+    private fun updateStock(activity: Activity,avaliableStock:Int,idProd:String,action:String = ""){
         fireStore.collection(MyShopKey.PRODUCTS)
             .document(idProd)
             .update(MyShopKey.QUANTITY_PRODUCT,avaliableStock)
@@ -248,7 +248,12 @@ class FireStoreClass {
                         activity.addToCartSuccess()
                     }
                     is CartListActivity ->{
-                        activity.increaseStock(avaliableStock)
+                        if(action == CartListActivity.ACTION_INCREASE){
+                            activity.increaseStock(avaliableStock)
+                        }else{
+                            activity.decreaseStock(avaliableStock)
+                        }
+
                     }
                 }
             }
@@ -324,22 +329,15 @@ class FireStoreClass {
                 var stock = item!!.quantity!!.toInt()
                 if(action == CartListActivity.ACTION_INCREASE){
                     if (stock > numberOfOrder) {
-                        var diff = stock - numberOfOrder
-                        updateStock(activity,diff,item.id.toString())
+                        var diff = stock - 1
+                        updateStock(activity,diff,item.id.toString(),action)
                     }else{
                         Log.i("error","STOCK == 0 AND STOCK < NUMBER OF ORDER")
                     }
                 }else{
-                    var leftStock = stock + numberOfOrder
-                    Log.i("result","leftstock --> $leftStock")
-                    if(leftStock > stock){
-
-                    }else{
-                        if(activity is CartListActivity){
-                            activity.decreaseStock(leftStock)
-                        }
-                    }
-
+                    stock += 1
+                    Log.i("result","leftstock --> $stock")
+                    updateStock(activity,stock,item.id.toString(),action)
                 }
 
             }

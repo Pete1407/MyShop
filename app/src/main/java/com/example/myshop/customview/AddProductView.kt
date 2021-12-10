@@ -9,6 +9,9 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import com.example.myshop.R
 import com.example.myshop.databinding.ViewAddStockBinding
 import com.example.myshop.model.Cart
+import com.example.myshop.util.gone
+import com.example.myshop.util.invisible
+import com.example.myshop.util.visible
 
 class AddProductView(context: Context, attributeSet: AttributeSet) :
     LinearLayoutCompat(context, attributeSet) {
@@ -23,13 +26,17 @@ class AddProductView(context: Context, attributeSet: AttributeSet) :
         increaseEvent: ((number: Int, item: Cart) -> Unit?)
     ) {
         quantity = numberOfProd
+        hideDecreaseProduct()
         binding.numberOfProduct.text = numberOfProd.toString()
         binding.decrease.setOnClickListener {
             quantity--
+            hideDecreaseProduct()
+            decreaseEvent.invoke(quantity,cart)
             decreaseQuantityProduct(quantity, decreaseEvent, cart)
         }
         binding.increase.setOnClickListener {
             quantity++
+            hideDecreaseProduct()
             increaseEvent.invoke(quantity, cart)
             addQuantityProduct(quantity)
         }
@@ -44,14 +51,23 @@ class AddProductView(context: Context, attributeSet: AttributeSet) :
         decreaseEvent: ((number: Int, item: Cart) -> Unit?),
         cart :Cart
     ) {
-        if (num <= 1) {
+        if (num == 1) {
             quantity = 1
-            decreaseEvent.invoke(quantity,cart)
+            hideDecreaseProduct()
             binding.numberOfProduct.text = quantity.toString()
         } else {
+            hideDecreaseProduct()
             binding.numberOfProduct.text = num.toString()
         }
 
+    }
+
+    private fun hideDecreaseProduct(){
+        if(quantity == 1){
+            binding.decrease.invisible()
+        }else{
+            binding.decrease.visible()
+        }
     }
 
 

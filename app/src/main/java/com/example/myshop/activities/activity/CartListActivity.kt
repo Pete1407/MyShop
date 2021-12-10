@@ -92,6 +92,7 @@ class CartListActivity : BaseActivity(),BaseCommon {
         }
         if(adapter == null){
             adapter = ProductAdapter(data)
+
             adapter!!.setEventDecreaseQuantityListener { number, item ->
                 showProgressDialog()
                 FireStoreClass().checkStock(item,this,number, ACTION_DECREASE)
@@ -122,7 +123,8 @@ class CartListActivity : BaseActivity(),BaseCommon {
     }
 
     fun decreaseStock(leftStock : Int){
-        //Toast.makeText(this,"avaliable product --> $leftStock",Toast.LENGTH_LONG).show()
+        hideProgressDialog()
+        Toast.makeText(this,"avaliable product --> $leftStock",Toast.LENGTH_LONG).show()
     }
 
     companion object{
