@@ -48,7 +48,12 @@ class DetailProductActivity : BaseActivity(),BaseCommon {
             binding.title.text = it.title
             binding.nameProduct.text = it.title
             binding.descriptionProduct.text = it.description
-            binding.numberOfProduct.text = it.quantity.toString()
+            if(it.quantity == 0){
+                binding.numberOfProduct.text = resources.getString(R.string.out_of_stock)
+            }else{
+                binding.numberOfProduct.text = it.quantity.toString()
+            }
+
             GlideLoader(this).loadImage(it.image,binding.image)
         }
     }
@@ -61,6 +66,7 @@ class DetailProductActivity : BaseActivity(),BaseCommon {
             binding.addToCart.gone()
             binding.goToCart.visible()
             item?.let {
+                binding.numberOfProduct.text = (it.quantity!!.toInt() - 1).toString()
                 var cart = Cart(
                     FirebaseAuth.getInstance().uid.toString(),
                     it.id.toString(),

@@ -54,6 +54,7 @@
                 android:layout_marginVertical="@dimen/spacing_small" />
 
             <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/delete"
                 android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|end"

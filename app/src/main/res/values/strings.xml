@@ -95,4 +95,5 @@
     <string name="checkout">Check out</string>
 
     <string name="msg_cart_empty">Cart is empty</string>
+    <string name="out_of_stock">Out of stock</string>
 </resources>

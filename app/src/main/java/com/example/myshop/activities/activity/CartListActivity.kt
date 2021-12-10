@@ -28,6 +28,11 @@ class CartListActivity : BaseActivity(),BaseCommon {
         setToolbar()
         setListener()
         setUI()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         FireStoreClass().getProductInCart(this)
     }
 
@@ -36,7 +41,6 @@ class CartListActivity : BaseActivity(),BaseCommon {
     }
 
     override fun setUI() {
-        adapter = ProductAdapter(arrayListOf())
     }
 
     override fun setListener() {
@@ -49,6 +53,7 @@ class CartListActivity : BaseActivity(),BaseCommon {
         if(result.isEmpty()){
             binding.notFound.visible()
             binding.recyclerview.gone()
+            computeTotalPrice(arrayListOf())
         }else{
             binding.notFound.gone()
             binding.recyclerview.visible()
@@ -61,13 +66,20 @@ class CartListActivity : BaseActivity(),BaseCommon {
     private fun computeTotalPrice(items : ArrayList<Cart>){
         var totalPrice = 0
         val shippingPrice = 10
-        items.forEach {
-            totalPrice += it.price.toInt()
+        if(items.isEmpty()){
+            totalPrice = 0
+            binding.constraintLayout.gone()
+        }else{
+            binding.constraintLayout.visible()
+            items.forEach {
+                totalPrice += it.price.toInt()
+            }
+            Log.i("result","total price --> $totalPrice")
+            binding.subTotalValue.text = "$$totalPrice"
+            binding.shippingChargeValue.text = "$$shippingPrice"
+            binding.totalAmountValue.text = "$${totalPrice+shippingPrice}"
         }
-        Log.i("result","total price --> $totalPrice")
-        binding.subTotalValue.text = "$$totalPrice"
-        binding.shippingChargeValue.text = "$$shippingPrice"
-        binding.totalAmountValue.text = "$${totalPrice+shippingPrice}"
+
 
     }
 
@@ -77,20 +89,42 @@ class CartListActivity : BaseActivity(),BaseCommon {
             val obj = ObjectType(PART_CART_ITEM,it)
             data.add(obj)
         }
-        adapter = ProductAdapter(data)
-        adapter!!.setEventDecreaseQuantityListener { number, item ->
-            Log.i("result","decrease:: name --> ${item.title}  number --> $number")
+        if(adapter == null){
+            adapter = ProductAdapter(data)
+            adapter!!.setEventDecreaseQuantityListener { number, item ->
+                Log.i("result","decrease:: name --> ${item.title}  number --> $number")
+                FireStoreClass().checkStock(item,this,number, ACTION_DECREASE)
+            }
+            adapter!!.setEventIncreaseQuantityListener { number, item ->
+                FireStoreClass().checkStock(item,this,number, ACTION_INCREASE)
+            }
+            adapter!!.setEventDeleteListener {
+                showProgressDialog()
+                FireStoreClass().deleteProductInCart(it,this)
+            }
+        }else{
+            adapter?.refreshDataInCart(result)
         }
-        adapter!!.setEventIncreaseQuantityListener { number, item ->
-            Log.i("result","increase:: name --> ${item.title}  number --> $number")
-        }
-        adapter!!.setEventDeleteListener {
 
-        }
         binding.recyclerview.adapter = adapter
     }
 
+    fun deleteProductSuccess(){
+        hideProgressDialog()
+        FireStoreClass().getProductInCart(this)
+    }
+
+    fun increaseStock(leftStock : Int){
+        Log.i("result","increase stock now --> $leftStock")
+    }
+
+    fun decreaseStock(leftStock : Int){
+        Log.i("result","decrease stock now --> $leftStock")
+    }
+
     companion object{
+        const val ACTION_INCREASE = "increase-order"
+        const val ACTION_DECREASE = "decrease-order"
         fun create(context:Context){
             val intent = Intent(context,CartListActivity::class.java)
             context.startActivity(intent)
