@@ -101,9 +101,10 @@ class CartListActivity : BaseActivity(),BaseCommon {
                 showProgressDialog()
                 FireStoreClass().checkStock(item,this,number, ACTION_INCREASE)
             }
-            adapter!!.setEventDeleteListener {
+            adapter!!.setEventDeleteCartListener { result,numberOrder ->
                 showProgressDialog()
-                FireStoreClass().deleteProductInCart(it,this)
+                Log.i("result","number of order:: $numberOrder")
+                FireStoreClass().deleteProductInCart(result,this,numberOrder)
             }
         }else{
             adapter?.refreshDataInCart(result)
@@ -130,6 +131,7 @@ class CartListActivity : BaseActivity(),BaseCommon {
     companion object{
         const val ACTION_INCREASE = "increase-order"
         const val ACTION_DECREASE = "decrease-order"
+        const val ACTION_RETURN_ALL = "return-order"
         fun create(context:Context){
             val intent = Intent(context,CartListActivity::class.java)
             context.startActivity(intent)

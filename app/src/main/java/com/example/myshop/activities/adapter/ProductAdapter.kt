@@ -43,6 +43,11 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
         eventIncreaseItemListener = event
     }
 
+    var eventDeleteItemInCartListener : ((item:Cart,numberOrder:Int)-> Unit)? = null
+    fun setEventDeleteCartListener(event : ((item:Cart,numberOrder:Int)-> Unit)){
+        eventDeleteItemInCartListener = event
+    }
+
     fun refreshData(data: ArrayList<Product>) {
         list.clear()
         var dataList = ArrayList<ObjectType>()
@@ -198,7 +203,7 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
             GlideLoader(binding.root.context).loadImage(cart.image, binding.image)
             binding.addProduct.setUI(1, cart, decreaseEvent!!, increaseEvent!!)
             binding.delete.setOnClickListener {
-                eventDeleteProductListener!!.invoke(cart.id)
+                eventDeleteItemInCartListener?.invoke(cart,binding.addProduct.getQuantity())
             }
         }
     }

@@ -248,12 +248,18 @@ class FireStoreClass {
                         activity.addToCartSuccess()
                     }
                     is CartListActivity ->{
-                        if(action == CartListActivity.ACTION_INCREASE){
-                            activity.increaseStock(avaliableStock)
-                        }else{
-                            activity.decreaseStock(avaliableStock)
+                        when(action){
+                            CartListActivity.ACTION_INCREASE->{
+                                updateOrderProduct()
+                                activity.increaseStock(avaliableStock)
+                            }
+                            CartListActivity.ACTION_DECREASE->{
+                                updateOrderProduct()
+                                activity.decreaseStock(avaliableStock)
+                            }else ->{
+                                activity.deleteProductSuccess()
+                            }
                         }
-
                     }
                 }
             }
@@ -262,6 +268,10 @@ class FireStoreClass {
                     activity.addToCartFail(it.stackTrace.toString())
                 }
             }
+    }
+
+    private fun updateOrderProduct(){
+        
     }
 
     fun checkExistProduct(idProduct: String, activity: Activity) {
@@ -304,16 +314,12 @@ class FireStoreClass {
             }
     }
 
-    fun deleteProductInCart(cartId: String, activity: Activity) {
+    fun deleteProductInCart(cartItem: Cart, activity: Activity,numberOrder:Int) {
         fireStore.collection(MyShopKey.CARTS)
-            .document(cartId)
+            .document(cartItem.id)
             .delete()
             .addOnSuccessListener {
-                when (activity) {
-                    is CartListActivity -> {
-                        activity.deleteProductSuccess()
-                    }
-                }
+                checkStock(cartItem,activity,numberOrder,CartListActivity.ACTION_RETURN_ALL)
             }
             .addOnFailureListener {
 
@@ -332,12 +338,17 @@ class FireStoreClass {
                         var diff = stock - 1
                         updateStock(activity,diff,item.id.toString(),action)
                     }else{
+                        updateStock(activity,0,item.id.toString(),action)
                         Log.i("error","STOCK == 0 AND STOCK < NUMBER OF ORDER")
                     }
-                }else{
+                }else if(action == CartListActivity.ACTION_DECREASE){
                     stock += 1
                     Log.i("result","leftstock --> $stock")
                     updateStock(activity,stock,item.id.toString(),action)
+                }else{
+                    stock += numberOfOrder
+                    updateStock(activity,stock,item.id.toString(),action)
+
                 }
 
             }

@@ -38,6 +38,8 @@ object MyShopKey {
 
     const val DELAY_EDIT_DATA = 3000L
 
+    const val STOCK_QUANTITY = "stock_quantity"
+
     fun showGallery(activity: Activity){
         val intent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         activity.startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE)

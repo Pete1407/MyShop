@@ -32,7 +32,7 @@ class AddProductView(context: Context, attributeSet: AttributeSet) :
             quantity--
             hideDecreaseProduct()
             decreaseEvent.invoke(quantity,cart)
-            decreaseQuantityProduct(quantity, decreaseEvent, cart)
+            decreaseQuantityProduct(quantity)
         }
         binding.increase.setOnClickListener {
             quantity++
@@ -46,11 +46,7 @@ class AddProductView(context: Context, attributeSet: AttributeSet) :
         binding.numberOfProduct.text = num.toString()
     }
 
-    private fun decreaseQuantityProduct(
-        num: Int,
-        decreaseEvent: ((number: Int, item: Cart) -> Unit?),
-        cart :Cart
-    ) {
+    private fun decreaseQuantityProduct(num: Int) {
         if (num == 1) {
             quantity = 1
             hideDecreaseProduct()
@@ -68,6 +64,10 @@ class AddProductView(context: Context, attributeSet: AttributeSet) :
         }else{
             binding.decrease.visible()
         }
+    }
+
+    fun getQuantity():Int{
+        return quantity
     }
 
 

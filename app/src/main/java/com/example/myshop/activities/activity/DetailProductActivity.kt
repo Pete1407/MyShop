@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.myshop.R
 import com.example.myshop.databinding.ActivityDetailProductBinding
 import com.example.myshop.firebase.FireStoreClass
@@ -18,7 +19,7 @@ import com.example.myshop.util.visible
 import com.google.firebase.auth.FirebaseAuth
 
 class DetailProductActivity : BaseActivity(),BaseCommon {
-
+    private var outOfStock : Boolean = false
     private var idProduct : String? = null
     private var item : Product? = null
     private var isExist : Boolean = false
@@ -38,6 +39,7 @@ class DetailProductActivity : BaseActivity(),BaseCommon {
         super.onResume()
         showProgressDialog()
         FireStoreClass().getDetailProduct(idProduct.toString(),this)
+        FireStoreClass().checkExistProduct(idProduct.toString(),this)
     }
 
     override fun setToolbar() {
@@ -49,8 +51,12 @@ class DetailProductActivity : BaseActivity(),BaseCommon {
             binding.nameProduct.text = it.title
             binding.descriptionProduct.text = it.description
             if(it.quantity == 0){
+                outOfStock = true
+                binding.numberOfProduct.setTextColor(ContextCompat.getColor(this,R.color.snackbar_unsuccess))
                 binding.numberOfProduct.text = resources.getString(R.string.out_of_stock)
+
             }else{
+                outOfStock = false
                 binding.numberOfProduct.text = it.quantity.toString()
             }
 
@@ -86,8 +92,8 @@ class DetailProductActivity : BaseActivity(),BaseCommon {
 
     fun getDetailProduct(product:Product){
         item = product
+        outOfStock = item!!.quantity == 0
         hideProgressDialog()
-        FireStoreClass().checkExistProduct(product.id.toString(),this)
         setUI()
     }
 
@@ -109,6 +115,11 @@ class DetailProductActivity : BaseActivity(),BaseCommon {
         }else{
             binding.addToCart.visible()
             binding.goToCart.gone()
+            if(outOfStock){
+                binding.addToCart.gone()
+            }else{
+                binding.addToCart.visible()
+            }
         }
     }
 
