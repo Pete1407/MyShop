@@ -250,11 +250,11 @@ class FireStoreClass {
                     is CartListActivity ->{
                         when(action){
                             CartListActivity.ACTION_INCREASE->{
-                                updateOrderProduct()
+                                updateOrderProduct(idProd,action)
                                 activity.increaseStock(avaliableStock)
                             }
                             CartListActivity.ACTION_DECREASE->{
-                                updateOrderProduct()
+                                updateOrderProduct(idProd,action)
                                 activity.decreaseStock(avaliableStock)
                             }else ->{
                                 activity.deleteProductSuccess()
@@ -270,8 +270,38 @@ class FireStoreClass {
             }
     }
 
-    private fun updateOrderProduct(){
-        
+    private fun updateOrderProduct(idProd:String,action: String){
+        fireStore.collection(MyShopKey.CARTS)
+            .whereEqualTo(MyShopKey.PRODUCT_ID,idProd)
+            .get()
+            .addOnSuccessListener {
+                val result = it.documents[0].toObject(Cart::class.java)
+                updateCartQuantity(result!!,action)
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    private fun updateCartQuantity(cart:Cart,action:String){
+        var a = cart.stock_quantity.toInt()
+        if(action == CartListActivity.ACTION_INCREASE){
+            a+=1 // a = 3+1 --> 4
+            cart.stock_quantity = a.toString()
+        }else if(action == CartListActivity.ACTION_DECREASE){
+            a-=1 // a = 3-1 --> 2
+            cart.stock_quantity = a.toString()
+        }
+
+        fireStore.collection(MyShopKey.CARTS)
+            .document(cart.id)
+            .update(MyShopKey.STOCK_QUANTITY,cart.stock_quantity)
+            .addOnSuccessListener {
+                Log.i("result","update stock quantity success")
+            }
+            .addOnFailureListener {
+
+            }
     }
 
     fun checkExistProduct(idProduct: String, activity: Activity) {

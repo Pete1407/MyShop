@@ -79,7 +79,8 @@ class DetailProductActivity : BaseActivity(),BaseCommon {
                     it.title.toString(),
                     it.price.toString(),
                     it.image.toString(),
-                    "1"
+                    "1",
+                    stock_quantity = "1"
                 )
                 FireStoreClass().addProductToCart(cart,this)
             }
