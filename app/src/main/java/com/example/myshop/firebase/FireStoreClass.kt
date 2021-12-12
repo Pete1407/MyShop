@@ -239,35 +239,37 @@ class FireStoreClass {
     }
 
     private fun updateStock(activity: Activity,avaliableStock:Int,idProd:String,action:String = ""){
-        fireStore.collection(MyShopKey.PRODUCTS)
-            .document(idProd)
-            .update(MyShopKey.QUANTITY_PRODUCT,avaliableStock)
-            .addOnSuccessListener {
-                when(activity){
-                    is DetailProductActivity ->{
-                        activity.addToCartSuccess()
-                    }
-                    is CartListActivity ->{
-                        when(action){
-                            CartListActivity.ACTION_INCREASE->{
-                                updateOrderProduct(idProd,action)
-                                activity.increaseStock(avaliableStock)
-                            }
-                            CartListActivity.ACTION_DECREASE->{
-                                updateOrderProduct(idProd,action)
-                                activity.decreaseStock(avaliableStock)
-                            }else ->{
+            fireStore.collection(MyShopKey.PRODUCTS)
+                .document(idProd)
+                .update(MyShopKey.QUANTITY_PRODUCT,avaliableStock)
+                .addOnSuccessListener {
+                    when(activity){
+                        is DetailProductActivity ->{
+                            activity.addToCartSuccess()
+                        }
+                        is CartListActivity ->{
+                            when(action){
+                                CartListActivity.ACTION_INCREASE->{
+                                    updateOrderProduct(idProd,action)
+                                    activity.increaseStock(avaliableStock)
+                                }
+                                CartListActivity.ACTION_DECREASE->{
+                                    updateOrderProduct(idProd,action)
+                                    activity.decreaseStock(avaliableStock)
+                                }else ->{
                                 activity.deleteProductSuccess()
+                            }
                             }
                         }
                     }
                 }
-            }
-            .addOnFailureListener {
-                if(activity is DetailProductActivity){
-                    activity.addToCartFail(it.stackTrace.toString())
+                .addOnFailureListener {
+                    if(activity is DetailProductActivity){
+                        activity.addToCartFail(it.stackTrace.toString())
+                    }
                 }
-            }
+
+
     }
 
     private fun updateOrderProduct(idProd:String,action: String){
@@ -363,11 +365,14 @@ class FireStoreClass {
             .addOnSuccessListener { result ->
                 val item = result.toObject(Product::class.java)
                 var stock = item!!.quantity!!.toInt()
+                // ถ้าจะเพิ่ม order แล้วของหมดโชว์แจ้งเตือน
+                // ถ้าจะลด order ก็ให้ไปเพิ่มใน quantity ของ product
                 if(action == CartListActivity.ACTION_INCREASE){
                     if (stock > numberOfOrder) {
                         var diff = stock - 1
                         updateStock(activity,diff,item.id.toString(),action)
                     }else{
+
                         updateStock(activity,0,item.id.toString(),action)
                         Log.i("error","STOCK == 0 AND STOCK < NUMBER OF ORDER")
                     }

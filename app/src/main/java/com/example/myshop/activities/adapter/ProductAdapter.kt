@@ -18,6 +18,7 @@ import com.example.myshop.activities.fragment.ProductFragment.Companion.PART_CAR
 import com.example.myshop.databinding.AdapterDashboardItemBinding
 import com.example.myshop.databinding.AdapterItemCartBinding
 import com.example.myshop.model.Cart
+import com.example.myshop.util.gone
 
 
 class ProductAdapter(private var list: ArrayList<ObjectType>) :
@@ -201,7 +202,8 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
             binding.productName.text = cart.title
             binding.priceProduct.text = "$${cart.price}"
             GlideLoader(binding.root.context).loadImage(cart.image, binding.image)
-            binding.addProduct.setUI(1, cart, decreaseEvent!!, increaseEvent!!)
+            binding.addProduct.gone()
+            //binding.addProduct.setUI(cart.stock_quantity.toInt(), cart, decreaseEvent!!, increaseEvent!!)
             binding.delete.setOnClickListener {
                 eventDeleteItemInCartListener?.invoke(cart,binding.addProduct.getQuantity())
             }
