@@ -96,4 +96,14 @@
 
     <string name="msg_cart_empty">Cart is empty</string>
     <string name="out_of_stock">Out of stock</string>
+    <string name="address">Address</string>
+
+    <string name="full_name">Full name</string>
+    <string name="phoneNumber">Phone number</string>
+    <string name="address_place_holder">Address</string>
+    <string name="zipCode">ZipCode</string>
+    <string name="Additional_note">Additional note</string>
+    <string name="home">Home</string>
+    <string name="office">Office</string>
+    <string name="other">Other</string>
 </resources>

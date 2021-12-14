@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
         <activity
+            android:name=".activities.activity.AddAddressActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.activity.CartListActivity"
             android:theme="@style/Theme.MyShop.NoActionBar" />
         <activity

@@ -93,6 +93,18 @@
             android:paddingVertical="@dimen/spacing_small"
             tools:text="6666-99999-1234"/>
 
+        <com.example.myshop.customview.NormalTextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:background="?attr/selectableItemBackground"
+            android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+            android:layout_marginHorizontal="40dp"
+            tools:text="@string/address"/>
+
         <com.example.myshop.customview.CustomButton
             android:id="@+id/logOut"
             android:layout_width="match_parent"

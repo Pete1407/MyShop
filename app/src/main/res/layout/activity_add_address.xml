@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.activity.AddAddressActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorThemePink">
+        <com.example.myshop.customview.CustomImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_arrow_back_white"/>
+
+        <com.example.myshop.customview.NormalTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="@dimen/spacing_medium"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:typeText="@string/text_bold"
+            android:textColor="@color/white"
+            android:text="Address"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginHorizontal="@dimen/spacing_medium"
+        android:orientation="vertical">
+        <com.example.myshop.customview.CustomEditText
+            android:id="@+id/fullname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:background="@drawable/bg_border_edittext"
+            android:hint="@string/full_name"/>
+
+        <com.example.myshop.customview.CustomEditText
+            android:id="@+id/phoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/bg_border_edittext"
+            android:hint="@string/phoneNumber"/>
+
+        <com.example.myshop.customview.CustomEditText
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/bg_border_edittext"
+            android:hint="@string/address_place_holder"/>
+
+        <com.example.myshop.customview.CustomEditText
+            android:id="@+id/zipcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/bg_border_edittext"
+            android:hint="@string/zipCode"/>
+
+        <com.example.myshop.customview.CustomEditText
+            android:id="@+id/note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/bg_border_edittext"
+            android:hint="@string/Additional_note"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+            <androidx.appcompat.widget.AppCompatCheckedTextView
+                android:id="@+id/home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:textColor="@color/white"
+                android:checked="true"
+                android:textAlignment="center"
+                android:paddingHorizontal="@dimen/spacing_small"
+                android:paddingVertical="@dimen/spacing_small"
+                android:background="@drawable/selector_bg_check_gender"
+                android:text="@string/home"/>
+            <androidx.appcompat.widget.AppCompatCheckedTextView
+                android:id="@+id/office"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:paddingHorizontal="@dimen/spacing_small"
+                android:paddingVertical="@dimen/spacing_small"
+                android:background="@drawable/selector_bg_check_gender"
+                android:text="@string/office"/>
+            <androidx.appcompat.widget.AppCompatCheckedTextView
+                android:id="@+id/other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:textAlignment="center"
+                android:paddingHorizontal="@dimen/spacing_small"
+                android:paddingVertical="@dimen/spacing_small"
+                android:textColor="@color/white"
+                android:background="@drawable/selector_bg_check_gender"
+                android:text="@string/other"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.example.myshop.customview.CustomButton
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:textColor="@color/white"
+            android:text="@string/submit"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

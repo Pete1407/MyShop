@@ -49,6 +49,9 @@ class SettingActivity : BaseActivity(),BaseCommon {
         binding.logOut.setOnClickListener {
             logOut()
         }
+        binding.address.setOnClickListener {
+
+        }
     }
 
     private fun logOut(){
