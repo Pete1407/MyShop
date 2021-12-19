@@ -21,6 +21,7 @@
     </style>
 
     <style name="InputTextStyle">
+        <item name="android:textColorHint">@color/gray</item>
         <item name="android:padding">@dimen/spacing_medium</item>
         <item name="android:background">@drawable/bg_border_edittext</item>
     </style>

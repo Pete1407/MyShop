@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".activities.activity.AddAddressActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -41,9 +42,11 @@
             android:id="@+id/fullname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:background="@drawable/bg_border_edittext"
-            android:hint="@string/full_name"/>
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:hint="@string/full_name"
+
+            android:textCursorDrawable="@drawable/bg_cursor_color"
+            style="@style/InputTextStyle"/>
 
         <com.example.myshop.customview.CustomEditText
             android:id="@+id/phoneNumber"
@@ -51,8 +54,9 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:layout_marginTop="25dp"
-            android:background="@drawable/bg_border_edittext"
-            android:hint="@string/phoneNumber"/>
+            android:textCursorDrawable="@drawable/bg_cursor_color"
+            style="@style/InputTextStyle"
+            android:hint="@string/phoneNumber" />
 
         <com.example.myshop.customview.CustomEditText
             android:id="@+id/address"
@@ -60,8 +64,9 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:layout_marginTop="25dp"
-            android:background="@drawable/bg_border_edittext"
-            android:hint="@string/address_place_holder"/>
+            android:textCursorDrawable="@drawable/bg_cursor_color"
+            style="@style/InputTextStyle"
+            android:hint="@string/address_place_holder" />
 
         <com.example.myshop.customview.CustomEditText
             android:id="@+id/zipcode"
@@ -69,8 +74,9 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:layout_marginTop="25dp"
-            android:background="@drawable/bg_border_edittext"
-            android:hint="@string/zipCode"/>
+            android:textCursorDrawable="@drawable/bg_cursor_color"
+            style="@style/InputTextStyle"
+            android:hint="@string/zipCode" />
 
         <com.example.myshop.customview.CustomEditText
             android:id="@+id/note"
@@ -78,8 +84,9 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:layout_marginTop="25dp"
-            android:background="@drawable/bg_border_edittext"
-            android:hint="@string/Additional_note"/>
+            android:textCursorDrawable="@drawable/bg_cursor_color"
+            style="@style/InputTextStyle"
+            android:hint="@string/Additional_note" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

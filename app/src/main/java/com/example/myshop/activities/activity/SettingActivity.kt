@@ -17,6 +17,7 @@ import com.example.myshop.util.MyShopKey
 
 class SettingActivity : BaseActivity(),BaseCommon {
     private var currentUser : User? = null
+    private var address : String? = null
 
     private val binding : ActivitySettingBinding by lazy{
         ActivitySettingBinding.inflate(layoutInflater)
@@ -50,7 +51,7 @@ class SettingActivity : BaseActivity(),BaseCommon {
             logOut()
         }
         binding.address.setOnClickListener {
-
+            AddressListActivity.start(this)
         }
     }
 
@@ -72,7 +73,6 @@ class SettingActivity : BaseActivity(),BaseCommon {
     }
 
     fun getDataUser(result : User?){
-        Log.i("result",result.toString())
         currentUser = result
         result?.let {
             binding.name.text = "${it.firstname} ${it.lastname}"

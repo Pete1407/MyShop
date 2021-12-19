@@ -1,5 +1,7 @@
 package com.example.myshop.activities.activity
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.myshop.R
@@ -27,5 +29,12 @@ class AddAddressActivity : BaseActivity(), BaseCommon {
 
     override fun setListener() {
 
+    }
+
+    companion object{
+        fun start(context: Context){
+            val intent = Intent(context,AddAddressActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 }

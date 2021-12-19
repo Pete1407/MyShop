@@ -103,7 +103,7 @@
             android:background="?attr/selectableItemBackground"
             android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
             android:layout_marginHorizontal="40dp"
-            tools:text="@string/address"/>
+            android:text="@string/address"/>
 
         <com.example.myshop.customview.CustomButton
             android:id="@+id/logOut"

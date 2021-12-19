@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".activities.activity.AddressListActivity">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolBar"
@@ -39,7 +40,8 @@
             android:id="@+id/addAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/addressList"
+            android:text="@string/add_address"
+            android:textAllCaps="false"
             android:textColor="@color/colorThemePink"
             android:layout_margin="@dimen/spacing_medium"
             android:background="@drawable/bg_add_address"/>
@@ -61,8 +63,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:layout_marginVertical="@dimen/spacing_medium"
                 android:layout_marginHorizontal="@dimen/spacing_medium"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/adapter_item_address"/>
         </FrameLayout>
 
 

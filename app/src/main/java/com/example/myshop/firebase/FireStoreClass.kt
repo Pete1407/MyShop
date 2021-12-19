@@ -378,7 +378,6 @@ class FireStoreClass {
                     }
                 }else if(action == CartListActivity.ACTION_DECREASE){
                     stock += 1
-                    Log.i("result","leftstock --> $stock")
                     updateStock(activity,stock,item.id.toString(),action)
                 }else{
                     stock += numberOfOrder
