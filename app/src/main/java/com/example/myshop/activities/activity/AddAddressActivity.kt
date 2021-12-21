@@ -28,7 +28,12 @@ class AddAddressActivity : BaseActivity(), BaseCommon {
     }
 
     override fun setListener() {
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+        binding.submit.setOnClickListener {
 
+        }
     }
 
     companion object{
