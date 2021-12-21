@@ -69,11 +69,12 @@
                 android:id="@+id/address"
                 style="@style/InputTextStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_marginTop="25dp"
                 android:hint="@string/address_place_holder"
                 android:inputType="text"
                 android:padding="15dp"
+                android:gravity="start"
                 android:textCursorDrawable="@drawable/bg_cursor_color" />
 
             <com.example.myshop.customview.CustomEditText

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.example.myshop.activities.activity.*
 import com.example.myshop.activities.fragment.DashboardFragment
 import com.example.myshop.activities.fragment.ProductFragment
+import com.example.myshop.model.AddressModel
 import com.example.myshop.model.Cart
 import com.example.myshop.model.Product
 import com.example.myshop.model.User
@@ -385,6 +386,23 @@ class FireStoreClass {
 
                 }
 
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    fun saveAddress(data : AddressModel,activity:Activity){
+        val firebaseObj = fireStore.collection(MyShopKey.ADDRESSES).document()
+        val idAddress = firebaseObj.id
+        data.id = idAddress
+        firebaseObj.set(data, SetOptions.merge())
+            .addOnSuccessListener {
+                when(activity){
+                    is AddAddressActivity ->{
+                        activity.saveAddressSuccess()
+                    }
+                }
             }
             .addOnFailureListener {
 
