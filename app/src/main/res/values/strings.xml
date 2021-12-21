@@ -109,4 +109,11 @@
     <string name="addressList">Address List</string>
     <string name="msg_address_found">No address found</string>
     <string name="add_address">Add Address</string>
+
+    <string name="error_msg_enter_full_name">Please enter full name</string>
+    <string name="error_msg_enter_phone_number">Please enter phone number</string>
+    <string name="error_msg_enter_address">Please enter address</string>
+    <string name="error_msg_enter_zip_code">Please enter zip code</string>
+    <string name="error_msg_enter_note">Please enter address</string>
+    <string name="error_msg_enter_place">Please choose a place</string>
 </resources>

@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class AdressModel(
+data class AddressModel(
     val user_id : String = "",
     val name: String = "",
     val mobileNumber : String = "",
