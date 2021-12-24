@@ -47,8 +47,10 @@
             android:background="@drawable/bg_add_address"/>
 
         <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/bg_gray">
 
             <com.example.myshop.customview.NormalTextView
                 android:id="@+id/notFound"
@@ -63,8 +65,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginVertical="@dimen/spacing_medium"
-                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:layout_marginVertical="@dimen/spacing_small"
+                android:layout_marginHorizontal="@dimen/spacing_small"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/adapter_item_address"/>
         </FrameLayout>

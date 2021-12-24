@@ -26,7 +26,6 @@ class AddAddressActivity : BaseActivity(), BaseCommon{
         setToolbar()
         setUI()
         setListener()
-        showProgressDialog()
     }
 
     override fun setToolbar() {

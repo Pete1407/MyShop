@@ -408,4 +408,40 @@ class FireStoreClass {
 
             }
     }
+
+    fun getAddresses(activity: Activity){
+        fireStore.collection(MyShopKey.ADDRESSES)
+            .get()
+            .addOnSuccessListener { result ->
+                when(activity){
+                    is AddressListActivity ->{
+                        var list = ArrayList<AddressModel>()
+                        for(i in result.documents){
+                            val item = i.toObject(AddressModel::class.java)
+                            list.add(item!!)
+                        }
+                        activity.getAddressList(list)
+                    }
+                }
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    fun deleteAnAddress(addressId : String,activity: Activity){
+        fireStore.collection(MyShopKey.ADDRESSES)
+            .document(addressId)
+            .delete()
+            .addOnSuccessListener {
+                when(activity){
+                    is AddressListActivity ->{
+                        activity.deleteAddressSuccess()
+                    }
+                }
+            }
+            .addOnFailureListener {
+
+            }
+    }
 }
