@@ -33,6 +33,7 @@ class AddressListActivity : BaseActivity(),BaseCommon {
 
     override fun onResume() {
         super.onResume()
+        showProgressDialog()
         FireStoreClass().getAddresses(this)
     }
 
@@ -49,11 +50,12 @@ class AddressListActivity : BaseActivity(),BaseCommon {
             finish()
         }
         binding.addAddress.setOnClickListener {
-            AddAddressActivity.start(this)
+            AddAddressActivity.start(this, ACTION_ADD)
         }
     }
 
     fun getAddressList(list : ArrayList<AddressModel>){
+        hideProgressDialog()
         if(list.isEmpty()){
             binding.recyclerView.gone()
             binding.notFound.visible()
@@ -64,8 +66,8 @@ class AddressListActivity : BaseActivity(),BaseCommon {
             adapter!!.setEventDeleteAddress {
                 FireStoreClass().deleteAnAddress(it.id,this)
             }
-            adapter!!.setCheckEmptyList {
-                checkSizeList(it)
+            adapter!!.setEventClickAddress {
+                AddAddressActivity.start(this, ACTION_EDIT,it)
             }
             val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter!!))
             itemTouchHelper.attachToRecyclerView(binding.recyclerView)
@@ -73,24 +75,15 @@ class AddressListActivity : BaseActivity(),BaseCommon {
         }
     }
 
-    private fun checkSizeList(list:ArrayList<AddressModel>){
-        list.forEachIndexed { index, addressModel ->
-            Log.i("result","$index --> ${addressModel.name}")
-        }
-        if(list.isEmpty()){
-            binding.recyclerView.gone()
-            binding.notFound.visible()
-        }else{
-            binding.notFound.gone()
-            binding.recyclerView.visible()
-        }
-    }
-
     fun deleteAddressSuccess(){
         Toast.makeText(this,"delete success",Toast.LENGTH_SHORT).show()
+        FireStoreClass().getAddresses(this)
     }
 
     companion object{
+        const val ACTION_EDIT = "edit"
+        const val ACTION_ADD = "add"
+
         fun start(context:Context){
             val intent = Intent(context,AddressListActivity::class.java)
             context.startActivity(intent)

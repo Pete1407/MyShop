@@ -21,6 +21,7 @@
             app:srcCompat="@drawable/ic_arrow_back_white"/>
 
         <com.example.myshop.customview.NormalTextView
+            android:id="@+id/titleToolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

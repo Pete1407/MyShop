@@ -14,9 +14,9 @@ class AddressAdapter(private var list: ArrayList<AddressModel>,val context:Conte
         this.eventDeleteListener = event
     }
 
-    private var checkEmptyListListener : ((list : ArrayList<AddressModel>)->Unit)? = null
-    fun setCheckEmptyList(event : ((list : ArrayList<AddressModel>)->Unit)){
-        checkEmptyListListener = event
+    private var eventClickListener : ((idAddress : String)->Unit)? = null
+    fun setEventClickAddress(event: ((idAddress : String)->Unit)){
+        this.eventClickListener = event
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -41,7 +41,6 @@ class AddressAdapter(private var list: ArrayList<AddressModel>,val context:Conte
         list.removeAt(position)
         notifyItemRemoved(position)
         eventDeleteListener?.invoke(item)
-        checkEmptyListListener?.invoke(list)
     }
 
     inner class AddressViewHolder(val binding : AdapterItemAddressBinding):RecyclerView.ViewHolder(binding.root){
@@ -51,6 +50,9 @@ class AddressAdapter(private var list: ArrayList<AddressModel>,val context:Conte
             binding.address.text = item.address
             binding.place.text = item.type
             binding.zipcode.text = item.zipCode
+            binding.root.setOnClickListener {
+                eventClickListener?.invoke(item.id)
+            }
         }
     }
 

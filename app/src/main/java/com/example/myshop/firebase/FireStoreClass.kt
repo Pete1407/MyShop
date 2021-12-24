@@ -444,4 +444,37 @@ class FireStoreClass {
 
             }
     }
+
+    fun getSpecifyAddress(id:String,activity : Activity){
+        fireStore.collection(MyShopKey.ADDRESSES)
+            .document(id)
+            .get()
+            .addOnSuccessListener { result ->
+                val item = result.toObject(AddressModel::class.java)
+                when(activity){
+                    is AddAddressActivity ->{
+                        activity.getExistAddress(item!!)
+                    }
+                }
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    fun updateAddressData(addressId : String,map : HashMap<String,Any>,activity : Activity){
+        fireStore.collection(MyShopKey.ADDRESSES)
+            .document(addressId)
+            .update(map)
+            .addOnSuccessListener {
+                when(activity){
+                    is AddAddressActivity ->{
+                        activity.updateAddressSuccess()
+                    }
+                }
+            }
+            .addOnFailureListener {
+
+            }
+    }
 }

@@ -67,9 +67,8 @@ class SwipeToDeleteCallback(val adapterParam : AddressAdapter) : ItemTouchHelper
 //            val iconRight = itemView.left + iconMargin
 //            background!!.setBounds(leftSlide,topSlide,rightSlide,bottomSlide)
 //            icon!!.setBounds(iconLeft,iconTop,iconRight,iconBottom)
-//        // slide to left
-//        }else
-        if(dx < 0){
+        // slide to left
+        if(dx < 0) {
 //            Log.i("result","--------------------------------")
 //            Log.i("result","left itemView --> ${itemView.left}")
 //            Log.i("result","right itemView --> ${itemView.right}")

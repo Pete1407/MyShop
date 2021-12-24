@@ -10,12 +10,15 @@ import com.example.myshop.databinding.ActivityAddAddressBinding
 import com.example.myshop.firebase.FireStoreClass
 import com.example.myshop.model.AddressModel
 import com.example.myshop.util.BaseCommon
+import com.example.myshop.util.MyShopKey
 import com.google.firebase.auth.FirebaseAuth
 
 class AddAddressActivity : BaseActivity(), BaseCommon{
 
     private var address : AddressModel? = null
+    private var idAddress : String? = null
     private var place:String = ""
+    private var action : String? = null
     private val binding: ActivityAddAddressBinding by lazy {
         ActivityAddAddressBinding.inflate(layoutInflater)
     }
@@ -23,17 +26,39 @@ class AddAddressActivity : BaseActivity(), BaseCommon{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        action = intent.getStringExtra(ACTION_PARAM)
+        idAddress = intent.getStringExtra(ID_PARAM)
         setToolbar()
         setUI()
         setListener()
     }
 
-    override fun setToolbar() {
+    override fun onResume() {
+        super.onResume()
+        idAddress?.let {
+            showProgressDialog()
+            FireStoreClass().getSpecifyAddress(it,this)
+        }
+    }
 
+    override fun setToolbar() {
+        place = resources.getString(R.string.home)
+        if(action == AddressListActivity.ACTION_ADD){
+            binding.titleToolbar.text = getString(R.string.add_address_title)
+        }else{
+            binding.titleToolbar.text = getString(R.string.edit_address_title)
+        }
     }
 
     override fun setUI() {
-        place = resources.getString(R.string.home)
+        address?.let {
+            binding.fullname.setText(it.name)
+            binding.phoneNumber.setText(it.mobileNumber)
+            binding.address.setText(it.address)
+            binding.zipcode.setText(it.zipCode)
+            binding.note.setText(it.additionalNote)
+            setButton(it.type)
+        }
     }
 
     override fun setListener() {
@@ -42,49 +67,37 @@ class AddAddressActivity : BaseActivity(), BaseCommon{
         }
         binding.submit.setOnClickListener {
             if(detectInput()){
-                showProgressDialog()
-                val fullName = binding.fullname.text.toString()
-                val phoneNumber = binding.phoneNumber.text.toString()
-                val addressValue = binding.address.text.toString()
-                val zipCode = binding.zipcode.text.toString()
-                val note = binding.note.text.toString()
-                val placeValue = place
-                address = AddressModel(
-                    user_id = FireStoreClass().getUserID(),
-                    name = fullName,
-                    mobileNumber = phoneNumber,
-                    address = addressValue,
-                    zipCode = zipCode,
-                    additionalNote = note,
-                    type = placeValue,
-                    otherDetails = note
-                )
-                FireStoreClass().saveAddress(address!!,this)
-
+                if(action == AddressListActivity.ACTION_ADD){
+                    showProgressDialog()
+                    saveAddress()
+                }else{
+                    showProgressDialog()
+                    updateAddress()
+                }
             }
         }
         binding.home.setOnClickListener {
             place = getString(R.string.home)
-            setButton(it.id)
+            setButton(place)
         }
         binding.office.setOnClickListener {
             place = getString(R.string.office)
-            setButton(it.id)
+            setButton(place)
         }
         binding.other.setOnClickListener {
             place = getString(R.string.other)
-            setButton(it.id)
+            setButton(place)
         }
     }
 
-    private fun setButton(id :Int){
-        when(id){
-            binding.home.id ->{
+    private fun setButton(name:String){
+        when(name){
+            getString(R.string.home) ->{
                 binding.home.isChecked = true
                 binding.office.isChecked = false
                 binding.other.isChecked = false
             }
-            binding.office.id ->{
+            getString(R.string.office) ->{
                 binding.office.isChecked = true
                 binding.home.isChecked = false
                 binding.other.isChecked = false
@@ -118,14 +131,75 @@ class AddAddressActivity : BaseActivity(), BaseCommon{
         return true
     }
 
+    private fun saveAddress(){
+        val fullName = binding.fullname.text.toString()
+        val phoneNumber = binding.phoneNumber.text.toString()
+        val addressValue = binding.address.text.toString()
+        val zipCode = binding.zipcode.text.toString()
+        val note = binding.note.text.toString()
+        val placeValue = place
+        val address = AddressModel(
+            user_id = FireStoreClass().getUserID(),
+            name = fullName,
+            mobileNumber = phoneNumber,
+            address = addressValue,
+            zipCode = zipCode,
+            additionalNote = note,
+            type = placeValue,
+            otherDetails = note
+        )
+        FireStoreClass().saveAddress(address!!,this)
+    }
+
     fun saveAddressSuccess(){
         hideProgressDialog()
         finish()
     }
 
+    fun getExistAddress(result : AddressModel){
+        hideProgressDialog()
+        address = result
+        setUI()
+    }
+
+    private fun updateAddress(){
+        var map = HashMap<String,Any>()
+        val fullName = binding.fullname.text.toString()
+        val phoneNumber = binding.phoneNumber.text.toString()
+        val addressValue = binding.address.text.toString()
+        val zipCode = binding.zipcode.text.toString()
+        val note = binding.note.text.toString()
+        val placeValue = place
+        map[MyShopKey.ADDRESS_NAME] = fullName
+        map[MyShopKey.MOBILE_NUMBER] = phoneNumber
+        map[MyShopKey.ADDRESS] = addressValue
+        map[MyShopKey.ZIPCODE] = zipCode
+        map[MyShopKey.NOTE] = note
+        map[MyShopKey.TYPE] = placeValue
+        map[MyShopKey.OTHER_DETAIL] = note
+        FireStoreClass().updateAddressData(idAddress!!,map,this)
+    }
+
+    fun updateAddressSuccess(){
+        hideProgressDialog()
+        finish()
+    }
+
     companion object{
-        fun start(context: Context){
-            val intent = Intent(context,AddAddressActivity::class.java)
+        const val ACTION_PARAM = "action-param"
+        const val ID_PARAM = "id-param"
+        fun start(context: Context,action:String){
+            val intent = Intent(context,AddAddressActivity::class.java).apply {
+                putExtra(ACTION_PARAM,action)
+            }
+            context.startActivity(intent)
+        }
+
+        fun start(context: Context,action:String,idAddress:String){
+            val intent = Intent(context,AddAddressActivity::class.java).apply {
+                putExtra(ACTION_PARAM,action)
+                putExtra(ID_PARAM,idAddress)
+            }
             context.startActivity(intent)
         }
     }
