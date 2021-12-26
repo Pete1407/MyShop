@@ -7,10 +7,7 @@ import androidx.fragment.app.Fragment
 import com.example.myshop.activities.activity.*
 import com.example.myshop.activities.fragment.DashboardFragment
 import com.example.myshop.activities.fragment.ProductFragment
-import com.example.myshop.model.AddressModel
-import com.example.myshop.model.Cart
-import com.example.myshop.model.Product
-import com.example.myshop.model.User
+import com.example.myshop.model.*
 import com.example.myshop.util.MyShopKey
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.actionCodeSettings
@@ -213,24 +210,24 @@ class FireStoreClass {
             cartItem.id = cartID
             item.set(cartItem, SetOptions.merge())
                 .addOnSuccessListener {
-                        deductStockInProduct(cartItem.product_id,1,activity)
+                    deductStockInProduct(cartItem.product_id, 1, activity)
                 }
                 .addOnFailureListener {}
         }
     }
 
     // Second function
-    private fun deductStockInProduct(id:String,numberOfOrder: Int,activity: Activity){
+    private fun deductStockInProduct(id: String, numberOfOrder: Int, activity: Activity) {
         fireStore.collection(MyShopKey.PRODUCTS)
             .document(id)
             .get()
             .addOnSuccessListener { result ->
                 val item = result.toObject(Product::class.java)
-                if(item!!.quantity!!.toInt() > numberOfOrder){
+                if (item!!.quantity!!.toInt() > numberOfOrder) {
                     var avaliableStock = item!!.quantity!!.toInt() - numberOfOrder
-                    updateStock(activity,avaliableStock,id)
-                }else{
-                    Log.e("error","Quantity of this product is not enough!!!")
+                    updateStock(activity, avaliableStock, id)
+                } else {
+                    Log.e("error", "Quantity of this product is not enough!!!")
                 }
 
             }
@@ -239,68 +236,74 @@ class FireStoreClass {
             }
     }
 
-    private fun updateStock(activity: Activity,avaliableStock:Int,idProd:String,action:String = ""){
-            fireStore.collection(MyShopKey.PRODUCTS)
-                .document(idProd)
-                .update(MyShopKey.QUANTITY_PRODUCT,avaliableStock)
-                .addOnSuccessListener {
-                    when(activity){
-                        is DetailProductActivity ->{
-                            activity.addToCartSuccess()
-                        }
-                        is CartListActivity ->{
-                            when(action){
-                                CartListActivity.ACTION_INCREASE->{
-                                    updateOrderProduct(idProd,action)
-                                    activity.increaseStock(avaliableStock)
-                                }
-                                CartListActivity.ACTION_DECREASE->{
-                                    updateOrderProduct(idProd,action)
-                                    activity.decreaseStock(avaliableStock)
-                                }else ->{
+    private fun updateStock(
+        activity: Activity,
+        avaliableStock: Int,
+        idProd: String,
+        action: String = ""
+    ) {
+        fireStore.collection(MyShopKey.PRODUCTS)
+            .document(idProd)
+            .update(MyShopKey.QUANTITY_PRODUCT, avaliableStock)
+            .addOnSuccessListener {
+                when (activity) {
+                    is DetailProductActivity -> {
+                        activity.addToCartSuccess()
+                    }
+                    is CartListActivity -> {
+                        when (action) {
+                            CartListActivity.ACTION_INCREASE -> {
+                                updateOrderProduct(idProd, action)
+                                activity.increaseStock(avaliableStock)
+                            }
+                            CartListActivity.ACTION_DECREASE -> {
+                                updateOrderProduct(idProd, action)
+                                activity.decreaseStock(avaliableStock)
+                            }
+                            else -> {
                                 activity.deleteProductSuccess()
                             }
-                            }
                         }
                     }
                 }
-                .addOnFailureListener {
-                    if(activity is DetailProductActivity){
-                        activity.addToCartFail(it.stackTrace.toString())
-                    }
+            }
+            .addOnFailureListener {
+                if (activity is DetailProductActivity) {
+                    activity.addToCartFail(it.stackTrace.toString())
                 }
+            }
 
 
     }
 
-    private fun updateOrderProduct(idProd:String,action: String){
+    private fun updateOrderProduct(idProd: String, action: String) {
         fireStore.collection(MyShopKey.CARTS)
-            .whereEqualTo(MyShopKey.PRODUCT_ID,idProd)
+            .whereEqualTo(MyShopKey.PRODUCT_ID, idProd)
             .get()
             .addOnSuccessListener {
                 val result = it.documents[0].toObject(Cart::class.java)
-                updateCartQuantity(result!!,action)
+                updateCartQuantity(result!!, action)
             }
             .addOnFailureListener {
 
             }
     }
 
-    private fun updateCartQuantity(cart:Cart,action:String){
+    private fun updateCartQuantity(cart: Cart, action: String) {
         var a = cart.stock_quantity.toInt()
-        if(action == CartListActivity.ACTION_INCREASE){
-            a+=1 // a = 3+1 --> 4
+        if (action == CartListActivity.ACTION_INCREASE) {
+            a += 1 // a = 3+1 --> 4
             cart.stock_quantity = a.toString()
-        }else if(action == CartListActivity.ACTION_DECREASE){
-            a-=1 // a = 3-1 --> 2
+        } else if (action == CartListActivity.ACTION_DECREASE) {
+            a -= 1 // a = 3-1 --> 2
             cart.stock_quantity = a.toString()
         }
 
         fireStore.collection(MyShopKey.CARTS)
             .document(cart.id)
-            .update(MyShopKey.STOCK_QUANTITY,cart.stock_quantity)
+            .update(MyShopKey.STOCK_QUANTITY, cart.stock_quantity)
             .addOnSuccessListener {
-                Log.i("result","update stock quantity success")
+                Log.i("result", "update stock quantity success")
             }
             .addOnFailureListener {
 
@@ -339,11 +342,11 @@ class FireStoreClass {
                     Log.i("item", "item $count ${obj.title}")
                     count++
                 }
-                when(activity){
-                    is CartListActivity ->{
+                when (activity) {
+                    is CartListActivity -> {
                         activity.getCarts(list)
                     }
-                    is CheckOutActivity ->{
+                    is CheckOutActivity -> {
                         activity.getCarts(list)
                     }
                 }
@@ -352,20 +355,20 @@ class FireStoreClass {
             }
     }
 
-    fun deleteProductInCart(cartItem: Cart, activity: Activity,numberOrder:Int) {
+    fun deleteProductInCart(cartItem: Cart, activity: Activity, numberOrder: Int) {
         fireStore.collection(MyShopKey.CARTS)
             .document(cartItem.id)
             .delete()
             .addOnSuccessListener {
-                checkStock(cartItem,activity,numberOrder,CartListActivity.ACTION_RETURN_ALL)
+                checkStock(cartItem, activity, numberOrder, CartListActivity.ACTION_RETURN_ALL)
             }
             .addOnFailureListener {
 
             }
     }
 
-    fun checkStock(cart: Cart, activity: Activity, numberOfOrder: Int,action:String) {
-       fireStore.collection(MyShopKey.PRODUCTS)
+    fun checkStock(cart: Cart, activity: Activity, numberOfOrder: Int, action: String) {
+        fireStore.collection(MyShopKey.PRODUCTS)
             .document(cart.product_id)
             .get()
             .addOnSuccessListener { result ->
@@ -373,21 +376,21 @@ class FireStoreClass {
                 var stock = item!!.quantity!!.toInt()
                 // ถ้าจะเพิ่ม order แล้วของหมดโชว์แจ้งเตือน
                 // ถ้าจะลด order ก็ให้ไปเพิ่มใน quantity ของ product
-                if(action == CartListActivity.ACTION_INCREASE){
+                if (action == CartListActivity.ACTION_INCREASE) {
                     if (stock > numberOfOrder) {
                         var diff = stock - 1
-                        updateStock(activity,diff,item.id.toString(),action)
-                    }else{
+                        updateStock(activity, diff, item.id.toString(), action)
+                    } else {
 
-                        updateStock(activity,0,item.id.toString(),action)
-                        Log.i("error","STOCK == 0 AND STOCK < NUMBER OF ORDER")
+                        updateStock(activity, 0, item.id.toString(), action)
+                        Log.i("error", "STOCK == 0 AND STOCK < NUMBER OF ORDER")
                     }
-                }else if(action == CartListActivity.ACTION_DECREASE){
+                } else if (action == CartListActivity.ACTION_DECREASE) {
                     stock += 1
-                    updateStock(activity,stock,item.id.toString(),action)
-                }else{
+                    updateStock(activity, stock, item.id.toString(), action)
+                } else {
                     stock += numberOfOrder
-                    updateStock(activity,stock,item.id.toString(),action)
+                    updateStock(activity, stock, item.id.toString(), action)
 
                 }
 
@@ -397,14 +400,14 @@ class FireStoreClass {
             }
     }
 
-    fun saveAddress(data : AddressModel,activity:Activity){
+    fun saveAddress(data: AddressModel, activity: Activity) {
         val firebaseObj = fireStore.collection(MyShopKey.ADDRESSES).document()
         val idAddress = firebaseObj.id
         data.id = idAddress
         firebaseObj.set(data, SetOptions.merge())
             .addOnSuccessListener {
-                when(activity){
-                    is AddAddressActivity ->{
+                when (activity) {
+                    is AddAddressActivity -> {
                         activity.saveAddressSuccess()
                     }
                 }
@@ -414,14 +417,14 @@ class FireStoreClass {
             }
     }
 
-    fun getAddresses(activity: Activity){
+    fun getAddresses(activity: Activity) {
         fireStore.collection(MyShopKey.ADDRESSES)
             .get()
             .addOnSuccessListener { result ->
-                when(activity){
-                    is AddressListActivity ->{
+                when (activity) {
+                    is AddressListActivity -> {
                         var list = ArrayList<AddressModel>()
-                        for(i in result.documents){
+                        for (i in result.documents) {
                             val item = i.toObject(AddressModel::class.java)
                             list.add(item!!)
                         }
@@ -434,13 +437,13 @@ class FireStoreClass {
             }
     }
 
-    fun deleteAnAddress(addressId : String,activity: Activity){
+    fun deleteAnAddress(addressId: String, activity: Activity) {
         fireStore.collection(MyShopKey.ADDRESSES)
             .document(addressId)
             .delete()
             .addOnSuccessListener {
-                when(activity){
-                    is AddressListActivity ->{
+                when (activity) {
+                    is AddressListActivity -> {
                         activity.deleteAddressSuccess()
                     }
                 }
@@ -450,14 +453,14 @@ class FireStoreClass {
             }
     }
 
-    fun getSpecifyAddress(id:String,activity : Activity){
+    fun getSpecifyAddress(id: String, activity: Activity) {
         fireStore.collection(MyShopKey.ADDRESSES)
             .document(id)
             .get()
             .addOnSuccessListener { result ->
                 val item = result.toObject(AddressModel::class.java)
-                when(activity){
-                    is AddAddressActivity ->{
+                when (activity) {
+                    is AddAddressActivity -> {
                         activity.getExistAddress(item!!)
                     }
                 }
@@ -467,13 +470,13 @@ class FireStoreClass {
             }
     }
 
-    fun updateAddressData(addressId : String,map : HashMap<String,Any>,activity : Activity){
+    fun updateAddressData(addressId: String, map: HashMap<String, Any>, activity: Activity) {
         fireStore.collection(MyShopKey.ADDRESSES)
             .document(addressId)
             .update(map)
             .addOnSuccessListener {
-                when(activity){
-                    is AddAddressActivity ->{
+                when (activity) {
+                    is AddAddressActivity -> {
                         activity.updateAddressSuccess()
                     }
                 }
@@ -483,7 +486,23 @@ class FireStoreClass {
             }
     }
 
+    fun addOrderToDB(order: Order, activity: Activity) {
+        val item = fireStore.collection(MyShopKey.ORDER).document()
+        order.id = item.id
+        item.set(order, SetOptions.merge())
+            .addOnSuccessListener {
+                when(activity){
+                    is CheckOutActivity ->{
+                        activity.addOrderSuccess()
+                    }
+                }
+            }
+            .addOnFailureListener {
 
+            }
+
+
+    }
 
 
 }

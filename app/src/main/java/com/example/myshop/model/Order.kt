@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class OrderModel(
+data class Order(
     val user_id :String = "",
     val items : ArrayList<Cart> = arrayListOf(),
     val addressModel: AddressModel = AddressModel(),

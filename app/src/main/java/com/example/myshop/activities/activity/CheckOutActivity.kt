@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.example.myshop.R
 import com.example.myshop.activities.adapter.CheckOutAdapter
 import com.example.myshop.databinding.ActivityCheckOutBinding
@@ -15,7 +16,7 @@ import com.example.myshop.util.BaseCommon
 import com.example.myshop.activities.adapter.CheckOutAdapter.Companion.TYPE_PRODUCT
 import com.example.myshop.activities.adapter.CheckOutAdapter.Companion.TYPE_ADDRESS
 import com.example.myshop.activities.adapter.CheckOutAdapter.Companion.TYPE_RECEIPT
-
+import com.example.myshop.model.Order
 
 
 class CheckOutActivity : BaseActivity(),BaseCommon {
@@ -23,6 +24,11 @@ class CheckOutActivity : BaseActivity(),BaseCommon {
     private var itemList = ArrayList<Cart>()
     private var selectedAddress : AddressModel? = null
     private var adapter : CheckOutAdapter? = null
+    private var order : Order? = null
+    private var subTotal : Double = 0.0
+    private var charge : Double = 10.0
+    private var total : Double = 0.0
+
     private val binding : ActivityCheckOutBinding by lazy{
         ActivityCheckOutBinding.inflate(layoutInflater)
     }
@@ -45,6 +51,21 @@ class CheckOutActivity : BaseActivity(),BaseCommon {
             finish()
         }
         binding.placeOrder.setOnClickListener {
+            val title = "order_${System.currentTimeMillis()}"
+            showProgressDialog()
+            this.selectedAddress?.let{
+                order = Order(
+                    user_id = FireStoreClass().getUserID(),
+                    items = itemList,
+                    addressModel = it,
+                    title = title,
+                    image = itemList[0].image,
+                    sub_total_amount = subTotal.toString(),
+                    total_amount = total.toString(),
+                    shipping_charge = "10.0"
+                )
+                FireStoreClass().addOrderToDB(order!!,this)
+            }
 
         }
     }
@@ -58,9 +79,9 @@ class CheckOutActivity : BaseActivity(),BaseCommon {
 
     fun getCarts(list : ArrayList<Cart>){
         var item = ArrayList<ObjectType>()
-        var sumPrice = computePrice(list)
-        var totalPrice = computeCharge(sumPrice)
-        var collectText = "$$sumPrice $$totalPrice"
+        this.subTotal = computePrice(list)
+        this.total = computeCharge(subTotal)
+        var collectText = "$$subTotal $$total"
         this.itemList = list
         item.add(ObjectType(TYPE_PRODUCT,itemList))
         item.add(ObjectType(TYPE_ADDRESS,selectedAddress))
@@ -79,6 +100,15 @@ class CheckOutActivity : BaseActivity(),BaseCommon {
 
     private fun computeCharge(subTotal : Double):Double{
         return subTotal + 10
+    }
+
+    fun addOrderSuccess(){
+        hideProgressDialog()
+        Toast.makeText(this,getString(R.string.save_order_msg),Toast.LENGTH_SHORT).show()
+        val intent = Intent(this,DashboardActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        finish()
     }
 
     companion object{

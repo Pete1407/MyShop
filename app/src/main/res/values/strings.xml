@@ -126,5 +126,6 @@
     <string name="items_receipt">Items Receipt</string>
     <string name="payment_mode">Payment Mode</string>
     <string name="cash_on_delivery">Cash On Delivery</string>
+    <string name="save_order_msg">Your order was placed successfully.</string>
 
 </resources>
