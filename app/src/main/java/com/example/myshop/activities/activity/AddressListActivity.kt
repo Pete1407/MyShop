@@ -52,6 +52,7 @@ class AddressListActivity : BaseActivity(),BaseCommon {
         binding.addAddress.setOnClickListener {
             AddAddressActivity.start(this, ACTION_ADD)
         }
+
     }
 
     fun getAddressList(list : ArrayList<AddressModel>){
@@ -68,6 +69,9 @@ class AddressListActivity : BaseActivity(),BaseCommon {
             }
             adapter!!.setEventClickAddress {
                 AddAddressActivity.start(this, ACTION_EDIT,it)
+            }
+            adapter!!.setEventLongClickAddress {
+                CheckOutActivity.start(this,it)
             }
             val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter!!))
             itemTouchHelper.attachToRecyclerView(binding.recyclerView)

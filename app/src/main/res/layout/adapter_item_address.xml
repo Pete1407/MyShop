@@ -6,6 +6,7 @@
     android:background="@color/white_nature"
     android:layout_marginVertical="@dimen/spacing_xs"
     android:layout_marginHorizontal="@dimen/spacing_small"
+    android:longClickable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 

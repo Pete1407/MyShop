@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.example.myshop.customview.NormalTextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/items_receipt"
+        app:typeText="@string/text_bold"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/spacing_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_checkout"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:padding="@dimen/spacing_small"
+        app:layout_constraintTop_toBottomOf="@id/title">
+
+        <com.example.myshop.customview.NormalTextView
+            android:id="@+id/subTotalTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:paddingBottom="@dimen/spacing_small"
+            android:text="@string/sub_total"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.example.myshop.customview.NormalTextView
+            android:id="@+id/subTotalValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:paddingBottom="@dimen/spacing_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="$300.12" />
+
+        <com.example.myshop.customview.NormalTextView
+            android:id="@+id/shippingChargeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:paddingBottom="@dimen/spacing_small"
+            android:text="@string/shippingCharge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subTotalTitle" />
+
+        <com.example.myshop.customview.NormalTextView
+            android:id="@+id/shippingChargeValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:paddingBottom="@dimen/spacing_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subTotalValue"
+            tools:text="$10" />
+
+        <com.example.myshop.customview.NormalTextView
+            android:id="@+id/totalAmountTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:paddingBottom="@dimen/spacing_small"
+            android:text="@string/totalAmount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/shippingChargeTitle"
+            app:typeText="@string/text_bold" />
+
+        <com.example.myshop.customview.NormalTextView
+            android:id="@+id/totalAmountValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:paddingBottom="@dimen/spacing_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/shippingChargeValue"
+            app:typeText="@string/text_bold"
+            tools:text="$310" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

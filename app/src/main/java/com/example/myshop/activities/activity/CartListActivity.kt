@@ -48,6 +48,9 @@ class CartListActivity : BaseActivity(),BaseCommon {
         binding.backButton.setOnClickListener {
             finish()
         }
+        binding.checkOut.setOnClickListener {
+            AddressListActivity.start(this)
+        }
     }
 
     fun getCarts(result : ArrayList<Cart>){

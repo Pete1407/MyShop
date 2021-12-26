@@ -19,6 +19,11 @@ class AddressAdapter(private var list: ArrayList<AddressModel>,val context:Conte
         this.eventClickListener = event
     }
 
+    private var eventLongClickListener : ((address : AddressModel)->Unit)? = null
+    fun setEventLongClickAddress(event: ((address : AddressModel)->Unit)){
+        this.eventLongClickListener = event
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val viewHolder = AdapterItemAddressBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return AddressViewHolder(viewHolder)
@@ -50,8 +55,15 @@ class AddressAdapter(private var list: ArrayList<AddressModel>,val context:Conte
             binding.address.text = item.address
             binding.place.text = item.type
             binding.zipcode.text = item.zipCode
-            binding.root.setOnClickListener {
-                eventClickListener?.invoke(item.id)
+            binding.root.apply {
+                setOnClickListener {
+                    eventClickListener?.invoke(item.id)
+                }
+
+                setOnLongClickListener {
+                    eventLongClickListener?.invoke(item)
+                    return@setOnLongClickListener true
+                }
             }
         }
     }

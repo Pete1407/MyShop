@@ -11,6 +11,7 @@ object MyShopKey {
     const val PRODUCTS = "products"
     const val CARTS = "carts"
     const val ADDRESSES = "addresses"
+    const val ORDER = "orders"
 
     const val MYSHOPPREF = "myShopPref"
     const val USERNAME_LOGIN = "username"

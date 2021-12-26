@@ -326,7 +326,7 @@ class FireStoreClass {
             }
     }
 
-    fun getProductInCart(activty: Activity) {
+    fun getProductInCart(activity: Activity) {
         FirebaseFirestore.getInstance().collection(MyShopKey.CARTS)
             .whereEqualTo(MyShopKey.USER_ID, getUserID())
             .get()
@@ -339,8 +339,13 @@ class FireStoreClass {
                     Log.i("item", "item $count ${obj.title}")
                     count++
                 }
-                if (activty is CartListActivity) {
-                    activty.getCarts(list)
+                when(activity){
+                    is CartListActivity ->{
+                        activity.getCarts(list)
+                    }
+                    is CheckOutActivity ->{
+                        activity.getCarts(list)
+                    }
                 }
             }.addOnFailureListener {
 
@@ -477,4 +482,8 @@ class FireStoreClass {
 
             }
     }
+
+
+
+
 }

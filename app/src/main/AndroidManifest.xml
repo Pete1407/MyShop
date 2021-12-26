@@ -14,13 +14,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
         <activity
+            android:name=".activities.activity.CheckOutActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MyShop.NoActionBar" />
+        <activity
             android:name=".activities.activity.AddressListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Design.NoActionBar"/>
+            android:theme="@style/Theme.Design.NoActionBar" />
         <activity
             android:name=".activities.activity.AddAddressActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Design.NoActionBar"/>
+            android:theme="@style/Theme.Design.NoActionBar" />
         <activity
             android:name=".activities.activity.CartListActivity"
             android:screenOrientation="portrait"
