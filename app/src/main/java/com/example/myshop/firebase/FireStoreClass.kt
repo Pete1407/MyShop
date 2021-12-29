@@ -500,8 +500,23 @@ class FireStoreClass {
             .addOnFailureListener {
 
             }
+    }
 
-
+    fun checkQuantity(productId : String, orderNumber : Int, activity : CartListActivity) {
+        fireStore.collection(MyShopKey.PRODUCTS)
+            .document(productId)
+            .get()
+            .addOnSuccessListener {
+                val output = it.toObject(Product::class.java)
+                if(orderNumber > output?.quantity!!){
+                    activity.showMessageOutOfStock(output?.quantity)
+                }else{
+                    activity.showMessageSuccess()
+                }
+            }
+            .addOnFailureListener {
+            Log.e("error","error in checkQuantity func")
+            }
     }
 
 

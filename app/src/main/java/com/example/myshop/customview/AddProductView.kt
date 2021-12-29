@@ -12,6 +12,7 @@ import com.example.myshop.model.Cart
 import com.example.myshop.util.gone
 import com.example.myshop.util.invisible
 import com.example.myshop.util.visible
+import kotlinx.android.synthetic.main.activity_add_product.view.*
 
 class AddProductView(context: Context, attributeSet: AttributeSet) :
     LinearLayoutCompat(context, attributeSet) {
@@ -23,47 +24,48 @@ class AddProductView(context: Context, attributeSet: AttributeSet) :
         numberOfProd: Int,
         cart: Cart,
         decreaseEvent: ((number: Int, item: Cart) -> Unit?),
-        increaseEvent: ((number: Int, item: Cart) -> Unit?)
+        increaseEvent: ((number: Int, item: Cart) -> Unit?),
+        quantityProduct : Int,
+        checkStockEvent : ((number: Int, item: Cart) -> Unit)
     ) {
         quantity = numberOfProd
-        hideDecreaseProduct()
+        Log.i("result","korea --> $quantityProduct")
         binding.numberOfProduct.text = numberOfProd.toString()
+
         binding.decrease.setOnClickListener {
             quantity--
-            hideDecreaseProduct()
+            checkStockEvent.invoke(quantity,cart)
             decreaseEvent.invoke(quantity,cart)
             decreaseQuantityProduct(quantity)
         }
         binding.increase.setOnClickListener {
             quantity++
-            hideDecreaseProduct()
+            checkStockEvent.invoke(quantity,cart)
+            addQuantityProduct(quantity,quantityProduct)
             increaseEvent.invoke(quantity, cart)
-            addQuantityProduct(quantity)
+
         }
     }
 
-    private fun addQuantityProduct(num: Int) {
-        binding.numberOfProduct.text = num.toString()
-    }
-
-    private fun decreaseQuantityProduct(num: Int) {
-        if (num == 1) {
-            quantity = 1
-            hideDecreaseProduct()
+    private fun addQuantityProduct(num: Int,quanInProd : Int) {
+        Log.i("result","tsunami --> $num  $quanInProd")
+        if(num == quanInProd && quanInProd !=0){
+            --quantity
             binding.numberOfProduct.text = quantity.toString()
-        } else {
-            hideDecreaseProduct()
+        }else{
             binding.numberOfProduct.text = num.toString()
         }
 
     }
 
-    private fun hideDecreaseProduct(){
-        if(quantity == 1){
-            binding.decrease.invisible()
+    private fun decreaseQuantityProduct(num: Int) {
+        if(num == 0){
+            quantity = 1
+            binding.numberOfProduct.text = quantity.toString()
         }else{
-            binding.decrease.visible()
+            binding.numberOfProduct.text = num.toString()
         }
+
     }
 
     fun getQuantity():Int{
