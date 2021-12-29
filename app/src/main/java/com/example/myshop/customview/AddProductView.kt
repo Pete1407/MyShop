@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.example.myshop.R
+import com.example.myshop.activities.activity.CartListActivity
 import com.example.myshop.databinding.ViewAddStockBinding
+import com.example.myshop.firebase.FireStoreClass
 import com.example.myshop.model.Cart
+import com.example.myshop.util.MyShopKey
 import com.example.myshop.util.gone
 import com.example.myshop.util.invisible
 import com.example.myshop.util.visible
@@ -18,59 +21,35 @@ class AddProductView(context: Context, attributeSet: AttributeSet) :
     LinearLayoutCompat(context, attributeSet) {
 
     private val binding = ViewAddStockBinding.inflate(LayoutInflater.from(context), this, true)
-    private var quantity: Int = 0
 
-    fun setUI(
-        numberOfProd: Int,
-        cart: Cart,
-        decreaseEvent: ((number: Int, item: Cart) -> Unit?),
-        increaseEvent: ((number: Int, item: Cart) -> Unit?),
-        quantityProduct : Int,
-        checkStockEvent : ((number: Int, item: Cart) -> Unit)
-    ) {
-        quantity = numberOfProd
-        Log.i("result","korea --> $quantityProduct")
-        binding.numberOfProduct.text = numberOfProd.toString()
-
+    fun setUI(context : Context,cart: Cart) {
+        binding.numberOfProduct.text = cart.cart_quantity
         binding.decrease.setOnClickListener {
-            quantity--
-            checkStockEvent.invoke(quantity,cart)
-            decreaseEvent.invoke(quantity,cart)
-            decreaseQuantityProduct(quantity)
+            if(cart.cart_quantity == "1"){
+                if(context is CartListActivity){
+                    context.showProgressDialog()
+                    FireStoreClass().removeItemInCart(cart.id,context)
+                }
+            }else{
+                var map = HashMap<String,Any>()
+                map[MyShopKey.CART_QUANTITY] = ((cart.cart_quantity.toInt()-1)).toString()
+                FireStoreClass().updateCart(context as CartListActivity,cart,map)
+            }
         }
         binding.increase.setOnClickListener {
-            quantity++
-            checkStockEvent.invoke(quantity,cart)
-            addQuantityProduct(quantity,quantityProduct)
-            increaseEvent.invoke(quantity, cart)
+            if(cart.cart_quantity.toInt() < cart.stock_quantity.toInt()){
+                if(context is CartListActivity){
+                    context.showProgressDialog()
+                }
+                var map = HashMap<String,Any>()
+                map[MyShopKey.CART_QUANTITY] = ((cart.cart_quantity.toInt())+1).toString()
+                FireStoreClass().updateCart(context as CartListActivity,cart,map)
+            }else{
+                if(context is CartListActivity){
+                    context.showSnackBar("stock is not sufficient.",true)
+                }
+            }
 
         }
     }
-
-    private fun addQuantityProduct(num: Int,quanInProd : Int) {
-        Log.i("result","tsunami --> $num  $quanInProd")
-        if(num == quanInProd && quanInProd !=0){
-            --quantity
-            binding.numberOfProduct.text = quantity.toString()
-        }else{
-            binding.numberOfProduct.text = num.toString()
-        }
-
-    }
-
-    private fun decreaseQuantityProduct(num: Int) {
-        if(num == 0){
-            quantity = 1
-            binding.numberOfProduct.text = quantity.toString()
-        }else{
-            binding.numberOfProduct.text = num.toString()
-        }
-
-    }
-
-    fun getQuantity():Int{
-        return quantity
-    }
-
-
 }

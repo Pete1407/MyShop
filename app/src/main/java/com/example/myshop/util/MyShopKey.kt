@@ -41,6 +41,7 @@ object MyShopKey {
     const val DELAY_EDIT_DATA = 3000L
 
     const val STOCK_QUANTITY = "stock_quantity"
+    const val CART_QUANTITY = "cart_quantity"
 
     // field of address
     const val ADDRESS_NAME = "name"

@@ -24,8 +24,6 @@ import com.example.myshop.util.gone
 class ProductAdapter(private var list: ArrayList<ObjectType>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var checkStock : Int = 0
-
     var eventDeleteProductListener: ((id: String) -> Unit)? = null
     fun setEventDeleteListener(event: ((id: String) -> Unit)) {
         eventDeleteProductListener = event
@@ -75,12 +73,6 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
         }
         list.addAll(dataList)
         notifyDataSetChanged()
-    }
-
-    fun updateStock(quantity : Int){
-        checkStock = quantity - 1
-        //notifyDataSetChanged()
-        Log.i("result","in func updateStock --> $quantity")
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -143,7 +135,7 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
             }
             is CartItemViewHolder -> {
                 val item = list[position].objectHolder as Cart
-                holder.setItem(item, eventDecreaseItemListener!!, eventIncreaseItemListener!!,eventCheckStockListener!!)
+                holder.setItem(item)
             }
             is ItemDashBoardViewHolder -> {
                 val item = list[position].objectHolder as Product
@@ -204,22 +196,15 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
         }
     }
 
+    // CartItem
     inner class CartItemViewHolder(val binding: AdapterItemCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun setItem(
-            cart: Cart,
-            decreaseEvent: (number: Int, item: Cart) -> Unit?,
-            increaseEvent: (number: Int, item: Cart) -> Unit?,
-            checkStockEvent : ((number: Int, item: Cart) -> Unit)
-        ) {
+        fun setItem(cart: Cart) {
             binding.productName.text = cart.title
             binding.priceProduct.text = "$${cart.price}"
             GlideLoader(binding.root.context).loadImage(cart.image, binding.image)
-            binding.addProduct.setUI(cart.cart_quantity.toInt(), cart, decreaseEvent!!, increaseEvent!!,checkStock,checkStockEvent!!)
-            binding.delete.setOnClickListener {
-                eventDeleteItemInCartListener?.invoke(cart,binding.addProduct.getQuantity())
-            }
+            binding.addProduct.setUI(binding.root.context,cart)
         }
     }
 

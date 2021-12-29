@@ -43,7 +43,7 @@ class CheckOutActivity : BaseActivity(),BaseCommon {
 
     override fun onResume() {
         super.onResume()
-        FireStoreClass().getProductInCart(this)
+        FireStoreClass().getCartList(this)
     }
 
     override fun setToolbar() {

@@ -1,6 +1,7 @@
 package com.example.myshop.firebase
 
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -329,7 +330,24 @@ class FireStoreClass {
             }
     }
 
-    fun getProductInCart(activity: Activity) {
+    fun getProductList(activity : CartListActivity){
+        fireStore.collection(MyShopKey.PRODUCTS)
+            .get()
+            .addOnSuccessListener { result ->
+                var prodList = ArrayList<Product>()
+                for(i in result.documents){
+                    val prodObj = i.toObject(Product::class.java)!!
+                    prodList.add(prodObj)
+                }
+                activity.getProductListSuccess(prodList)
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    fun getCartList(activity: Activity) {
         FirebaseFirestore.getInstance().collection(MyShopKey.CARTS)
             .whereEqualTo(MyShopKey.USER_ID, getUserID())
             .get()
@@ -502,22 +520,39 @@ class FireStoreClass {
             }
     }
 
-    fun checkQuantity(productId : String, orderNumber : Int, activity : CartListActivity) {
-        fireStore.collection(MyShopKey.PRODUCTS)
-            .document(productId)
-            .get()
+    fun updateCart(activity : Activity,cart:Cart,map : HashMap<String,Any>) {
+        fireStore.collection(MyShopKey.CARTS)
+            .document(cart.id)
+            .update(map)
             .addOnSuccessListener {
-                val output = it.toObject(Product::class.java)
-                if(orderNumber > output?.quantity!!){
-                    activity.showMessageOutOfStock(output?.quantity)
-                }else{
-                    activity.showMessageSuccess()
+                when(activity){
+                    is CartListActivity ->{
+                        activity.updateCartSuccess()
+                    }
                 }
             }
             .addOnFailureListener {
-            Log.e("error","error in checkQuantity func")
+
             }
     }
 
-
+    fun removeItemInCart(cartId : String,activity : Activity){
+            fireStore.collection(MyShopKey.CARTS)
+                .document(cartId)
+                .delete()
+                .addOnSuccessListener {
+                    when(activity){
+                        is CartListActivity ->{
+                            activity.updateCartSuccess()
+                        }
+                    }
+                }
+                .addOnFailureListener {
+                    when(activity){
+                        is CartListActivity ->{
+                            activity.hideProgressDialog()
+                        }
+                    }
+                }
+    }
 }
