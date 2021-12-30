@@ -77,20 +77,20 @@ class CheckOutActivity : BaseActivity(),BaseCommon {
 
     }
 
-    fun getCarts(cartlist : ArrayList<Cart>){
+    fun getCarts(cartList : ArrayList<Cart>){
         hideProgressDialog()
         var item = ArrayList<ObjectType>()
-        this.subTotal = computePrice(cartlist)
+        this.subTotal = computePrice(cartList)
         this.total = computeCharge(subTotal)
         var collectText = "$$subTotal $$total"
         for(prod in prodList){
-            for(cart in cartlist){
+            for(cart in cartList){
                 if(prod.id == cart.product_id){
                     cart.stock_quantity = prod.quantity.toString()
                 }
             }
         }
-        this.itemList = cartlist
+        this.itemList = cartList
         item.add(ObjectType(TYPE_PRODUCT,itemList))
         item.add(ObjectType(TYPE_ADDRESS,selectedAddress))
         item.add(ObjectType(TYPE_RECEIPT,collectText))
