@@ -3,6 +3,7 @@ package com.example.myshop.activities.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myshop.R
 import com.example.myshop.databinding.AdapterItemReceiptBinding
 import com.example.myshop.databinding.AdapterItemSelectedAddressBinding
 import com.example.myshop.databinding.AdapterItemsOrderedBinding
@@ -69,6 +70,7 @@ class CheckOutAdapter(var list : ArrayList<ObjectType>):RecyclerView.Adapter<Rec
 
         fun bind(list : ArrayList<Cart>){
             adapter = ItemAdapter(list)
+            binding.title.text = binding.root.context.getString(R.string.product_item,list.size.toString())
             binding.recyclerView.adapter = adapter
         }
     }

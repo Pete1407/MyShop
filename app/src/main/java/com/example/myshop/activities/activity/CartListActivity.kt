@@ -116,9 +116,6 @@ class CartListActivity : BaseActivity(),BaseCommon {
                 this.showProgressDialog()
                 FireStoreClass().removeItemInCart(it.id,this)
             }
-            adapter!!.setEventComputeTotalPrice {
-                Log.i(MyShopKey.TAG,"${it.cart_quantity} ${it.price}")
-            }
         }else{
             adapter?.refreshDataInCart(cartItems)
         }

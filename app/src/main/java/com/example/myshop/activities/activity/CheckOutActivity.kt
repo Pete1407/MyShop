@@ -9,29 +9,27 @@ import com.example.myshop.R
 import com.example.myshop.activities.adapter.CheckOutAdapter
 import com.example.myshop.databinding.ActivityCheckOutBinding
 import com.example.myshop.firebase.FireStoreClass
-import com.example.myshop.model.AddressModel
-import com.example.myshop.model.Cart
-import com.example.myshop.model.ObjectType
 import com.example.myshop.util.BaseCommon
 import com.example.myshop.activities.adapter.CheckOutAdapter.Companion.TYPE_PRODUCT
 import com.example.myshop.activities.adapter.CheckOutAdapter.Companion.TYPE_ADDRESS
 import com.example.myshop.activities.adapter.CheckOutAdapter.Companion.TYPE_RECEIPT
-import com.example.myshop.model.Order
+import com.example.myshop.model.*
 
 
 class CheckOutActivity : BaseActivity(),BaseCommon {
 
     private var itemList = ArrayList<Cart>()
+    private var prodList = ArrayList<Product>()
     private var selectedAddress : AddressModel? = null
     private var adapter : CheckOutAdapter? = null
     private var order : Order? = null
     private var subTotal : Double = 0.0
-    private var charge : Double = 10.0
     private var total : Double = 0.0
 
     private val binding : ActivityCheckOutBinding by lazy{
         ActivityCheckOutBinding.inflate(layoutInflater)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -43,7 +41,8 @@ class CheckOutActivity : BaseActivity(),BaseCommon {
 
     override fun onResume() {
         super.onResume()
-        FireStoreClass().getCartList(this)
+        showProgressDialog()
+        FireStoreClass().getProductList(this)
     }
 
     override fun setToolbar() {
@@ -64,9 +63,10 @@ class CheckOutActivity : BaseActivity(),BaseCommon {
                     total_amount = total.toString(),
                     shipping_charge = "10.0"
                 )
+                FireStoreClass().checkOutCartAndProduct(itemList,this)
                 FireStoreClass().addOrderToDB(order!!,this)
-            }
 
+            }
         }
     }
 
@@ -77,12 +77,20 @@ class CheckOutActivity : BaseActivity(),BaseCommon {
 
     }
 
-    fun getCarts(list : ArrayList<Cart>){
+    fun getCarts(cartlist : ArrayList<Cart>){
+        hideProgressDialog()
         var item = ArrayList<ObjectType>()
-        this.subTotal = computePrice(list)
+        this.subTotal = computePrice(cartlist)
         this.total = computeCharge(subTotal)
         var collectText = "$$subTotal $$total"
-        this.itemList = list
+        for(prod in prodList){
+            for(cart in cartlist){
+                if(prod.id == cart.product_id){
+                    cart.stock_quantity = prod.quantity.toString()
+                }
+            }
+        }
+        this.itemList = cartlist
         item.add(ObjectType(TYPE_PRODUCT,itemList))
         item.add(ObjectType(TYPE_ADDRESS,selectedAddress))
         item.add(ObjectType(TYPE_RECEIPT,collectText))
@@ -93,7 +101,11 @@ class CheckOutActivity : BaseActivity(),BaseCommon {
     private fun computePrice(list : ArrayList<Cart>):Double{
         var subTotal  = 0.0
         for(i in list){
-            subTotal += i.price.toInt()
+            if(i.cart_quantity.toInt() > 1){
+                subTotal += (i.price.toInt() * i.cart_quantity.toInt())
+            }else{
+                subTotal += i.price.toInt()
+            }
         }
         return subTotal
     }
@@ -109,6 +121,11 @@ class CheckOutActivity : BaseActivity(),BaseCommon {
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
         finish()
+    }
+
+    fun getProductListSuccess(prodList : ArrayList<Product>){
+        this.prodList = prodList
+        FireStoreClass().getCartList(this)
     }
 
     companion object{
