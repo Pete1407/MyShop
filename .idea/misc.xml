@@ -4,10 +4,24 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.23148148148148148" />
+        <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/drawable/bg_add_address.xml" value="0.2703125" />
+        <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/drawable/bg_address.xml" value="0.2703125" />
+        <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/drawable/bg_default_image_product.xml" value="0.2703125" />
+        <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/drawable/bg_tag_place.xml" value="0.2703125" />
+        <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/drawable/ic_arrow_back_black.xml" value="0.2703125" />
+        <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/drawable/selector_bg_check_gender.xml" value="0.2703125" />
+        <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/layout/activity_add_address.xml" value="0.264" />
+        <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/layout/activity_address_list.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/layout/activity_dashboard.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/layout/activity_detail_product.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/layout/activity_login.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/layout/activity_main.xml" value="0.17391304347826086" />
+        <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/layout/activity_register.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/layout/activity_setting.xml" value="0.264" />
+        <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/layout/activity_user_profile.xml" value="0.12360688956433637" />
+        <entry key="..\:/Users/USER/Documents/Projects/myshop-android/app/src/main/res/layout/adapter_item_address.xml" value="0.4" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2515625" />
+        <entry key="app/src/main/res/drawable/bg_black_delete.xml" value="0.11770833333333333" />
         <entry key="app/src/main/res/drawable/bg_border_edit.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/bg_border_edittext.xml" value="0.2515625" />
         <entry key="app/src/main/res/drawable/bg_button.xml" value="0.2515625" />
@@ -23,14 +37,18 @@
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_ios_new_24.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_baseline_dashboard_24.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.11770833333333333" />
         <entry key="app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_baseline_horizontal_rule_24.xml" value="0.14895833333333333" />
         <entry key="app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.1296875" />
         <entry key="app/src/main/res/drawable/main_background_app.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/selector_bg_check_gender.xml" value="0.10833333333333334" />
+        <entry key="app/src/main/res/layout/activity_add_address.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_add_product.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_address_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_cart_list.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_check_out.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_detail_product.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.165" />
@@ -40,10 +58,16 @@
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/adapter_an_item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/adapter_dashboard_item.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/adapter_item_address.xml" value="0.335" />
         <entry key="app/src/main/res/layout/adapter_item_cart.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/adapter_item_ordered.xml" value="0.335" />
         <entry key="app/src/main/res/layout/adapter_item_product.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/adapter_item_receipt.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/adapter_item_selected_address.xml" value="0.335" />
         <entry key="app/src/main/res/layout/adapter_item_title.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/adapter_items_ordered.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_base.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.25" />

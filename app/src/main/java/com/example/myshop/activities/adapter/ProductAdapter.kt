@@ -18,34 +18,45 @@ import com.example.myshop.activities.fragment.ProductFragment.Companion.PART_CAR
 import com.example.myshop.databinding.AdapterDashboardItemBinding
 import com.example.myshop.databinding.AdapterItemCartBinding
 import com.example.myshop.model.Cart
+import com.example.myshop.util.gone
 
 
-class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ProductAdapter(private var list: ArrayList<ObjectType>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var eventDeleteProductListener : ((id : String) -> Unit)? = null
-    fun setEventDeleteListener(event : ((id : String)->Unit)){
+    var eventDeleteProductListener: ((id: String) -> Unit)? = null
+    fun setEventDeleteListener(event: ((id: String) -> Unit)) {
         eventDeleteProductListener = event
     }
 
-    var eventChooseItemListener : ((id:String)->Unit)? = null
-    fun setEventChooseItemProductListener(event:((id : String)->Unit)){
+    var eventChooseItemListener: ((id: String) -> Unit)? = null
+    fun setEventChooseItemProductListener(event: ((id: String) -> Unit)) {
         eventChooseItemListener = event
     }
 
-    //var eventDecreaseItemListener : ((number : Int,item:Cart))
+    var eventDeleteItemInCartListener : ((item:Cart)-> Unit)? = null
+    fun setEventDeleteCartListener(event : ((item:Cart)-> Unit)){
+        eventDeleteItemInCartListener = event
+    }
 
-//    fun setEventClickProductItemListener(listener : ((id : String)-> Unit)){
-//
-//    }
-
-    fun refreshData(data : ArrayList<Product>){
+    fun refreshData(data: ArrayList<Product>) {
         list.clear()
         var dataList = ArrayList<ObjectType>()
-        dataList.add(ObjectType(PART_TITLE,null))
+        dataList.add(ObjectType(PART_TITLE, null))
         data.forEach {
-            dataList.add(ObjectType(PART_ITEM,it))
+            dataList.add(ObjectType(PART_ITEM, it))
         }
         list = dataList
+        notifyDataSetChanged()
+    }
+
+    fun refreshDataInCart(newData: ArrayList<Cart>) {
+        list.clear()
+        var dataList = ArrayList<ObjectType>()
+        newData.forEach {
+            dataList.add(ObjectType(PART_CART_ITEM, it))
+        }
+        list.addAll(dataList)
         notifyDataSetChanged()
     }
 
@@ -56,23 +67,43 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             PART_TITLE -> {
-                val holder = AdapterItemTitleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val holder = AdapterItemTitleBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 TitleViewHolder(holder)
             }
             PART_ITEM -> {
-                val holder = AdapterItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val holder = AdapterItemProductBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 ProductViewHolder(holder)
             }
-            PART_DASHBOARD_ITEM ->{
-                val holder = AdapterDashboardItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+            PART_DASHBOARD_ITEM -> {
+                val holder = AdapterDashboardItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 ItemDashBoardViewHolder(holder)
             }
-            PART_CART_ITEM ->{
-                val holder = AdapterItemCartBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+            PART_CART_ITEM -> {
+                val holder = AdapterItemCartBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 CartItemViewHolder(holder)
             }
             else -> {
-                val holder = AdapterItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val holder = AdapterItemProductBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 ProductViewHolder(holder)
             }
         }
@@ -80,16 +111,18 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is TitleViewHolder -> { holder.createView() }
+            is TitleViewHolder -> {
+                holder.createView()
+            }
             is ProductViewHolder -> {
                 val item = list[position].objectHolder as Product
                 holder.setItem(item)
             }
-            is CartItemViewHolder ->{
+            is CartItemViewHolder -> {
                 val item = list[position].objectHolder as Cart
                 holder.setItem(item)
             }
-            is ItemDashBoardViewHolder ->{
+            is ItemDashBoardViewHolder -> {
                 val item = list[position].objectHolder as Product
                 holder.setItem(item)
             }
@@ -100,22 +133,30 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
         return list.size
     }
 
-    inner class TitleViewHolder(val binding: AdapterItemTitleBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class TitleViewHolder(val binding: AdapterItemTitleBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun createView() {
 
         }
     }
 
-    inner class ProductViewHolder(val binding: AdapterItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ProductViewHolder(val binding: AdapterItemProductBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun setItem(product: Product) {
             val context = binding.root.context
-            GlideLoader(context).loadImage(product.image,binding.imageProduct)
+            GlideLoader(context).loadImage(product.image, binding.imageProduct)
             binding.titleProduct.text = product.title
             val unit = context.resources.getString(R.string.item)
-            binding.quantity.setTextColor(ContextCompat.getColor(context,android.R.color.holo_red_dark))
-            binding.quantity.text = context.resources.getString(R.string.Quantity)+": ${product.quantity} $unit"
+            binding.quantity.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    android.R.color.holo_red_dark
+                )
+            )
+            binding.quantity.text =
+                context.resources.getString(R.string.Quantity) + ": ${product.quantity} $unit"
             binding.priceProduct.text = "$${product.price}"
             binding.deleteProduct.setOnClickListener {
                 eventDeleteProductListener!!.invoke(product.id.toString())
@@ -126,11 +167,12 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
         }
     }
 
-    inner class ItemDashBoardViewHolder(val binding : AdapterDashboardItemBinding):RecyclerView.ViewHolder(binding.root){
+    inner class ItemDashBoardViewHolder(val binding: AdapterDashboardItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun setItem(product: Product){
+        fun setItem(product: Product) {
             val context = binding.root.context
-            GlideLoader(context).loadImage(product.image,binding.imageProduct)
+            GlideLoader(context).loadImage(product.image, binding.imageProduct)
             binding.title.text = product.title
             binding.price.text = "$${product.price}"
             binding.root.setOnClickListener {
@@ -139,12 +181,18 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) : RecyclerView.Ada
         }
     }
 
-    inner class CartItemViewHolder(val binding : AdapterItemCartBinding):RecyclerView.ViewHolder(binding.root){
+    // CartItem
+    inner class CartItemViewHolder(val binding: AdapterItemCartBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun setItem(cart : Cart){
+        fun setItem(cart: Cart) {
             binding.productName.text = cart.title
             binding.priceProduct.text = "$${cart.price}"
-            binding.addProduct.setUI(1,cart)
+            binding.delete.setOnClickListener {
+                eventDeleteItemInCartListener?.invoke(cart)
+            }
+            GlideLoader(binding.root.context).loadImage(cart.image, binding.image)
+            binding.addProduct.setUI(binding.root.context,cart)
         }
     }
 

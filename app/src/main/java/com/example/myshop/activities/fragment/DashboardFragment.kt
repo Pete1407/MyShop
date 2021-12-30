@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.myshop.activities.activity.CartListActivity
 import com.example.myshop.activities.activity.DetailProductActivity
 import com.example.myshop.activities.activity.SettingActivity
 import com.example.myshop.activities.adapter.ProductAdapter
@@ -62,6 +63,9 @@ class DashboardFragment : BaseFragment(),BaseCommon {
     override fun setListener() {
         binding.setting.setOnClickListener {
             SettingActivity.create(requireContext())
+        }
+        binding.cart.setOnClickListener {
+            CartListActivity.create(requireContext())
         }
     }
 

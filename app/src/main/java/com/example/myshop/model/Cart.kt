@@ -11,6 +11,6 @@ data class Cart(
     val price : String = "",
     val image : String = "",
     val cart_quantity : String = "",
-    val stock_quantity : String = "",
+    var stock_quantity : String = "",
     var id : String = ""
 ):Parcelable
