@@ -85,14 +85,16 @@ class CartListActivity : BaseActivity(),BaseCommon {
         var totalPrice = 0
         val shippingPrice = 10
         if(items.isEmpty()){
-            totalPrice = 0
             binding.constraintLayout.gone()
         }else{
             binding.constraintLayout.visible()
-            items.forEach {
-                totalPrice += it.price.toInt()
+            for(i in items){
+                if(i.cart_quantity.toInt() > 1){
+                    totalPrice += (i.price.toInt() * i.cart_quantity.toInt())
+                }else{
+                    totalPrice += i.price.toInt()
+                }
             }
-            Log.i("result","total price --> $totalPrice")
             binding.subTotalValue.text = "$$totalPrice"
             binding.shippingChargeValue.text = "$$shippingPrice"
             binding.totalAmountValue.text = "$${totalPrice+shippingPrice}"
@@ -110,11 +112,12 @@ class CartListActivity : BaseActivity(),BaseCommon {
         }
         if(adapter == null){
             adapter = ProductAdapter(data)
-            adapter!!.setEventDecreaseQuantityListener { number, item ->
-
+            adapter!!.setEventDeleteCartListener {
+                this.showProgressDialog()
+                FireStoreClass().removeItemInCart(it.id,this)
             }
-            adapter!!.setEventIncreaseQuantityListener { number, item ->
-
+            adapter!!.setEventComputeTotalPrice {
+                Log.i(MyShopKey.TAG,"${it.cart_quantity} ${it.price}")
             }
         }else{
             adapter?.refreshDataInCart(cartItems)

@@ -6,6 +6,10 @@ import android.provider.MediaStore
 
 object MyShopKey {
 
+    // tag
+    const val TAG = "result"
+    const val ERROR = "error"
+
     // collections
     const val USERS = "users"
     const val PRODUCTS = "products"

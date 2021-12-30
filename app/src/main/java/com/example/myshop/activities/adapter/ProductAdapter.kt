@@ -34,24 +34,9 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
         eventChooseItemListener = event
     }
 
-    var eventDecreaseItemListener: ((number: Int, item: Cart) -> Unit)? = null
-    fun setEventDecreaseQuantityListener(event: ((number: Int, item: Cart) -> Unit)) {
-        eventDecreaseItemListener = event
-    }
-
-    var eventIncreaseItemListener: ((number: Int, item: Cart) -> Unit)? = null
-    fun setEventIncreaseQuantityListener(event: ((number: Int, item: Cart) -> Unit)) {
-        eventIncreaseItemListener = event
-    }
-
-    var eventDeleteItemInCartListener : ((item:Cart,numberOrder:Int)-> Unit)? = null
-    fun setEventDeleteCartListener(event : ((item:Cart,numberOrder:Int)-> Unit)){
+    var eventDeleteItemInCartListener : ((item:Cart)-> Unit)? = null
+    fun setEventDeleteCartListener(event : ((item:Cart)-> Unit)){
         eventDeleteItemInCartListener = event
-    }
-
-    var eventCheckStockListener : ((number: Int, item: Cart) -> Unit)? = null
-    fun setEventCheckStockProductListener(event : ((number: Int, item: Cart) -> Unit)){
-        eventCheckStockListener = event
     }
 
     fun refreshData(data: ArrayList<Product>) {
@@ -203,6 +188,9 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
         fun setItem(cart: Cart) {
             binding.productName.text = cart.title
             binding.priceProduct.text = "$${cart.price}"
+            binding.delete.setOnClickListener {
+                eventDeleteItemInCartListener?.invoke(cart)
+            }
             GlideLoader(binding.root.context).loadImage(cart.image, binding.image)
             binding.addProduct.setUI(binding.root.context,cart)
         }

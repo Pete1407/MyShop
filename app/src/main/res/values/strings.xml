@@ -128,5 +128,6 @@
     <string name="cash_on_delivery">Cash On Delivery</string>
     <string name="save_order_msg">Your order was placed successfully.</string>
     <string name="msg_out_of_stock">Out of stock</string>
+    <string name="msg_out_of_stock2">Available stock is %1$s. You can not add more than stock quantity.</string>
 
 </resources>

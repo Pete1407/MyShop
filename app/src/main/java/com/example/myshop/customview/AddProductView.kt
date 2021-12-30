@@ -22,31 +22,40 @@ class AddProductView(context: Context, attributeSet: AttributeSet) :
 
     private val binding = ViewAddStockBinding.inflate(LayoutInflater.from(context), this, true)
 
-    fun setUI(context : Context,cart: Cart) {
+    fun setUI(context: Context, cart: Cart) {
         binding.numberOfProduct.text = cart.cart_quantity
         binding.decrease.setOnClickListener {
-            if(cart.cart_quantity == "1"){
-                if(context is CartListActivity){
+            if (cart.cart_quantity == "1") {
+                if (context is CartListActivity) {
                     context.showProgressDialog()
-                    FireStoreClass().removeItemInCart(cart.id,context)
+                    FireStoreClass().removeItemInCart(cart.id, context)
                 }
-            }else{
-                var map = HashMap<String,Any>()
-                map[MyShopKey.CART_QUANTITY] = ((cart.cart_quantity.toInt()-1)).toString()
-                FireStoreClass().updateCart(context as CartListActivity,cart,map)
+            } else {
+                if (context is CartListActivity) {
+                    context.showProgressDialog()
+                }
+                var map = HashMap<String, Any>()
+                map[MyShopKey.CART_QUANTITY] = ((cart.cart_quantity.toInt() - 1)).toString()
+                FireStoreClass().updateCart(context as CartListActivity, cart, map)
             }
         }
         binding.increase.setOnClickListener {
-            if(cart.cart_quantity.toInt() < cart.stock_quantity.toInt()){
-                if(context is CartListActivity){
+            if (cart.cart_quantity.toInt() < cart.stock_quantity.toInt()) {
+                if (context is CartListActivity) {
                     context.showProgressDialog()
                 }
-                var map = HashMap<String,Any>()
-                map[MyShopKey.CART_QUANTITY] = ((cart.cart_quantity.toInt())+1).toString()
-                FireStoreClass().updateCart(context as CartListActivity,cart,map)
-            }else{
-                if(context is CartListActivity){
-                    context.showSnackBar("stock is not sufficient.",true)
+
+                var map = HashMap<String, Any>()
+                map[MyShopKey.CART_QUANTITY] = ((cart.cart_quantity.toInt()) + 1).toString()
+                FireStoreClass().updateCart(context as CartListActivity, cart, map)
+            } else {
+                if (context is CartListActivity) {
+                    context.showSnackBar(
+                        context.getString(
+                            R.string.msg_out_of_stock2,
+                            cart.stock_quantity
+                        ), true
+                    )
                 }
             }
 
