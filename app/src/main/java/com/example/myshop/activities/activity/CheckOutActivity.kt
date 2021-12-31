@@ -61,7 +61,8 @@ class CheckOutActivity : BaseActivity(),BaseCommon {
                     image = itemList[0].image,
                     sub_total_amount = subTotal.toString(),
                     total_amount = total.toString(),
-                    shipping_charge = "10.0"
+                    shipping_charge = "10.0",
+                    order_dateTime = System.currentTimeMillis()
                 )
                 FireStoreClass().checkOutCartAndProduct(itemList,this)
                 FireStoreClass().addOrderToDB(order!!,this)

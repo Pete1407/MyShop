@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <com.example.myshop.customview.CustomImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_arrow_back_white" />
+
+        <com.example.myshop.customview.NormalTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_order_detail"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            style="@style/ToolbarTitleStyle"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#FCF9F9">
+
+        <com.example.myshop.customview.NormalTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:textBlack="true"
+            android:layout_margin="@dimen/spacing_medium"
+            android:text="@string/order_detail"/>
+
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:padding="4dp"
+           android:background="@color/white">
+           <com.example.myshop.customview.NormalTextView
+               android:id="@+id/id"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/order_id"
+               android:layout_marginStart="@dimen/spacing_medium"
+               android:paddingBottom="@dimen/spacing_small"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent"/>
+           <com.example.myshop.customview.NormalTextView
+               android:id="@+id/date"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/order_date"
+               android:layout_marginStart="@dimen/spacing_medium"
+               android:paddingBottom="@dimen/spacing_small"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/id"/>
+           <com.example.myshop.customview.NormalTextView
+               android:id="@+id/status"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="@dimen/spacing_medium"
+               android:text="@string/order_status"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/date"/>
+
+           <com.example.myshop.customview.NormalTextView
+               android:id="@+id/idValue"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:paddingEnd="@dimen/spacing_small"
+               android:paddingBottom="@dimen/spacing_small"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toTopOf="parent"
+               tools:text="My Order 011000111"/>
+           <com.example.myshop.customview.NormalTextView
+               android:id="@+id/dateValue"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:paddingEnd="@dimen/spacing_small"
+               android:paddingBottom="@dimen/spacing_small"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/id"
+               tools:text="01 Jan 1970 01:00"/>
+           <com.example.myshop.customview.NormalTextView
+               android:id="@+id/statusValue"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:paddingEnd="@dimen/spacing_small"
+               tools:text="Pending"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/date"/>
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.example.myshop.customview.NormalTextView
+            android:id="@+id/productItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:textBlack="true"
+            android:layout_margin="@dimen/spacing_medium"
+            android:text="@string/product_item"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            android:background="@color/white"
+            tools:listitem="@layout/adapter_an_item"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <com.example.myshop.customview.NormalTextView
+            android:id="@+id/shippingAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:textBlack="true"
+            android:layout_margin="@dimen/spacing_medium"
+            android:text="@string/shipping_address"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:background="@color/white">
+            <com.example.myshop.customview.NormalTextView
+                android:id="@+id/place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:paddingBottom="@dimen/spacing_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Home"/>
+            <com.example.myshop.customview.NormalTextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:typeText="@string/text_bold"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:paddingBottom="@dimen/spacing_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/place"
+                tools:text="Hippo popotamus"/>
+
+            <com.example.myshop.customview.NormalTextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:paddingBottom="@dimen/spacing_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                tools:text="123 hippo road"/>
+
+            <com.example.myshop.customview.NormalTextView
+                android:id="@+id/note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:paddingBottom="@dimen/spacing_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address"
+                tools:text="nope"/>
+
+            <com.example.myshop.customview.NormalTextView
+                android:id="@+id/zipcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:paddingBottom="@dimen/spacing_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/note"
+                tools:text="21345"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.example.myshop.customview.NormalTextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/items_receipt"
+            app:typeText="@string/text_bold"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginStart="@dimen/spacing_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:padding="@dimen/spacing_small"
+            app:layout_constraintTop_toBottomOf="@id/title">
+
+            <com.example.myshop.customview.NormalTextView
+                android:id="@+id/subTotalTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_small"
+                android:text="@string/sub_total"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.example.myshop.customview.NormalTextView
+                android:id="@+id/subTotalValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="$300.12" />
+
+            <com.example.myshop.customview.NormalTextView
+                android:id="@+id/shippingChargeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_small"
+                android:text="@string/shippingCharge"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subTotalTitle" />
+
+            <com.example.myshop.customview.NormalTextView
+                android:id="@+id/shippingChargeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subTotalValue"
+                tools:text="$10" />
+
+            <com.example.myshop.customview.NormalTextView
+                android:id="@+id/totalAmountTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_small"
+                android:text="@string/totalAmount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/shippingChargeTitle"
+                app:typeText="@string/text_bold" />
+
+            <com.example.myshop.customview.NormalTextView
+                android:id="@+id/totalAmountValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/shippingChargeValue"
+                app:typeText="@string/text_bold"
+                tools:text="$310" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

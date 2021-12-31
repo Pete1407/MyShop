@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.myshop.activities.activity.*
 import com.example.myshop.activities.fragment.DashboardFragment
+import com.example.myshop.activities.fragment.OrderFragment
 import com.example.myshop.activities.fragment.ProductFragment
 import com.example.myshop.model.*
 import com.example.myshop.util.MyShopKey
@@ -513,7 +514,7 @@ class FireStoreClass {
     }
 
     fun addOrderToDB(order: Order, activity: Activity) {
-        val item = fireStore.collection(MyShopKey.ORDER).document()
+        val item = fireStore.collection(MyShopKey.ORDERS).document()
         order.id = item.id
         item.set(order, SetOptions.merge())
             .addOnSuccessListener {
@@ -587,6 +588,26 @@ class FireStoreClass {
                activity.hideProgressDialog()
                 Log.e(MyShopKey.ERROR,"error while checkout cart and product")
            }
-
    }
+
+    fun getOrder(fragment : OrderFragment){
+        fireStore.collection(MyShopKey.ORDERS)
+            .whereEqualTo(MyShopKey.USER_ID,getUserID())
+            .get()
+            .addOnSuccessListener {
+                val result = it.documents
+                var orders = ArrayList<Order>()
+                for(i in result){
+                    val item = i.toObject(Order::class.java)
+                    if (item != null) {
+                        item.id = i.id
+                    }
+                    orders.add(item!!)
+                }
+                fragment.getMyOrderSuccess(orders)
+            }
+            .addOnFailureListener {
+                fragment.hideProgressDialog()
+            }
+    }
 }

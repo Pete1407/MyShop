@@ -5,10 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshop.databinding.AdapterAnItemBinding
 import com.example.myshop.model.Cart
+import com.example.myshop.model.Order
 import com.example.myshop.util.GlideLoader
 import com.example.myshop.util.ScreenUtility
 
-class ItemAdapter(private var list : ArrayList<Cart>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ItemAdapter(private var list : ArrayList<Any>):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var eventClickListener:((order:Order)->Unit)? = null
+
+    fun setEventClickOrder(event : ((order : Order)->Unit)){
+        this.eventClickListener = event
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val viewHolder = AdapterAnItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -18,7 +25,14 @@ class ItemAdapter(private var list : ArrayList<Cart>):RecyclerView.Adapter<Recyc
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is ItemViewHolder){
-            holder.bind(list[position])
+            when(list[position]){
+                is Cart ->{
+                    holder.bind(list[position])
+                }
+                is Order ->{
+                    holder.bind(list[position])
+                }
+            }
         }
     }
 
@@ -28,10 +42,20 @@ class ItemAdapter(private var list : ArrayList<Cart>):RecyclerView.Adapter<Recyc
 
     inner class ItemViewHolder(val binding : AdapterAnItemBinding):RecyclerView.ViewHolder(binding.root){
 
-        fun bind(item : Cart){
-            binding.titleProduct.text = item.title
-            binding.priceProduct.text = "$${item.price}"
-            GlideLoader(binding.root.context).loadImage(item.image,binding.imageProduct)
+        fun bind(item : Any){
+            if(item is Cart){
+                binding.titleProduct.text = item.title
+                binding.priceProduct.text = "$${item.price}"
+                GlideLoader(binding.root.context).loadImage(item.image,binding.imageProduct)
+            }else if(item is Order){
+                binding.titleProduct.text = item.title
+                binding.priceProduct.text = "$${item.total_amount}"
+                GlideLoader(binding.root.context).loadImage(item.image,binding.imageProduct)
+                binding.root.setOnClickListener {
+                    eventClickListener?.invoke(item)
+                }
+            }
+
         }
     }
 
