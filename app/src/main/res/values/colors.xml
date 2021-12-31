@@ -27,4 +27,6 @@
     <color name="bg_dialog">#DF5B67</color>
     <color name="bg_checkout">#EEE9E9</color>
     <color name="bg_main_checkout">#E2DFDF</color>
+    <color name="bg_status_in_progress">#EE9D10</color>
+    <color name="bg_status_delivered">#53E80E</color>
 </resources>

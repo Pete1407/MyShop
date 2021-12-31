@@ -2,8 +2,12 @@ package com.example.myshop.activities.activity
 
 import android.content.Context
 import android.content.Intent
+import android.icu.util.TimeUnit
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.util.TimeUtils
+import androidx.core.content.ContextCompat
 import com.example.myshop.R
 import com.example.myshop.activities.adapter.ItemAdapter
 import com.example.myshop.databinding.ActivityOrderDetailBinding
@@ -45,8 +49,24 @@ class OrderDetailActivity : BaseActivity(),BaseCommon {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = order.order_dateTime
         val dateText = dateFormat.format(calendar.time)
+        val diffInMillisecond = System.currentTimeMillis() - order.order_dateTime
+        val diffInHour = java.util.concurrent.TimeUnit.MILLISECONDS.toHours(diffInMillisecond)
+        Log.i(MyShopKey.TAG,"${System.currentTimeMillis()} - ${order.order_dateTime} = $$diffInMillisecond")
+        Log.i(MyShopKey.TAG,"diffInHour --> $diffInHour")
+        when{
+            diffInHour < 1 ->{
+                binding.statusValue.setTextColor(ContextCompat.getColor(this,R.color.snackbar_unsuccess))
+                binding.statusValue.text = getString(R.string.status_order_pending)
+            }
+            diffInHour < 2 ->{
+                binding.statusValue.setTextColor(ContextCompat.getColor(this,R.color.bg_status_in_progress))
+                binding.statusValue.text = getString(R.string.status_order_in_progress)
+            }else->{
+                binding.statusValue.setTextColor(ContextCompat.getColor(this,R.color.bg_status_delivered))
+                binding.statusValue.text = getString(R.string.status_order_delivered)
+            }
+        }
         binding.dateValue.text = dateText
-        binding.statusValue.text = "Delivered"
         binding.productItemTitle.text = "${getString(R.string.product_item,order.items.size.toString())}"
         binding.place.text = order.addressModel.type
         binding.name.text = order.addressModel.name
