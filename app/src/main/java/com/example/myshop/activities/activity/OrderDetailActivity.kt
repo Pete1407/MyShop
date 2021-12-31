@@ -10,7 +10,11 @@ import com.example.myshop.databinding.ActivityOrderDetailBinding
 import com.example.myshop.model.Cart
 import com.example.myshop.model.Order
 import com.example.myshop.util.BaseCommon
+import com.example.myshop.util.MyShopKey
 import com.google.firestore.v1.StructuredQuery
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class OrderDetailActivity : BaseActivity(),BaseCommon {
 
@@ -37,7 +41,11 @@ class OrderDetailActivity : BaseActivity(),BaseCommon {
 
     override fun setUI() {
         binding.idValue.text = "My Order ${order.id}"
-        binding.dateValue.text = order.order_dateTime.toString()
+        val dateFormat = SimpleDateFormat(MyShopKey.DATE_FORMAT,Locale.getDefault())
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = order.order_dateTime
+        val dateText = dateFormat.format(calendar.time)
+        binding.dateValue.text = dateText
         binding.statusValue.text = "Delivered"
         binding.productItemTitle.text = "${getString(R.string.product_item,order.items.size.toString())}"
         binding.place.text = order.addressModel.type

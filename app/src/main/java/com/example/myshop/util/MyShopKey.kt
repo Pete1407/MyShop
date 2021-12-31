@@ -56,6 +56,7 @@ object MyShopKey {
     const val TYPE = "type"
     const val OTHER_DETAIL = "otherDetails"
 
+    const val DATE_FORMAT = "dd MMM yyyy hh:mm"
 
     fun showGallery(activity: Activity){
         val intent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
