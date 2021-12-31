@@ -3,6 +3,7 @@ package com.example.myshop.activities.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myshop.R
 import com.example.myshop.databinding.AdapterAnItemBinding
 import com.example.myshop.model.Cart
 import com.example.myshop.model.Order
@@ -43,9 +44,11 @@ class ItemAdapter(private var list : ArrayList<Any>):RecyclerView.Adapter<Recycl
     inner class ItemViewHolder(val binding : AdapterAnItemBinding):RecyclerView.ViewHolder(binding.root){
 
         fun bind(item : Any){
+            val context = binding.root.context
             if(item is Cart){
                 binding.titleProduct.text = item.title
                 binding.priceProduct.text = "$${item.price}"
+                binding.sizeProduct.text = "${context.getString(R.string.total,item.cart_quantity.toString())}"
                 GlideLoader(binding.root.context).loadImage(item.image,binding.imageProduct)
             }else if(item is Order){
                 binding.titleProduct.text = item.title

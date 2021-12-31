@@ -23,7 +23,7 @@ class OrderDetailActivity : BaseActivity(),BaseCommon {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        this.order = intent.getParcelableExtra<Order>(PARAM_ORDER)!!
+        this.order = intent.getParcelableExtra(PARAM_ORDER)!!
         setToolbar()
         setUI()
         setListener()
@@ -39,7 +39,17 @@ class OrderDetailActivity : BaseActivity(),BaseCommon {
         binding.idValue.text = "My Order ${order.id}"
         binding.dateValue.text = order.order_dateTime.toString()
         binding.statusValue.text = "Delivered"
-        binding.productItemTitle.text = getString(R.string.product_item,order.items.size)
+        binding.productItemTitle.text = "${getString(R.string.product_item,order.items.size.toString())}"
+        binding.place.text = order.addressModel.type
+        binding.name.text = order.addressModel.name
+        binding.note.text = order.addressModel.additionalNote
+        binding.zipcode.text = order.addressModel.zipCode
+        binding.address.text = order.addressModel.address
+        binding.shippingChargeValue.text = "$10.0"
+        val subTotal = computePrice(order.items)
+        binding.subTotalValue.text = "$${subTotal}"
+        val totalPrice = computeCharge(subTotal)
+        binding.totalAmountValue.text = "$$totalPrice"
         setAdapter(order.items)
     }
 
@@ -54,6 +64,22 @@ class OrderDetailActivity : BaseActivity(),BaseCommon {
         }
         val adapter = ItemAdapter(items)
         binding.recyclerView.adapter = adapter
+    }
+
+    private fun computePrice(list : ArrayList<Cart>):Double{
+        var subTotal  = 0.0
+        for(i in list){
+            if(i.cart_quantity.toInt() > 1){
+                subTotal += (i.price.toInt() * i.cart_quantity.toInt())
+            }else{
+                subTotal += i.price.toInt()
+            }
+        }
+        return subTotal
+    }
+
+    private fun computeCharge(subTotal : Double):Double{
+        return subTotal + 10
     }
 
     companion object{

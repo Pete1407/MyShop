@@ -65,6 +65,17 @@
                 android:textSize="@dimen/font_small"
                 app:layout_constraintStart_toEndOf="@+id/imageProduct"
                 tools:text="$200" />
+
+            <com.example.myshop.customview.NormalTextView
+                android:id="@+id/sizeProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/imageProduct"
+                android:paddingStart="@dimen/spacing_small"
+                android:paddingTop="@dimen/spacing_small"
+                android:textSize="@dimen/font_small"
+                app:layout_constraintStart_toEndOf="@+id/imageProduct"
+                tools:text="2" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
