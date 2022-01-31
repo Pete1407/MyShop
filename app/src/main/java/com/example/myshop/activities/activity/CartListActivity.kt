@@ -16,6 +16,7 @@ import com.example.myshop.util.BaseCommon
 import com.example.myshop.util.gone
 import com.example.myshop.util.visible
 import com.example.myshop.activities.fragment.ProductFragment.Companion.PART_CART_ITEM
+import com.example.myshop.util.MyShopKey
 
 class CartListActivity : BaseActivity(),BaseCommon {
     private var adapter : ProductAdapter? = null
@@ -97,21 +98,21 @@ class CartListActivity : BaseActivity(),BaseCommon {
             adapter = ProductAdapter(data)
 
             adapter!!.setEventDecreaseQuantityListener { number, item ->
-                Log.i("result","name --> ${item.title}")
-                Log.i("result","number --> $number")
-                FireStoreClass().checkQuantity(item.product_id,number,this)
+//                Log.i("result","name --> ${item.title}")
+//                Log.i("result","number --> $number")
+//                FireStoreClass().checkQuantity(item.product_id,number,this)
             }
-            adapter!!.setEventIncreaseQuantityListener { number, item ->
-                Log.i("result","name --> ${item.title}")
-                Log.i("result","number --> $number")
-                //FireStoreClass().checkQuantity(item.product_id,number,this)
+            adapter!!.setEventIncreaseQuantityListener { number, itemCart ->
+                Log.i(MyShopKey.TAG,"item:: ${itemCart.title}  and order:: $number")
+                FireStoreClass().checkQuantity(itemCart,number,this)
             }
+
             adapter!!.setEventCheckStockProductListener { number, item ->
-                FireStoreClass().checkQuantity(item.product_id,number,this)
+                FireStoreClass().checkQuantity(item,number,this)
             }
+
             adapter!!.setEventDeleteCartListener { result,numberOrder ->
                 showProgressDialog()
-                Log.i("result","number of order:: $numberOrder")
                 FireStoreClass().deleteProductInCart(result,this,numberOrder)
             }
         }else{
@@ -138,12 +139,12 @@ class CartListActivity : BaseActivity(),BaseCommon {
 
     fun showMessageOutOfStock(quantityOfProduct : Int){
         Log.i("result","Quantity of Product in CartList :: $quantityOfProduct")
-        adapter?.updateStock(quantityOfProduct)
+        adapter?.notifyDataSetChanged()
         showSnackBar(getString(R.string.msg_out_of_stock),true)
     }
 
     fun showMessageSuccess(){
-        Log.i("result","check stock success")
+        showSnackBar("add order into your cart successfully",false)
     }
 
     companion object{

@@ -51,8 +51,8 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
         eventDeleteItemInCartListener = event
     }
 
-    var eventCheckStockListener : ((number: Int, item: Cart) -> Unit)? = null
-    fun setEventCheckStockProductListener(event : ((number: Int, item: Cart) -> Unit)){
+    var eventCheckStockListener : ((numberOfNewOrder: Int, item: Cart) -> Unit)? = null
+    fun setEventCheckStockProductListener(event : ((numberOfNewOrder: Int, item: Cart) -> Unit)){
         eventCheckStockListener = event
     }
 
@@ -78,9 +78,7 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
     }
 
     fun updateStock(quantity : Int){
-        checkStock = quantity - 1
-        //notifyDataSetChanged()
-        Log.i("result","in func updateStock --> $quantity")
+        notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -143,7 +141,7 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
             }
             is CartItemViewHolder -> {
                 val item = list[position].objectHolder as Cart
-                holder.setItem(item, eventDecreaseItemListener!!, eventIncreaseItemListener!!,eventCheckStockListener!!)
+                holder.setItem(item)
             }
             is ItemDashBoardViewHolder -> {
                 val item = list[position].objectHolder as Product
@@ -207,19 +205,12 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
     inner class CartItemViewHolder(val binding: AdapterItemCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun setItem(
-            cart: Cart,
-            decreaseEvent: (number: Int, item: Cart) -> Unit?,
-            increaseEvent: (number: Int, item: Cart) -> Unit?,
-            checkStockEvent : ((number: Int, item: Cart) -> Unit)
-        ) {
-            binding.productName.text = cart.title
-            binding.priceProduct.text = "$${cart.price}"
-            GlideLoader(binding.root.context).loadImage(cart.image, binding.image)
-            binding.addProduct.setUI(cart.cart_quantity.toInt(), cart, decreaseEvent!!, increaseEvent!!,checkStock,checkStockEvent!!)
-            binding.delete.setOnClickListener {
-                eventDeleteItemInCartListener?.invoke(cart,binding.addProduct.getQuantity())
-            }
+        fun setItem(dataOfCart: Cart) {
+            binding.productName.text = dataOfCart.title
+            binding.priceProduct.text = "$${dataOfCart.price}"
+            binding.addProduct.setUI(dataOfCart.cart_quantity.toInt(),dataOfCart,eventCheckStockListener!!)
+            GlideLoader(binding.root.context).loadImage(dataOfCart.image, binding.image)
+
         }
     }
 

@@ -502,22 +502,36 @@ class FireStoreClass {
             }
     }
 
-    fun checkQuantity(productId : String, orderNumber : Int, activity : CartListActivity) {
+    fun checkQuantity(cartItem:Cart, orderNumber : Int, activity : CartListActivity) {
         fireStore.collection(MyShopKey.PRODUCTS)
-            .document(productId)
+            .document(cartItem.product_id)
             .get()
             .addOnSuccessListener {
                 val output = it.toObject(Product::class.java)
                 if(orderNumber > output?.quantity!!){
                     activity.showMessageOutOfStock(output?.quantity)
                 }else{
-                    activity.showMessageSuccess()
+                    addOrderInCartByProductId(cartItem,output.id.toString(),activity)
+                    //activity.showMessageSuccess()
                 }
             }
             .addOnFailureListener {
-            Log.e("error","error in checkQuantity func")
+                Log.e("error","error in checkQuantity func")
             }
     }
 
+    // 1. เช็คว่าสินค้ามีพอกับใน stock ที่เหลือมั้ย
+    // 2. ถ้ามีเหลือพอก็สั่งแก้ใน cart เพิ่มให้
+    // 3. ถ้าไม่เหลือก็ไม่แก้
+    // run batch ให้แก้ตรง cart กับ stock ของ product โดยใช้ id ของ product นั้นๆ
+    private fun addOrderInCartByProductId(cartItem : Cart,idProd : String,activity : CartListActivity){
+        var order = cartItem.cart_quantity.toInt() + 1
+        val thisProd = fireStore.collection(MyShopKey.CARTS).document(cartItem.id).update(MyShopKey.CART_QUANTITY,order.toString())
+        thisProd.addOnSuccessListener {
+            activity.showMessageSuccess()
+        }.addOnFailureListener {
+            Log.e(MyShopKey.ERROR_TAG,it.message.toString())
+        }
+    }
 
 }
