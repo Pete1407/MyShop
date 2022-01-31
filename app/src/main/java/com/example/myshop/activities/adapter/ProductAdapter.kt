@@ -24,8 +24,6 @@ import com.example.myshop.util.gone
 class ProductAdapter(private var list: ArrayList<ObjectType>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var checkStock : Int = 0
-
     var eventDeleteProductListener: ((id: String) -> Unit)? = null
     fun setEventDeleteListener(event: ((id: String) -> Unit)) {
         eventDeleteProductListener = event
@@ -36,18 +34,8 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
         eventChooseItemListener = event
     }
 
-    var eventDecreaseItemListener: ((number: Int, item: Cart) -> Unit)? = null
-    fun setEventDecreaseQuantityListener(event: ((number: Int, item: Cart) -> Unit)) {
-        eventDecreaseItemListener = event
-    }
-
-    var eventIncreaseItemListener: ((number: Int, item: Cart) -> Unit)? = null
-    fun setEventIncreaseQuantityListener(event: ((number: Int, item: Cart) -> Unit)) {
-        eventIncreaseItemListener = event
-    }
-
-    var eventDeleteItemInCartListener : ((item:Cart,numberOrder:Int)-> Unit)? = null
-    fun setEventDeleteCartListener(event : ((item:Cart,numberOrder:Int)-> Unit)){
+    var eventDeleteItemInCartListener : ((item:Cart)-> Unit)? = null
+    fun setEventDeleteCartListener(event : ((item:Cart)-> Unit)){
         eventDeleteItemInCartListener = event
     }
 
@@ -76,6 +64,7 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
         list.addAll(dataList)
         notifyDataSetChanged()
     }
+
 
     fun updateStock(quantity : Int){
         notifyDataSetChanged()
@@ -202,6 +191,7 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
         }
     }
 
+    // CartItem
     inner class CartItemViewHolder(val binding: AdapterItemCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -210,7 +200,6 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
             binding.priceProduct.text = "$${dataOfCart.price}"
             binding.addProduct.setUI(dataOfCart.cart_quantity.toInt(),dataOfCart,eventCheckStockListener!!)
             GlideLoader(binding.root.context).loadImage(dataOfCart.image, binding.image)
-
         }
     }
 

@@ -10,12 +10,13 @@ object MyShopKey {
     const val TAG = "result"
     const val ERROR_TAG = "error"
 
+
     // collections
     const val USERS = "users"
     const val PRODUCTS = "products"
     const val CARTS = "carts"
     const val ADDRESSES = "addresses"
-    const val ORDER = "orders"
+    const val ORDERS = "orders"
 
     const val MYSHOPPREF = "myShopPref"
     const val USERNAME_LOGIN = "username"
@@ -57,6 +58,9 @@ object MyShopKey {
 
     // field of cart
     const val CART_QUANTITY = "cart_quantity"
+
+    const val DATE_FORMAT = "dd MMM yyyy hh:mm"
+
 
     fun showGallery(activity: Activity){
         val intent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)

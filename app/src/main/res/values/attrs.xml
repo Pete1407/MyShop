@@ -3,5 +3,6 @@
     <declare-styleable name="NormalTextView">
         <attr name="typeText" format="string"/>
         <attr name="hasUnderline" format="boolean"/>
+        <attr name="textBlack" format="boolean"/>
     </declare-styleable>
 </resources>

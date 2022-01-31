@@ -9,9 +9,10 @@ data class Order(
     val items : ArrayList<Cart> = arrayListOf(),
     val addressModel: AddressModel = AddressModel(),
     val title : String = "",
-    val image : String,
+    val image : String = "",
     val sub_total_amount : String = "",
     val shipping_charge : String = "",
     val total_amount : String = "",
-    var id : String = ""
+    var id : String = "",
+    val order_dateTime : Long = 0L
 ):Parcelable

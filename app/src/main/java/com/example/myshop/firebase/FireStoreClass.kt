@@ -1,11 +1,13 @@
 package com.example.myshop.firebase
 
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.myshop.activities.activity.*
 import com.example.myshop.activities.fragment.DashboardFragment
+import com.example.myshop.activities.fragment.OrderFragment
 import com.example.myshop.activities.fragment.ProductFragment
 import com.example.myshop.model.*
 import com.example.myshop.util.MyShopKey
@@ -329,7 +331,32 @@ class FireStoreClass {
             }
     }
 
-    fun getProductInCart(activity: Activity) {
+    fun getProductList(activity: Activity) {
+        fireStore.collection(MyShopKey.PRODUCTS)
+            .get()
+            .addOnSuccessListener { result ->
+                var prodList = ArrayList<Product>()
+                for (i in result.documents) {
+                    val prodObj = i.toObject(Product::class.java)!!
+                    prodList.add(prodObj)
+                }
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.getProductListSuccess(prodList)
+                    }
+                    is CheckOutActivity -> {
+                        activity.getProductListSuccess(prodList)
+                    }
+                }
+
+
+            }
+            .addOnFailureListener {
+
+            }
+    }
+
+    fun getCartList(activity: Activity) {
         FirebaseFirestore.getInstance().collection(MyShopKey.CARTS)
             .whereEqualTo(MyShopKey.USER_ID, getUserID())
             .get()
@@ -487,12 +514,12 @@ class FireStoreClass {
     }
 
     fun addOrderToDB(order: Order, activity: Activity) {
-        val item = fireStore.collection(MyShopKey.ORDER).document()
+        val item = fireStore.collection(MyShopKey.ORDERS).document()
         order.id = item.id
         item.set(order, SetOptions.merge())
             .addOnSuccessListener {
-                when(activity){
-                    is CheckOutActivity ->{
+                when (activity) {
+                    is CheckOutActivity -> {
                         activity.addOrderSuccess()
                     }
                 }
@@ -502,21 +529,21 @@ class FireStoreClass {
             }
     }
 
-    fun checkQuantity(cartItem:Cart, orderNumber : Int, activity : CartListActivity) {
+    fun checkQuantity(cartItem: Cart, orderNumber: Int, activity: CartListActivity) {
         fireStore.collection(MyShopKey.PRODUCTS)
             .document(cartItem.product_id)
             .get()
             .addOnSuccessListener {
                 val output = it.toObject(Product::class.java)
-                if(orderNumber > output?.quantity!!){
+                if (orderNumber > output?.quantity!!) {
                     activity.showMessageOutOfStock(output?.quantity)
-                }else{
-                    addOrderInCartByProductId(cartItem,output.id.toString(),activity)
+                } else {
+                    addOrderInCartByProductId(cartItem, output.id.toString(), activity)
                     //activity.showMessageSuccess()
                 }
             }
             .addOnFailureListener {
-                Log.e("error","error in checkQuantity func")
+                Log.e("error", "error in checkQuantity func")
             }
     }
 
@@ -524,14 +551,87 @@ class FireStoreClass {
     // 2. ถ้ามีเหลือพอก็สั่งแก้ใน cart เพิ่มให้
     // 3. ถ้าไม่เหลือก็ไม่แก้
     // run batch ให้แก้ตรง cart กับ stock ของ product โดยใช้ id ของ product นั้นๆ
-    private fun addOrderInCartByProductId(cartItem : Cart,idProd : String,activity : CartListActivity){
+    private fun addOrderInCartByProductId(
+        cartItem: Cart,
+        idProd: String,
+        activity: CartListActivity
+    ) {
         var order = cartItem.cart_quantity.toInt() + 1
-        val thisProd = fireStore.collection(MyShopKey.CARTS).document(cartItem.id).update(MyShopKey.CART_QUANTITY,order.toString())
+        val thisProd = fireStore.collection(MyShopKey.CARTS).document(cartItem.id)
+            .update(MyShopKey.CART_QUANTITY, order.toString())
         thisProd.addOnSuccessListener {
             activity.showMessageSuccess()
-        }.addOnFailureListener {
-            Log.e(MyShopKey.ERROR_TAG,it.message.toString())
+        }.addOnFailureListener { error ->
+            Log.e(MyShopKey.ERROR_TAG, error.message.toString())
         }
+    }
+
+    fun removeItemInCart(cartId: String, activity: Activity) {
+        fireStore.collection(MyShopKey.CARTS)
+            .document(cartId)
+            .delete()
+            .addOnSuccessListener {
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.updateCartSuccess()
+                    }
+                }
+            }
+            .addOnFailureListener {
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
+            }
+    }
+
+    // 1. กดปุ่ม place order ไปเพื่อ check out
+    // 2. ลบข้อมูล item in cart ที่ทำการ check out ออกไปให้หมด
+    // 3. หัก quantity product ออกตามจำนวน
+    // 4. ไปหน้า dashboard
+
+    fun checkOutCartAndProduct(cartList: ArrayList<Cart>, activity: CheckOutActivity) {
+        val writeBatch = fireStore.batch()
+        var map = HashMap<String, Any>()
+        for (itemCart in cartList) {
+            map[MyShopKey.QUANTITY_PRODUCT] =
+                itemCart.stock_quantity.toInt() - itemCart.cart_quantity.toInt()
+            val productRef =
+                fireStore.collection(MyShopKey.PRODUCTS).document(itemCart.product_id)
+            writeBatch.update(productRef, map)
+            val cartRef = fireStore.collection(MyShopKey.CARTS).document(itemCart.id)
+            writeBatch.delete(cartRef)
+        }
+        writeBatch.commit()
+            .addOnSuccessListener {
+
+            }
+            .addOnFailureListener {
+                activity.hideProgressDialog()
+                Log.e(MyShopKey.ERROR_TAG, "error while checkout cart and product")
+            }
+    }
+
+    fun getOrder(fragment: OrderFragment) {
+        fireStore.collection(MyShopKey.ORDERS)
+            .whereEqualTo(MyShopKey.USER_ID, getUserID())
+            .get()
+            .addOnSuccessListener {
+                val result = it.documents
+                var orders = ArrayList<Order>()
+                for (i in result) {
+                    val item = i.toObject(Order::class.java)
+                    if (item != null) {
+                        item.id = i.id
+                    }
+                    orders.add(item!!)
+                }
+                fragment.getMyOrderSuccess(orders)
+            }
+            .addOnFailureListener {
+                fragment.hideProgressDialog()
+            }
     }
 
 }

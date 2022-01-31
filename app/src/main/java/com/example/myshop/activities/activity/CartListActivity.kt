@@ -16,11 +16,13 @@ import com.example.myshop.util.BaseCommon
 import com.example.myshop.util.gone
 import com.example.myshop.util.visible
 import com.example.myshop.activities.fragment.ProductFragment.Companion.PART_CART_ITEM
+import com.example.myshop.model.Product
 import com.example.myshop.util.MyShopKey
 
 class CartListActivity : BaseActivity(),BaseCommon {
     private var adapter : ProductAdapter? = null
-    private var stockList = ArrayList<Int>()
+    private var productList = ArrayList<Product>()
+    private var cartList = ArrayList<Cart>()
 
     private val binding : ActivityCartListBinding by lazy{
         ActivityCartListBinding.inflate(layoutInflater)
@@ -37,7 +39,8 @@ class CartListActivity : BaseActivity(),BaseCommon {
 
     override fun onResume() {
         super.onResume()
-        FireStoreClass().getProductInCart(this)
+        showProgressDialog()
+        FireStoreClass().getProductList(this)
     }
 
     override fun setToolbar() {
@@ -56,16 +59,24 @@ class CartListActivity : BaseActivity(),BaseCommon {
         }
     }
 
-    fun getCarts(result : ArrayList<Cart>){
-        if(result.isEmpty()){
+    fun getCarts(cartItems : ArrayList<Cart>){
+        if(cartItems.isEmpty()){
             binding.notFound.visible()
             binding.recyclerview.gone()
             computeTotalPrice(arrayListOf())
         }else{
             binding.notFound.gone()
             binding.recyclerview.visible()
-            setAdapter(result)
-            computeTotalPrice(result)
+            this.cartList = cartItems
+            for(prod in this.productList){
+                for(cart in this.cartList){
+                    if(prod.id == cart.product_id){
+                        cart.stock_quantity = prod.quantity.toString()
+                    }
+                }
+            }
+            setAdapter(this.cartList)
+            computeTotalPrice(this.cartList)
 
         }
     }
@@ -74,49 +85,43 @@ class CartListActivity : BaseActivity(),BaseCommon {
         var totalPrice = 0
         val shippingPrice = 10
         if(items.isEmpty()){
-            totalPrice = 0
             binding.constraintLayout.gone()
         }else{
             binding.constraintLayout.visible()
-            items.forEach {
-                totalPrice += it.price.toInt()
+            for(i in items){
+                if(i.cart_quantity.toInt() > 1){
+                    totalPrice += (i.price.toInt() * i.cart_quantity.toInt())
+                }else{
+                    totalPrice += i.price.toInt()
+                }
             }
-            Log.i("result","total price --> $totalPrice")
             binding.subTotalValue.text = "$$totalPrice"
             binding.shippingChargeValue.text = "$$shippingPrice"
             binding.totalAmountValue.text = "$${totalPrice+shippingPrice}"
         }
     }
 
-    private fun setAdapter(result : ArrayList<Cart>){
+    private fun setAdapter(cartItems : ArrayList<Cart>){
+        cartItems.forEach {
+            Log.i("result","$it")
+        }
         var data = ArrayList<ObjectType>()
-        result.forEach {
+        cartItems.forEach {
             val obj = ObjectType(PART_CART_ITEM,it)
             data.add(obj)
         }
         if(adapter == null){
             adapter = ProductAdapter(data)
-
-            adapter!!.setEventDecreaseQuantityListener { number, item ->
-//                Log.i("result","name --> ${item.title}")
-//                Log.i("result","number --> $number")
-//                FireStoreClass().checkQuantity(item.product_id,number,this)
-            }
-            adapter!!.setEventIncreaseQuantityListener { number, itemCart ->
-                Log.i(MyShopKey.TAG,"item:: ${itemCart.title}  and order:: $number")
-                FireStoreClass().checkQuantity(itemCart,number,this)
-            }
-
             adapter!!.setEventCheckStockProductListener { number, item ->
                 FireStoreClass().checkQuantity(item,number,this)
             }
 
-            adapter!!.setEventDeleteCartListener { result,numberOrder ->
-                showProgressDialog()
-                FireStoreClass().deleteProductInCart(result,this,numberOrder)
+            adapter!!.setEventDeleteCartListener {
+                this.showProgressDialog()
+                FireStoreClass().removeItemInCart(it.id,this)
             }
         }else{
-            adapter?.refreshDataInCart(result)
+            adapter?.refreshDataInCart(cartItems)
         }
 
         binding.recyclerview.adapter = adapter
@@ -124,7 +129,7 @@ class CartListActivity : BaseActivity(),BaseCommon {
 
     fun deleteProductSuccess(){
         hideProgressDialog()
-        FireStoreClass().getProductInCart(this)
+        //FireStoreClass().getProductInCart(this)
     }
 
     fun increaseStock(leftStock : Int){
@@ -143,9 +148,21 @@ class CartListActivity : BaseActivity(),BaseCommon {
         showSnackBar(getString(R.string.msg_out_of_stock),true)
     }
 
-    fun showMessageSuccess(){
-        showSnackBar("add order into your cart successfully",false)
+    fun showMessageSuccess() {
+        showSnackBar("add order into your cart successfully", false)
     }
+
+    fun getProductListSuccess(prodList : ArrayList<Product>){
+        hideProgressDialog()
+        this.productList = prodList
+        FireStoreClass().getCartList(this)
+    }
+
+    fun updateCartSuccess(){
+        hideProgressDialog()
+        FireStoreClass().getCartList(this)
+    }
+
 
     companion object{
         const val ACTION_INCREASE = "increase-order"

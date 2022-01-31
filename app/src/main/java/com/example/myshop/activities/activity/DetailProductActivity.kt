@@ -50,7 +50,7 @@ class DetailProductActivity : BaseActivity(),BaseCommon {
             binding.title.text = it.title
             binding.nameProduct.text = it.title
             binding.descriptionProduct.text = it.description
-            if(it.quantity == 0){
+            if(it.quantity!! < 1){
                 outOfStock = true
                 binding.numberOfProduct.setTextColor(ContextCompat.getColor(this,R.color.snackbar_unsuccess))
                 binding.numberOfProduct.text = resources.getString(R.string.out_of_stock)
