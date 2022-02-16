@@ -112,6 +112,10 @@ class CartListActivity : BaseActivity(),BaseCommon {
         }
         if(adapter == null){
             adapter = ProductAdapter(data)
+            adapter!!.setEventCheckStockProductListener { number, item ->
+                FireStoreClass().checkQuantity(item,number,this)
+            }
+
             adapter!!.setEventDeleteCartListener {
                 this.showProgressDialog()
                 FireStoreClass().removeItemInCart(it.id,this)
@@ -136,6 +140,16 @@ class CartListActivity : BaseActivity(),BaseCommon {
     fun decreaseStock(leftStock : Int){
         hideProgressDialog()
         Toast.makeText(this,"avaliable product --> $leftStock",Toast.LENGTH_LONG).show()
+    }
+
+    fun showMessageOutOfStock(quantityOfProduct : Int){
+        Log.i("result","Quantity of Product in CartList :: $quantityOfProduct")
+        adapter?.notifyDataSetChanged()
+        showSnackBar(getString(R.string.msg_out_of_stock),true)
+    }
+
+    fun showMessageSuccess() {
+        showSnackBar("add order into your cart successfully", false)
     }
 
     fun getProductListSuccess(prodList : ArrayList<Product>){

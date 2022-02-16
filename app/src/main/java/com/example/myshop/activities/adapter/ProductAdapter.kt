@@ -39,6 +39,11 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
         eventDeleteItemInCartListener = event
     }
 
+    var eventCheckStockListener : ((numberOfNewOrder: Int, item: Cart) -> Unit)? = null
+    fun setEventCheckStockProductListener(event : ((numberOfNewOrder: Int, item: Cart) -> Unit)){
+        eventCheckStockListener = event
+    }
+
     fun refreshData(data: ArrayList<Product>) {
         list.clear()
         var dataList = ArrayList<ObjectType>()
@@ -57,6 +62,11 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
             dataList.add(ObjectType(PART_CART_ITEM, it))
         }
         list.addAll(dataList)
+        notifyDataSetChanged()
+    }
+
+
+    fun updateStock(quantity : Int){
         notifyDataSetChanged()
     }
 
@@ -185,14 +195,11 @@ class ProductAdapter(private var list: ArrayList<ObjectType>) :
     inner class CartItemViewHolder(val binding: AdapterItemCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun setItem(cart: Cart) {
-            binding.productName.text = cart.title
-            binding.priceProduct.text = "$${cart.price}"
-            binding.delete.setOnClickListener {
-                eventDeleteItemInCartListener?.invoke(cart)
-            }
-            GlideLoader(binding.root.context).loadImage(cart.image, binding.image)
-            binding.addProduct.setUI(binding.root.context,cart)
+        fun setItem(dataOfCart: Cart) {
+            binding.productName.text = dataOfCart.title
+            binding.priceProduct.text = "$${dataOfCart.price}"
+            binding.addProduct.setUI(dataOfCart.cart_quantity.toInt(),dataOfCart,eventCheckStockListener!!)
+            GlideLoader(binding.root.context).loadImage(dataOfCart.image, binding.image)
         }
     }
 

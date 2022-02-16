@@ -6,9 +6,10 @@ import android.provider.MediaStore
 
 object MyShopKey {
 
-    // tag
+    // TAG
     const val TAG = "result"
-    const val ERROR = "error"
+    const val ERROR_TAG = "error"
+
 
     // collections
     const val USERS = "users"
@@ -45,7 +46,6 @@ object MyShopKey {
     const val DELAY_EDIT_DATA = 3000L
 
     const val STOCK_QUANTITY = "stock_quantity"
-    const val CART_QUANTITY = "cart_quantity"
 
     // field of address
     const val ADDRESS_NAME = "name"
@@ -56,7 +56,11 @@ object MyShopKey {
     const val TYPE = "type"
     const val OTHER_DETAIL = "otherDetails"
 
+    // field of cart
+    const val CART_QUANTITY = "cart_quantity"
+
     const val DATE_FORMAT = "dd MMM yyyy hh:mm"
+
 
     fun showGallery(activity: Activity){
         val intent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
