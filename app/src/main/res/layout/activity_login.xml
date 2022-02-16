@@ -115,7 +115,6 @@
                         app:typeText="@string/text_bold" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-
             </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>
     </ScrollView>

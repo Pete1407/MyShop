@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-android-extensions'
     // ติดตั้ง Firebase
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -86,6 +87,11 @@ dependencies {
     // Saved state module for ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
 
+    // remote config
+    implementation "com.google.firebase:firebase-config:11.8.0"
+
+    // crashlytic
+    implementation "com.google.firebase:firebase-crashlytics-ktx"
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

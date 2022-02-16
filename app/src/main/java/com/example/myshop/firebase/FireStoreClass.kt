@@ -1,9 +1,7 @@
 package com.example.myshop.firebase
 
 import android.app.Activity
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.myshop.activities.activity.*
 import com.example.myshop.activities.fragment.DashboardFragment
